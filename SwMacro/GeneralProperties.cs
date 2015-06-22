@@ -15,5 +15,12 @@ namespace redbrick.csproj
             InitializeComponent();
         }
 
+        public void ToggleFields(string opType)
+        {
+            bool wood = (opType != "METAL");
+            this.labResWallThickness.Visible = wood;
+            this.lWallThickness.Visible = wood;
+            this.tbWallThick.Visible = wood;
+        }
     }
 }

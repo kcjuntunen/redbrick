@@ -114,6 +114,18 @@
     <Compile Include="GeneralProperties.Designer.cs">
       <DependentUpon>GeneralProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="MachineProperties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MachineProperties.Designer.cs">
+      <DependentUpon>MachineProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ops.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Ops.Designer.cs">
+      <DependentUpon>Ops.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -125,6 +137,14 @@
       <SubType>Designer</SubType>
       <DependentUpon>GeneralProperties.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MachineProperties.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MachineProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ops.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Ops.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -133,6 +153,10 @@
     <EmbeddedResource Include="RedBrick.resx">
       <SubType>Designer</SubType>
       <DependentUpon>RedBrick.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DepartmentSelector.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DepartmentSelector.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -154,6 +178,12 @@
     </Compile>
     <Compile Include="RedBrick.Designer.cs">
       <DependentUpon>RedBrick.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DepartmentSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DepartmentSelector.Designer.cs">
+      <DependentUpon>DepartmentSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="SolidWorksMacro.cs">
       <SubType>Code</SubType>

@@ -7,8 +7,6 @@ namespace redbrick.csproj
 {
     public partial class SolidWorksMacro
     {
-
-
         public void Main()
         {
             RedBrick rb = new RedBrick();

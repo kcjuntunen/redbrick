@@ -10,18 +10,18 @@ namespace redbrick.csproj
 {
     public partial class ConfigurationSpecific : UserControl
     {
-        CutlistData cd;
+        private CutlistData cd;
         public ConfigurationSpecific()
         {
             InitializeComponent();
             cd = new CutlistData();
 
-            this.fillMat(this.cbMat, cd.GetMaterials());
+            this.fillMat(this.cbMat, cd.Materials);
 
             ComboBox[] cc = {this.cbEf, this.cbEb, this.cbEl, this.cbEr};
             foreach (ComboBox c in cc)
             {
-                fillEdg(c, cd.GetEdges());
+                fillEdg(c, cd.Edges);
             }
         }
 
@@ -37,6 +37,25 @@ namespace redbrick.csproj
             c.DisplayMember = "DESCR";
         }
 
+        public void ToggleFields(string opType)
+        {
+            bool wood = (opType != "METAL");
+            lEf.Visible = wood;
+            leFColor.Visible = wood;
+            cbEf.Visible = wood;
+
+            lEb.Visible = wood;
+            leBColor.Visible = wood;
+            cbEb.Visible = wood;
+
+            lEl.Visible = wood;
+            leLColor.Visible = wood;
+            cbEl.Visible = wood;
+
+            lEr.Visible = wood;
+            leRColor.Visible = wood;
+            cbEr.Visible = wood;
+        }
 
         private void cbMat_SelectedIndexChanged(object sender, EventArgs e)
         {

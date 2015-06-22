@@ -30,7 +30,7 @@ namespace redbrick.csproj
             }
             catch (Exception ex)
             {
-
+                System.Windows.Forms.MessageBox.Show(ex.Message); // bye-bye annoying warning.
                 proxyFailed = true;
             }
 
@@ -90,7 +90,7 @@ namespace redbrick.csproj
             }
             catch (Exception ex)
             {
-
+                System.Windows.Forms.MessageBox.Show(ex.Message);
                 throw ex;
             }
 
