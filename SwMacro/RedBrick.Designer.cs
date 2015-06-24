@@ -125,6 +125,7 @@ namespace redbrick.csproj
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "RedBrick";
             this.Text = "redbrick";
+            this.Shown += new System.EventHandler(this.RedBrick_Shown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RedBrick_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

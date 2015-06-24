@@ -24,7 +24,7 @@ namespace redbrick.csproj
         private ConfigurationSpecific cs = new ConfigurationSpecific();
         private GeneralProperties gp = new GeneralProperties();
         private MachineProperties mp = new MachineProperties();
-        private Ops op;
+        public Ops op;
 
         //private SwProperties propertySet = new SwProperties();
 
@@ -233,6 +233,11 @@ namespace redbrick.csproj
                 this.tbMainTable.Controls.Add(op, 2, 1);
                 op.Dock = DockStyle.Fill;
             }
+        }
+
+        private void RedBrick_Shown(object sender, EventArgs e)
+        {
+            op.GetProperties();
         }
     }
 }

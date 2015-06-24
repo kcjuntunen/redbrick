@@ -77,6 +77,11 @@ namespace redbrick.csproj
                     DataSet ds = new DataSet();
                     da.Fill(ds);
                     //conn.Close();
+                    DataRow dar = ds.Tables[0].NewRow();
+                    dar[0] = 0;
+                    dar[1] = string.Empty;
+                    dar[2] = string.Empty;
+                    ds.Tables[0].Rows.Add(dar);
                     this.Ops = ds;
                     return this.Ops;
                 }

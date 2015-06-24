@@ -81,6 +81,10 @@ namespace redbrick.csproj
             get { return _global; }
             set { _global = value; }
         }
-	
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(this.Name);
+        }
     }
 }
