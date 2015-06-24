@@ -32,16 +32,16 @@ namespace redbrick.csproj
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.tbCNC1 = new System.Windows.Forms.TextBox();
+            this.tbCNC2 = new System.Windows.Forms.TextBox();
+            this.tbPPB = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.tbOverL = new System.Windows.Forms.TextBox();
+            this.tbOverW = new System.Windows.Forms.TextBox();
+            this.tbBlankL = new System.Windows.Forms.TextBox();
+            this.tbBlankW = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,16 +54,16 @@ namespace redbrick.csproj
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.textBox2, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.textBox3, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tbCNC1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tbCNC2, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tbPPB, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label5, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.textBox4, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.textBox5, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.textBox6, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.textBox7, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.tbOverL, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.tbOverW, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.tbBlankL, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.tbBlankW, 1, 5);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -104,29 +104,29 @@ namespace redbrick.csproj
             this.label3.TabIndex = 2;
             this.label3.Text = "Parts/Blank";
             // 
-            // textBox1
+            // tbCNC1
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 16);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(99, 20);
-            this.textBox1.TabIndex = 3;
+            this.tbCNC1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbCNC1.Location = new System.Drawing.Point(3, 16);
+            this.tbCNC1.Name = "tbCNC1";
+            this.tbCNC1.Size = new System.Drawing.Size(99, 20);
+            this.tbCNC1.TabIndex = 3;
             // 
-            // textBox2
+            // tbCNC2
             // 
-            this.textBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox2.Location = new System.Drawing.Point(108, 16);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(99, 20);
-            this.textBox2.TabIndex = 4;
+            this.tbCNC2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbCNC2.Location = new System.Drawing.Point(108, 16);
+            this.tbCNC2.Name = "tbCNC2";
+            this.tbCNC2.Size = new System.Drawing.Size(99, 20);
+            this.tbCNC2.TabIndex = 4;
             // 
-            // textBox3
+            // tbPPB
             // 
-            this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox3.Location = new System.Drawing.Point(213, 16);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 5;
+            this.tbPPB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbPPB.Location = new System.Drawing.Point(213, 16);
+            this.tbPPB.Name = "tbPPB";
+            this.tbPPB.Size = new System.Drawing.Size(100, 20);
+            this.tbPPB.TabIndex = 5;
             // 
             // label4
             // 
@@ -155,37 +155,39 @@ namespace redbrick.csproj
             this.label6.TabIndex = 8;
             this.label6.Text = "Blank Size";
             // 
-            // textBox4
+            // tbOverL
             // 
-            this.textBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox4.Location = new System.Drawing.Point(3, 55);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(99, 20);
-            this.textBox4.TabIndex = 9;
+            this.tbOverL.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbOverL.Location = new System.Drawing.Point(3, 55);
+            this.tbOverL.Name = "tbOverL";
+            this.tbOverL.Size = new System.Drawing.Size(99, 20);
+            this.tbOverL.TabIndex = 9;
+            this.tbOverL.TextChanged += new System.EventHandler(this.tbOverL_TextChanged);
             // 
-            // textBox5
+            // tbOverW
             // 
-            this.textBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox5.Location = new System.Drawing.Point(108, 55);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(99, 20);
-            this.textBox5.TabIndex = 10;
+            this.tbOverW.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbOverW.Location = new System.Drawing.Point(108, 55);
+            this.tbOverW.Name = "tbOverW";
+            this.tbOverW.Size = new System.Drawing.Size(99, 20);
+            this.tbOverW.TabIndex = 10;
+            this.tbOverW.TextChanged += new System.EventHandler(this.tbOverW_TextChanged);
             // 
-            // textBox6
+            // tbBlankL
             // 
-            this.textBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox6.Location = new System.Drawing.Point(3, 94);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(99, 20);
-            this.textBox6.TabIndex = 11;
+            this.tbBlankL.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbBlankL.Location = new System.Drawing.Point(3, 94);
+            this.tbBlankL.Name = "tbBlankL";
+            this.tbBlankL.Size = new System.Drawing.Size(99, 20);
+            this.tbBlankL.TabIndex = 11;
             // 
-            // textBox7
+            // tbBlankW
             // 
-            this.textBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox7.Location = new System.Drawing.Point(108, 94);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(99, 20);
-            this.textBox7.TabIndex = 12;
+            this.tbBlankW.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbBlankW.Location = new System.Drawing.Point(108, 94);
+            this.tbBlankW.Name = "tbBlankW";
+            this.tbBlankW.Size = new System.Drawing.Size(99, 20);
+            this.tbBlankW.TabIndex = 12;
             // 
             // MachineProperties
             // 
@@ -206,15 +208,15 @@ namespace redbrick.csproj
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox tbCNC1;
+        private System.Windows.Forms.TextBox tbCNC2;
+        private System.Windows.Forms.TextBox tbPPB;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox tbOverL;
+        private System.Windows.Forms.TextBox tbOverW;
+        private System.Windows.Forms.TextBox tbBlankL;
+        private System.Windows.Forms.TextBox tbBlankW;
     }
 }

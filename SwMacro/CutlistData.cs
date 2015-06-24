@@ -6,59 +6,84 @@ using System.Text;
 
 namespace redbrick.csproj
 {	
-    class CutlistData
-    {	
+    class CutlistData : IDisposable
+    {
+        private object threadLock = new object();
+
         private OdbcConnection conn;
+
+        public OdbcConnection Connection
+        {
+            get { return conn; }
+            private set { conn = value; }
+        }
+	
         public CutlistData()
         {
             conn = new OdbcConnection(Properties.Settings.Default.ConnectionString);
+            conn.Open();
+        }
+
+        public void Dispose()
+        {
+            conn.Close();
         }
 
         private DataSet GetMaterials()
         {
-            string SQL = "SELECT MATID,DESCR,COLOR FROM CUT_MATERIALS ORDER BY DESCR;";
-            conn.Open();
-            OdbcCommand comm = new OdbcCommand(SQL, conn);
-            OdbcDataAdapter da = new OdbcDataAdapter(comm);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-
-            conn.Close();
-            return ds;
-        }
-
-        private DataSet GetEdges()
-        {
-            string SQL = "SELECT EDGEID,DESCR,COLOR,THICKNESS FROM CUT_EDGES ORDER BY DESCR;";
-            conn.Open();
-            OdbcCommand comm = new OdbcCommand(SQL, conn);
-            OdbcDataAdapter da = new OdbcDataAdapter(comm);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-
-            conn.Close();
-            return ds;
-        }
-
-        public DataSet GetOps(string opType)
-        {
-            if (opType != this.OpType)
+            lock (threadLock)
             {
-                string SQL = string.Format("SELECT OPID, OPNAME, OPDESCR FROM CUT_PART_TYPES "
-                    + "INNER JOIN CUT_OPS ON CUT_PART_TYPES.TYPEID = CUT_OPS.OPTYPE WHERE CUT_PART_TYPES.TYPEDESC = '{0}' ORDER BY OPDESCR", opType);
-                //string SQL = "SELECT OPID, OPNAME, OPDESCR, OPTYPE FROM CUT_OPS ORDER BY OPDESCR";
-                conn.Open();
+                string SQL = "SELECT MATID,DESCR,COLOR FROM CUT_MATERIALS ORDER BY DESCR;";
+                //conn.Open();
                 OdbcCommand comm = new OdbcCommand(SQL, conn);
                 OdbcDataAdapter da = new OdbcDataAdapter(comm);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
-                conn.Close();
-                this.Ops = ds;
-                return this.Ops;
+
+                //conn.Close();
+                return ds;
             }
-            else
+        }
+
+        private DataSet GetEdges()
+        {
+            lock (threadLock)
             {
-                return this.Ops;
+                string SQL = "SELECT EDGEID,DESCR,COLOR,THICKNESS FROM CUT_EDGES ORDER BY DESCR;";
+                //conn.Open();
+                OdbcCommand comm = new OdbcCommand(SQL, conn);
+                OdbcDataAdapter da = new OdbcDataAdapter(comm);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+
+                //conn.Close();
+                return ds;
+            }
+        }
+
+        public DataSet GetOps(string opType)
+        {
+            lock (threadLock)
+            {
+                if (opType != this.OpType)
+                {
+                    this.OpType = opType;
+                    string SQL = string.Format("SELECT OPID, OPNAME, OPDESCR FROM CUT_PART_TYPES "
+                        + "INNER JOIN CUT_OPS ON CUT_PART_TYPES.TYPEID = CUT_OPS.OPTYPE WHERE CUT_PART_TYPES.TYPEDESC = '{0}' ORDER BY OPDESCR", opType);
+                    //string SQL = "SELECT OPID, OPNAME, OPDESCR, OPTYPE FROM CUT_OPS ORDER BY OPDESCR";
+                    //conn.Open();
+                    OdbcCommand comm = new OdbcCommand(SQL, conn);
+                    OdbcDataAdapter da = new OdbcDataAdapter(comm);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
+                    //conn.Close();
+                    this.Ops = ds;
+                    return this.Ops;
+                }
+                else
+                {
+                    return this.Ops;
+                }
             }
         }
 
@@ -121,7 +146,11 @@ namespace redbrick.csproj
                 }
                 else
                 {
-                    this._Ops = this.GetOps("WOOD");
+                    if ((this.OpType != "WOOD") || (this.OpType != "METAL"))
+                        this._Ops = this.GetOps("WOOD");
+                    else
+                        this._Ops = this.GetOps(this.OpType);
+
                     return this._Ops;
                 }
             }

@@ -22,5 +22,35 @@ namespace redbrick.csproj
             this.lWallThickness.Visible = wood;
             this.tbWallThick.Visible = wood;
         }
+
+        public TextBox GetDescriptionBox()
+        {
+            return this.tbDescription;
+        }
+
+        public TextBox GetLengthBox()
+        {
+            return this.tbLength;
+        }
+
+        public TextBox GetWidthBox()
+        {
+            return this.tbWidth;
+        }
+
+        public TextBox GetThicknessBox()
+        {
+            return this.tbThick;
+        }
+
+        public TextBox GetWallThicknessBox()
+        {
+            return this.tbWallThick;
+        }
+
+        public TextBox GetCommentBox()
+        {
+            return this.tbComment;
+        }
     }
 }

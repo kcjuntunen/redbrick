@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace redbrick.csproj
@@ -11,30 +12,62 @@ namespace redbrick.csproj
     public partial class ConfigurationSpecific : UserControl
     {
         private CutlistData cd;
+        //private List<ComboBox> cc = new List<ComboBox>();
         public ConfigurationSpecific()
         {
             InitializeComponent();
             cd = new CutlistData();
 
-            this.fillMat(this.cbMat, cd.Materials);
+            this.fillComboBoxes();
+        }
 
-            ComboBox[] cc = {this.cbEf, this.cbEb, this.cbEl, this.cbEr};
+        private void fillComboBoxes()
+        {
+            Thread t = new Thread(new ThreadStart(this.fillMat));
+            try
+            {
+                t.Start();
+            }
+            catch (ThreadStateException tse)
+            {
+                System.Windows.Forms.MessageBox.Show(tse.Message);
+            }
+            catch (OutOfMemoryException oome)
+            {
+                System.Windows.Forms.MessageBox.Show(oome.Message);
+            }
+
+            ComboBox[] cc = { this.cbEf, this.cbEb, this.cbEl, this.cbEr };
             foreach (ComboBox c in cc)
             {
-                fillEdg(c, cd.Edges);
+                t = new Thread(new ParameterizedThreadStart(this.fillEdg));
+                try
+                {
+                    t.Start((object)c);
+                }
+                catch (ThreadStateException tse)
+                {
+                    System.Windows.Forms.MessageBox.Show(tse.Message);
+                }
+                catch (OutOfMemoryException oome)
+                {
+                    System.Windows.Forms.MessageBox.Show(oome.Message);
+                }
             }
         }
 
-        private void fillMat(ComboBox cb, DataSet ds)
+        private void fillMat()
         {
-            cb.DataSource = ds.Tables[0];
-            cb.DisplayMember = "DESCR";
+            //System.Windows.Forms.MessageBox.Show("fillMat()");
+            this.cbMat.DataSource = cd.Materials.Tables[0];
+            this.cbMat.DisplayMember = "DESCR";
         }
 
-        private void fillEdg(ComboBox c, DataSet ds)
+        private void fillEdg(object occ)
         {
-            c.DataSource = ds.Tables[0];
-            c.DisplayMember = "DESCR";
+            ComboBox c = (ComboBox)occ;
+            c.DataSource = cd.Edges.Tables[0];
+            c.DisplayMember = "DESCR"; 
         }
 
         public void ToggleFields(string opType)
@@ -81,5 +114,31 @@ namespace redbrick.csproj
         {
             this.leRColor.Text = (this.cbEr.SelectedValue as System.Data.DataRowView)["COLOR"].ToString();
         }
+
+        public ComboBox GetCutlistMatBox()
+        {
+            return this.cbMat;
+        }
+
+        public ComboBox GetEdgeFrontBox()
+        {
+            return this.cbEf;
+        }
+
+        public ComboBox GetEdgeBackBox()
+        {
+            return this.cbEb;
+        }
+
+        public ComboBox GetEdgeLeftBox()
+        {
+            return this.cbEl;
+        }
+
+        public ComboBox GetEdgeRightBox()
+        {
+            return this.cbEr;
+        }
+
     }
 }

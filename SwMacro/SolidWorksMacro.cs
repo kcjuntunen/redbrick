@@ -9,7 +9,7 @@ namespace redbrick.csproj
     {
         public void Main()
         {
-            RedBrick rb = new RedBrick();
+            RedBrick rb = new RedBrick(this.swApp);
             rb.ShowDialog();
         }
 
