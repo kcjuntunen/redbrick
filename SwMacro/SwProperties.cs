@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,84 +8,129 @@ using SolidWorks.Interop.sldworks;
 
 namespace redbrick.csproj
 {
-    class SwProperties : IEnumerable<SwProperty>
+    public class SwProperties : ICollection<SwProperty>
     {
-        public SwProperty cutlistMaterial = new SwProperty("CUTLIST MATERIAL", swCustomInfoType_e.swCustomInfoNumber, "TBD MATERIAL", false);
-        public SwProperty edgeFront = new SwProperty("EDGE FRONT (L)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false);
-        public SwProperty edgeBack = new SwProperty("EDGE BACK (L)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false);
-        public SwProperty edgeLeft = new SwProperty("EDGE LEFT (W)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false);
-        public SwProperty edgeRight = new SwProperty("EDGE RIGHT (W)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false);
+        protected ArrayList _innerArray;
+        protected SldWorks swApp;
 
-        public SwProperty descr = new SwProperty("Description", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
-        public SwProperty length = new SwProperty("LENGTH", swCustomInfoType_e.swCustomInfoText, "\"D1@Sketch1\"", true);
-        public SwProperty width = new SwProperty("WIDTH", swCustomInfoType_e.swCustomInfoText, "\"D2@Sketch1\"", true);
-        public SwProperty thick = new SwProperty("THICKNESS", swCustomInfoType_e.swCustomInfoText, "\"D1@Boss-Extrude1\"", true);
-        public SwProperty wThick = new SwProperty("WALL THICKNESS", swCustomInfoType_e.swCustomInfoText, "\"Thickness@Sheet-Metal1\"", true);
-        public SwProperty comment = new SwProperty("COMMENT", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
-        public SwProperty blnkQty = new SwProperty("BLANK QTY", swCustomInfoType_e.swCustomInfoDouble, "1", true);
-        public SwProperty cnc1 = new SwProperty("CNC1", swCustomInfoType_e.swCustomInfoText, "NA", true);
-        public SwProperty cnc2 = new SwProperty("CNC2", swCustomInfoType_e.swCustomInfoText, "NA", true);
-        public SwProperty overL = new SwProperty("OVERL", swCustomInfoType_e.swCustomInfoDouble, "0.0", true);
-        public SwProperty overW = new SwProperty("OVERW", swCustomInfoType_e.swCustomInfoDouble, "0.0", true);
-        public SwProperty op1 = new SwProperty("OP1", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
-        public SwProperty op2 = new SwProperty("OP2", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
-        public SwProperty op3 = new SwProperty("OP3", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
-        public SwProperty op4 = new SwProperty("OP4", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
-        public SwProperty op5 = new SwProperty("OP5", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
-        public SwProperty dept = new SwProperty("DEPARTMENT", swCustomInfoType_e.swCustomInfoText, "WOOD", true);
-        public SwProperty updCNC = new SwProperty("UPDATE CNC", swCustomInfoType_e.swCustomInfoYesOrNo, "No", true);
-        public SwProperty inc = new SwProperty("INCLUDE IN CUTLIST", swCustomInfoType_e.swCustomInfoYesOrNo, "Yes", true);
-
-        public SwProperty prtNo = new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoText, "$PRP:\"SW-File Name\"", true);
-        public SwProperty swMat = new SwProperty("MATERIAL", swCustomInfoType_e.swCustomInfoText, "SW-Material@{0}", true);
-        public SwProperty weight = new SwProperty("WEIGHT", swCustomInfoType_e.swCustomInfoText, "SW-Mass@{0}", true);
-        public SwProperty vol = new SwProperty("VOLUME", swCustomInfoType_e.swCustomInfoText, "SW-Volume@{0}", true);
-
-        //protected SldWorks swApp;
-
-        public SwProperties()
+        public SwProperties(SldWorks sw)
         {
-            //sw = this.swApp;
+            this.swApp = sw;
+            this._innerArray = new ArrayList();
 
         }
 
-        public IEnumerator<SwProperty> GetEnumerator()
+        private void CreateDefaultSet()
         {
-            yield return this.cutlistMaterial;
-            yield return this.edgeFront;
-            yield return this.edgeBack;
-            yield return this.edgeLeft;
-            yield return this.edgeRight;
+            this._innerArray.Add(new SwProperty("CUTLIST MATERIAL", swCustomInfoType_e.swCustomInfoNumber, "TBD MATERIAL", false));
+            this._innerArray.Add(new SwProperty("EDGE FRONT (L)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
+            this._innerArray.Add(new SwProperty("EDGE BACK (L)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
+            this._innerArray.Add(new SwProperty("EDGE LEFT (W)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
+            this._innerArray.Add(new SwProperty("EDGE RIGHT (W)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
 
-            yield return this.prtNo;
-            yield return this.swMat;
-            yield return this.weight;
-            yield return this.vol;
+            this._innerArray.Add(new SwProperty("Description", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("LENGTH", swCustomInfoType_e.swCustomInfoText, "\"D1@Sketch1\"", true));
+            this._innerArray.Add(new SwProperty("WIDTH", swCustomInfoType_e.swCustomInfoText, "\"D2@Sketch1\"", true));
+            this._innerArray.Add(new SwProperty("THICKNESS", swCustomInfoType_e.swCustomInfoText, "\"D1@Boss-Extrude1\"", true));
+            this._innerArray.Add(new SwProperty("WALL THICKNESS", swCustomInfoType_e.swCustomInfoText, "\"Thickness@Sheet-Metal1\"", true));
+            this._innerArray.Add(new SwProperty("COMMENT", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("BLANK QTY", swCustomInfoType_e.swCustomInfoDouble, "1", true));
+            this._innerArray.Add(new SwProperty("CNC1", swCustomInfoType_e.swCustomInfoText, "NA", true));
+            this._innerArray.Add(new SwProperty("CNC2", swCustomInfoType_e.swCustomInfoText, "NA", true));
+            this._innerArray.Add(new SwProperty("OVERL", swCustomInfoType_e.swCustomInfoDouble, "0.0", true));
+            this._innerArray.Add(new SwProperty("OVERW", swCustomInfoType_e.swCustomInfoDouble, "0.0", true));
+            this._innerArray.Add(new SwProperty("OP1", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("OP2", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("OP3", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("OP4", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("OP5", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("DEPARTMENT", swCustomInfoType_e.swCustomInfoText, "WOOD", true));
+            this._innerArray.Add(new SwProperty("UPDATE CNC", swCustomInfoType_e.swCustomInfoYesOrNo, "No", true));
+            this._innerArray.Add(new SwProperty("INCLUDE IN CUTLIST", swCustomInfoType_e.swCustomInfoYesOrNo, "Yes", true));
 
-            yield return this.descr;
-            yield return this.length;
-            yield return this.width;
-            yield return this.thick;
-            yield return this.wThick;
-            yield return this.comment;
-            yield return this.blnkQty;
-            yield return this.cnc1;
-            yield return this.cnc2;
-            yield return this.overL;
-            yield return this.overW;
-            yield return this.op1;
-            yield return this.op2;
-            yield return this.op3;
-            yield return this.op4;
-            yield return this.op5;
-            yield return this.dept;
-            yield return this.updCNC;
-            yield return this.inc;
+            this._innerArray.Add(new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoText, "$PRP:\"SW-File Name\"", true));
+            this._innerArray.Add(new SwProperty("MATERIAL", swCustomInfoType_e.swCustomInfoText, "\"SW-Material@{0}\"", true));
+            this._innerArray.Add(new SwProperty("WEIGHT", swCustomInfoType_e.swCustomInfoText, "\"SW-Mass@{0}\"", true));
+            this._innerArray.Add(new SwProperty("VOLUME", swCustomInfoType_e.swCustomInfoText, "\"SW-Volume@{0}\"", true));
+            this._innerArray.Add(new SwProperty("COST-TOTALCOST", swCustomInfoType_e.swCustomInfoText, "\"SW-Cost-TotalCost@{0}\"", true));
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        public virtual IEnumerator<SwProperty> GetEnumerator()
         {
-            return this.GetEnumerator();
+            return (new List<SwProperty>(this).GetEnumerator());
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (new List<SwProperty>(this).GetEnumerator());
+        }
+
+        public void UpdateProperty(SwProperty property)
+        {
+            foreach (SwProperty p in this)
+            {
+                if (property.Name ==  p.Name)
+                {
+                    p.Ctl = property.Ctl;
+                    p.Field = property.Field;
+                    p.Global = property.Global;
+                    p.ResValue = property.ResValue;
+                    p.Table = property.Table;
+                    p.Type = property.Type;
+                    p.Value = property.Value;
+                }
+            }
+        }
+
+        public SwProperty GetProperty(string name)
+        {
+            foreach (SwProperty p in this._innerArray)
+            {
+                if (name == p.Name)
+                {
+                    return p;
+                }
+            }
+
+            return null;
+        }
+
+        //System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        //{
+        //    return this.GetEnumerator();
+        //}
+
+        public void Write()
+        {
+            ModelDoc2 md = (ModelDoc2)swApp.ActiveDoc;
+            CustomPropertyManager glP = md.Extension.get_CustomPropertyManager(string.Empty);
+            Configuration conf = md.ConfigurationManager.ActiveConfiguration;
+            CustomPropertyManager spP = md.Extension.get_CustomPropertyManager(conf.Name);
+            swCustomPropertyAddOption_e opt = swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd;
+            
+
+
+            foreach (SwProperty p in this._innerArray)
+            {
+                if (p.Global)
+                {
+                    glP.Add3(p.Name, (int)p.Type, p.Value, (int)opt);
+                }
+                else
+                {
+                    spP.Add3(p.Name, (int)p.Type, p.Value, (int)opt);
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            string ret = string.Empty;
+            foreach (SwProperty p in this)
+            {
+                ret += string.Format("{0}: {1}", p.Name, p.Value);
+            }
+            return ret;
         }
 
         private int _clID;
@@ -94,6 +140,118 @@ namespace redbrick.csproj
             get { return _clID; }
             set { _clID = value; }
         }
+
+
+        #region ICollection<SwProperty> Members
+
+        public void Add(SwProperty item)
+        {
+            if (!this.Contains(item.Name))
+            {
+                this._innerArray.Add(item);   
+            }
+        }
+
+        public void Clear()
+        {
+            this._innerArray.Clear();
+        }
+
+        public bool Contains(SwProperty item)
+        {
+            foreach (SwProperty p in this._innerArray)
+            {
+                if (p.Name == item.Name)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool Contains(string name)
+        {
+            foreach (SwProperty p in this._innerArray)
+            {
+                if (p.Name == name)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void CopyTo(SwProperty[] array, int arrayIndex)
+        {
+            this._innerArray.CopyTo(array, arrayIndex);
+        }
+
+        public int Count
+        {
+            get { return this._innerArray.Count; }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return this._isReadOnly; }
+        }
+
+        public bool Remove(SwProperty item)
+        {
+            bool res = false;
+
+            for (int i = 0; i < this._innerArray.Count; i++)
+            {
+                SwProperty obj = (SwProperty)this._innerArray[i];
+                if (obj.Name == item.Name)
+                {
+                    this._innerArray.RemoveAt(i);
+                    res = true;
+                    break;
+                }
+            }
+
+            return res;
+        }
+
+        public bool Remove(string name)
+        {
+            bool res = false;
+
+            for (int i = 0; i < this._innerArray.Count; i++)
+            {
+                SwProperty obj = (SwProperty)this._innerArray[i];
+                if (obj.Name == name)
+                {
+                    this._innerArray.RemoveAt(i);
+                    res = true;
+                    break;
+                }
+            }
+
+            return res;
+        }
+
+        public virtual SwProperty this[int index]
+        {
+            get
+            {
+                return (SwProperty)_innerArray[index];
+            }
+            set
+            {
+                _innerArray[index] = value;
+            }
+        }
+
+        private bool _isReadOnly;
+
+        protected bool MyProperty
+        {
+            get { return _isReadOnly; }
+            set { _isReadOnly = value; }
+        }
 	
+        #endregion
     }
 }

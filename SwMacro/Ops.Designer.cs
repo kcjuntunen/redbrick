@@ -133,6 +133,8 @@ namespace redbrick.csproj
             this.cbOp1.Sorted = true;
             this.cbOp1.TabIndex = 5;
             this.cbOp1.SelectedIndexChanged += new System.EventHandler(this.cbOp1_SelectedIndexChanged);
+            this.cbOp1.MouseEnter += new System.EventHandler(this.cbOp1_MouseEnter);
+            this.cbOp1.MouseLeave += new System.EventHandler(this.cbOp1_MouseLeave);
             // 
             // cbOp2
             // 
@@ -144,6 +146,8 @@ namespace redbrick.csproj
             this.cbOp2.Sorted = true;
             this.cbOp2.TabIndex = 6;
             this.cbOp2.SelectedIndexChanged += new System.EventHandler(this.cbOp2_SelectedIndexChanged);
+            this.cbOp2.MouseEnter += new System.EventHandler(this.cbOp2_MouseEnter);
+            this.cbOp2.MouseLeave += new System.EventHandler(this.cbOp2_MouseLeave);
             this.cbOp2.TextUpdate += new System.EventHandler(this.cbOp2_TextUpdate);
             // 
             // cbOp3
@@ -156,6 +160,8 @@ namespace redbrick.csproj
             this.cbOp3.Sorted = true;
             this.cbOp3.TabIndex = 7;
             this.cbOp3.SelectedIndexChanged += new System.EventHandler(this.cbOp3_SelectedIndexChanged);
+            this.cbOp3.MouseEnter += new System.EventHandler(this.cbOp3_MouseEnter);
+            this.cbOp3.MouseLeave += new System.EventHandler(this.cbOp3_MouseLeave);
             // 
             // cbOp4
             // 
@@ -167,6 +173,8 @@ namespace redbrick.csproj
             this.cbOp4.Sorted = true;
             this.cbOp4.TabIndex = 8;
             this.cbOp4.SelectedIndexChanged += new System.EventHandler(this.cbOp4_SelectedIndexChanged);
+            this.cbOp4.MouseEnter += new System.EventHandler(this.cbOp4_MouseEnter);
+            this.cbOp4.MouseLeave += new System.EventHandler(this.cbOp4_MouseLeave);
             // 
             // cbOp5
             // 
@@ -178,6 +186,8 @@ namespace redbrick.csproj
             this.cbOp5.Sorted = true;
             this.cbOp5.TabIndex = 9;
             this.cbOp5.SelectedIndexChanged += new System.EventHandler(this.cbOp5_SelectedIndexChanged);
+            this.cbOp5.MouseEnter += new System.EventHandler(this.cbOp5_MouseEnter);
+            this.cbOp5.MouseLeave += new System.EventHandler(this.cbOp5_MouseLeave);
             // 
             // Ops
             // 

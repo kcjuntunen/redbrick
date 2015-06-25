@@ -17,6 +17,15 @@ namespace redbrick.csproj
             this.Global = global;
         }
 
+        private string _id;
+
+        public string ID
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+	
+
         private string _propName;
 
         public string Name
@@ -84,7 +93,15 @@ namespace redbrick.csproj
 
         public override bool Equals(object obj)
         {
-            return base.Equals(this.Name);
+            if (obj == null || !(obj is SwProperty))
+                return false;
+
+            return (this.Name == (obj as SwProperty).Name) && (this.Value == (obj as SwProperty).Value);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Name.GetHashCode() ^ this.Value.GetHashCode();
         }
     }
 }

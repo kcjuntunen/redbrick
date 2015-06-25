@@ -18,7 +18,7 @@ namespace redbrick.csproj
         private CustomPropertyManager spP;
         private CustomPropertyManager glP;
 
-        public List<SwProperty> propertySet = new List<SwProperty>();
+        //public List<SwProperty> propertySet = new List<SwProperty>();
 
         private DepartmentSelector ds = new DepartmentSelector();
         private ConfigurationSpecific cs = new ConfigurationSpecific();
@@ -26,7 +26,7 @@ namespace redbrick.csproj
         private MachineProperties mp = new MachineProperties();
         public Ops op;
 
-        //private SwProperties propertySet = new SwProperties();
+        private SwProperties propertySet;
 
         public RedBrick(SldWorks sw)
         {
@@ -34,6 +34,7 @@ namespace redbrick.csproj
             this.md = (ModelDoc2)swApp.ActiveDoc;
             this.spP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(this.md.ConfigurationManager.ActiveConfiguration.Name);
             this.glP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(string.Empty);
+            this.propertySet = new SwProperties(this.swApp);
 
             InitializeComponent();
             this.SetLocation();
@@ -84,7 +85,7 @@ namespace redbrick.csproj
                 this.mp.Dock = DockStyle.Fill;
             }
 
-            op = new Ops(this.swApp, this.propertySet);
+            op = new Ops(this.swApp, ref this.propertySet);
             if (this.operationsToolStripMenuItem.Checked)
             {
                 this.tbMainTable.Controls.Add(op, 2, 1);
@@ -94,31 +95,8 @@ namespace redbrick.csproj
 
             this.tbMainTable.Controls.Add(new Button(), 0, 3);
             this.tbMainTable.Controls.Add(new Button(), 1, 3);
-
-            //this.assignControlsToProperties();
+            this.getPartData();
         }
-
-        //private void assignControlsToProperties()
-        //{
-        //    this.propertySet.cutlistMaterial.Ctl = this.cs.GetCutlistMatBox();
-        //    this.propertySet.edgeFront.Ctl = this.cs.GetEdgeFrontBox();
-        //    this.propertySet.edgeBack.Ctl = this.cs.GetEdgeBackBox();
-        //    this.propertySet.edgeLeft.Ctl = this.cs.GetEdgeLeftBox();
-        //    this.propertySet.edgeRight.Ctl = this.cs.GetEdgeRightBox();
-
-        //    this.propertySet.descr.Ctl = this.gp.GetDescriptionBox();
-        //    this.propertySet.length.Ctl = this.gp.GetLengthBox();
-        //    this.propertySet.width.Ctl = this.gp.GetWidthBox();
-        //    this.propertySet.thick.Ctl = this.gp.GetThicknessBox();
-        //    this.propertySet.wThick.Ctl = this.gp.GetWallThicknessBox();
-        //    this.propertySet.comment.Ctl = this.gp.GetCommentBox();
-
-        //    this.propertySet.cnc1.Ctl = this.mp.GetCNC1Box();
-        //    this.propertySet.cnc2.Ctl = this.mp.GetCNC2Box();
-        //    this.propertySet.blnkQty.Ctl = this.mp.GetPartsPerBlankBox();
-        //    this.propertySet.overL.Ctl = this.mp.GetOverLBox();
-        //    this.propertySet.overW.Ctl = this.mp.GetOverRBox();
-        //}
 
         private void getPartData()
         {
@@ -127,49 +105,45 @@ namespace redbrick.csproj
             string ValOut;
             string ResolvedValOut;
             bool WasResolved;
+            int typ;
 
-            foreach (SwProperty prop in this.propertySet)
-            {
-                res = glP.Get5(prop.Name, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
 
-                if (res != (int)swCustomInfoGetResult_e.swCustomInfoGetResult_NotPresent)
+            string[] globalNames = (string[])glP.GetNames();
+            if (globalNames != null)
+	        {
+                foreach (string s in globalNames)
                 {
-                    prop.Value = ValOut;
-                    prop.ResValue = ResolvedValOut;
-                    if (prop.Ctl != null)
-                    {
-                        //System.Windows.Forms.MessageBox.Show(prop.Ctl.Name);
-                        prop.Ctl.Text = ValOut;
-                    }
+                    res = glP.Get5(s, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
+                    typ = glP.GetType2(s);
+                    SwProperty p = new SwProperty(s, (swCustomInfoType_e)typ, ValOut, true);
+                    p.ResValue = ResolvedValOut;
+                    this.propertySet.Add(p);
+                }
+            }
+            
+            string[] specNames = (string[])spP.GetNames();
+            if (spP != null)
+            {
+                foreach (string s in specNames)
+                {
+                    res = spP.Get5(s, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
+                    typ = spP.GetType2(s);
+                    SwProperty p = new SwProperty(s, (swCustomInfoType_e)typ, ValOut, true);
+                    p.ResValue = ResolvedValOut;
+                    this.propertySet.Add(p);
                 }
             }
 
+            string t = string.Empty;
+            foreach (SwProperty px in this.propertySet)
+                t += string.Format("{0} as {1} = {2}, ID {3}\n", px.Name, px.Type.ToString(), px.ResValue, px.ID);
 
-            foreach (SwProperty prop in this.propertySet)
-            {
-                res = spP.Get5(prop.Name, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
-
-                if (res != (int)swCustomInfoGetResult_e.swCustomInfoGetResult_NotPresent)
-                {
-                    prop.Value = ValOut;
-                    prop.ResValue = ResolvedValOut;
-                    if (prop.Ctl != null)
-                    {
-                        (prop.Ctl as ComboBox).Text = ValOut;
-                    }
-                }
-            }
-
-            string x = string.Empty;
-            foreach (SwProperty prop in this.propertySet)
-            { 
-                x += string.Format("{0}: {1}: {2}\n", prop.Name, prop.Value, prop.ResValue);
-            }
-            System.Windows.Forms.MessageBox.Show(x);
+            System.Windows.Forms.MessageBox.Show(t);
         }
 
         private void RedBrick_FormClosing(object sender, FormClosingEventArgs e)
         {
+            this.propertySet.Write();
             Properties.Settings.Default.Top = this.Top;
             Properties.Settings.Default.Left = this.Left;
             Properties.Settings.Default.Save();

@@ -20,18 +20,11 @@ namespace redbrick.csproj
         private CustomPropertyManager spP;
         private CustomPropertyManager glP;
 
-        private List<SwProperty> propertySet;
+        public SwProperties propertySet;
 
         private bool notMachine = false;
 
-        //public Ops(string OpType)
-        //{
-        //    InitializeComponent();
-        //    this.OpType = OpType;
-        //    this.RefreshOps(this.OpType);
-        //}
-
-        public Ops(SldWorks sw, List<SwProperty> prop)
+        public Ops(SldWorks sw, ref SwProperties prop)
         {
             this.notMachine = false;
 
@@ -47,7 +40,6 @@ namespace redbrick.csproj
             this.propertySet = prop;
             this.OpType = "WOOD";
             //this.RefreshOps(this.OpType);
-            //this.GetProperties();
         }
 
         private void fillBox(object occ)
@@ -57,52 +49,44 @@ namespace redbrick.csproj
             c.DataSource = cd.GetOps(this.OpType).Tables[0];
             c.DisplayMember = "OPDESCR";
             c.ValueMember = "OPNAME";
-            //this.notMachine = true;
         }
 
         public void GetProperties()
         {
-            int res;
-            bool useCached = false;
-            string valOut;
-            string resValOut;
-            bool wasResolved;
-            SwProperty prp;
-            for (int i = 1; i < 6; i++)
+            System.Threading.Thread.Sleep(1000);
+            this.propertySet.GetProperty("OP1").Ctl = this.cbOp1;
+            this.propertySet.GetProperty("OP2").Ctl = this.cbOp2;
+            this.propertySet.GetProperty("OP3").Ctl = this.cbOp3;
+            this.propertySet.GetProperty("OP4").Ctl = this.cbOp4;
+            this.propertySet.GetProperty("OP5").Ctl = this.cbOp5;
+
+            for (int i = 0; i < 6; i++)
             {
                 string op = string.Format("OP{0}", i.ToString());
-                res = glP.Get5(op, useCached, out valOut, out resValOut, out wasResolved);
-                prp = new SwProperty(op, swCustomInfoType_e.swCustomInfoText, valOut, true);
-                prp.ResValue = resValOut;
-                prp.Table = "CUT_PARTS";
-                prp.Field = op + "ID";
 
                 foreach (Control c in this.tableLayoutPanel1.Controls)
                 {
-                    if (c.Name.ToUpper().Contains(op))
+                    if ((c is ComboBox) && c.Name.ToUpper().Contains(op))
                     {
-                        prp.Ctl = (c as ComboBox);
-                        //System.Windows.Forms.MessageBox.Show((c as ComboBox).FindString(valOut).ToString() + ": " + valOut);
+                        ComboBox cb = (c as ComboBox);
+                        cb.DisplayMember = "OPNAME";
+                        int idx = this.GetIndex((cb.DataSource as DataTable), 
+                            this.propertySet.GetProperty(op).Value);
+                        if (idx > cb.Items.Count - 1) idx = 0;
 
-                        if (valOut != string.Empty)
-                        {
-                            //DataTable dt = (DataTable)(c as ComboBox).DataSource;
-                            (c as ComboBox).DisplayMember = "OPNAME";
-                            int idx = this.GetIndex(((c as ComboBox).DataSource as DataTable), valOut);
-                            (c as ComboBox).SelectedIndex = idx;
-                            (c as ComboBox).DisplayMember = "OPDESCR";
-                            //DataSet ds = dt.DataSet;
-                            //ds.Tables[0].Select("OPNAME Like '" + valOut + "'");
-                        }
-                        else
-                        {
-                            //(c as ComboBox).SelectedIndex = -1;
-                        }
+                        cb.SelectedIndex = idx;
+                        cb.DisplayMember = "OPDESCR";
+
+                        SwProperty p = this.propertySet.GetProperty(op);
+                        p.ID = (cb.SelectedItem as DataRowView).Row.ItemArray[0].ToString();
+                        p.Value = (cb.SelectedItem as DataRowView).Row.ItemArray[1].ToString();
+                        p.ResValue = (cb.SelectedItem as DataRowView).Row.ItemArray[2].ToString();
+
+                        p.Table = "CUT_PARTS";
+                        p.Field = string.Format("OP{0}ID", p.Ctl.Name.Split('p')[1]);
                     }
                 }
-                propertySet.Add(prp);
             }
-            this.notMachine = true;
         }
 
         public void RefreshOps(string opType)
@@ -118,7 +102,6 @@ namespace redbrick.csproj
             {
                 this.fillBox((object)c);
             }
-            //this.notMachine = true;
         }
 
         public EventArgs RefreshOpBoxes(string opType)
@@ -131,13 +114,16 @@ namespace redbrick.csproj
 
         private int GetIndex(DataTable dt, string val)
         {
-            int count = 0;
-            foreach (DataRow dr in dt.Rows)
+            if (dt != null)
             {
-                count++;
+                int count = 0;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    count++;
 
-                if (dr.ItemArray[1].ToString() == val)
-                    return count;
+                    if (dr.ItemArray[1].ToString() == val)
+                        return count;
+                }
             }
             return -1;
         }
@@ -146,31 +132,22 @@ namespace redbrick.csproj
         {
             if (notMachine)
             {
-                if (cb.Text != string.Empty)
-                {
-                    //System.Windows.Forms.MessageBox.Show(string.Format("notMachine = {0}", this.notMachine.ToString()));
-                    swCustomPropertyAddOption_e opt = swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd;
-                    swCustomInfoAddResult_e res = swCustomInfoAddResult_e.swCustomInfoAddResult_GenericFail;
-                    string cheese = string.Empty;
-                    foreach (SwProperty prp in this.propertySet)
-                    {
-                        //cheese += prp.Name + ", " + prp.Value + ", " + prp.Type.ToString() + ", " + opt.ToString() + "\n";
-                        if ((prp.Name == prp_Name) && ((cb.SelectedItem as DataRowView) != null))
-                        {
-                            prp.Value = (cb.SelectedItem as DataRowView).Row.ItemArray[1].ToString();
-                            res = (swCustomInfoAddResult_e)glP.Add3(prp.Name, (int)prp.Type, prp.Value, (int)opt);
+                SwProperty p = this.propertySet.GetProperty(prp_Name);
+                p.ID = (cb.SelectedItem as DataRowView).Row.ItemArray[0].ToString();
+                p.Value = (cb.SelectedItem as DataRowView).Row.ItemArray[1].ToString();
+                p.ResValue = (cb.SelectedItem as DataRowView).Row.ItemArray[2].ToString();
 
-                            System.Windows.Forms.MessageBox.Show("glP.Add3(" + prp.Name + ", " + prp.Value + ", " + prp.Type.ToString() + ", " + opt.ToString() + ")");
-                        }
-                    }
-                    //System.Windows.Forms.MessageBox.Show(cheese);
-                }
-                this.notMachine = false;
+                p.Table = "CUT_PARTS";
+                p.Field = string.Format("OP{0}ID", p.Ctl.Name.Split('p')[1]);
+
+                //string t = string.Empty;
+                //foreach (SwProperty px in this.propertySet)
+                //    t += string.Format("{0} as {1} = {2}, ID {3}, {4}, {5}\n", px.Name, px.Type.ToString(), px.ResValue, px.ID, px.Table, px.Field);
+
+                //System.Windows.Forms.MessageBox.Show(t);
             }
             else
             {
-                System.Windows.Forms.MessageBox.Show("this.DelProp(prp_Name);");
-                this.DelProp(prp_Name);
             }
         }
 
@@ -193,6 +170,12 @@ namespace redbrick.csproj
 
         private void cbOp2_TextUpdate(object sender, EventArgs e)
         {
+            //string t = string.Empty;
+            //foreach (SwProperty p in this.propertySet)
+            //{
+            //    t += string.Format("{0} as {1} = {2}\n", p.Name, p.Type.ToString(), p.Value);
+            //}
+            //System.Windows.Forms.MessageBox.Show(t);
         }
 
         private void cbOp1_SelectedIndexChanged(object sender, EventArgs e)
@@ -218,6 +201,56 @@ namespace redbrick.csproj
         private void cbOp5_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.AddProp(this.cbOp5, "OP5");
+        }
+
+        private void cbOp1_MouseEnter(object sender, EventArgs e)
+        {
+            this.notMachine = true;
+        }
+
+        private void cbOp1_MouseLeave(object sender, EventArgs e)
+        {
+            this.notMachine = false;
+        }
+
+        private void cbOp2_MouseEnter(object sender, EventArgs e)
+        {
+            this.notMachine = true;
+        }
+
+        private void cbOp2_MouseLeave(object sender, EventArgs e)
+        {
+            this.notMachine = false;
+        }
+
+        private void cbOp3_MouseEnter(object sender, EventArgs e)
+        {
+            this.notMachine = true;
+        }
+
+        private void cbOp3_MouseLeave(object sender, EventArgs e)
+        {
+            this.notMachine = false;
+        }
+
+        private void cbOp4_MouseEnter(object sender, EventArgs e)
+        {
+            this.notMachine = true;
+        }
+
+        private void cbOp4_MouseLeave(object sender, EventArgs e)
+        {
+            this.notMachine = false;
+        }
+
+        private void cbOp5_MouseEnter(object sender, EventArgs e)
+        {
+            this.notMachine = true;
+        }
+
+        private void cbOp5_MouseLeave(object sender, EventArgs e)
+        {
+            this.notMachine = false;
         }
     }
 }
