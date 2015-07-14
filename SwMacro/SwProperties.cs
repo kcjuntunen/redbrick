@@ -128,7 +128,7 @@ namespace redbrick.csproj
             string ret = string.Empty;
             foreach (SwProperty p in this)
             {
-                ret += string.Format("{0}: {1}", p.Name, p.Value);
+                ret += string.Format("{0}: {1}\n", p.Name, p.Value);
             }
             return ret;
         }

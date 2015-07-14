@@ -9,8 +9,11 @@ namespace redbrick.csproj
     {
         public void Main()
         {
-            RedBrick rb = new RedBrick(this.swApp);
-            rb.ShowDialog();
+            //RedBrick rb = new RedBrick(this.swApp);
+            //rb.ShowDialog();
+            System.Diagnostics.Debug.WriteLine(DateTime.Now.ToLongTimeString());
+            DrawingRedbrick drb = new DrawingRedbrick(this.swApp);
+            drb.ShowDialog();
         }
 
         /// <summary>

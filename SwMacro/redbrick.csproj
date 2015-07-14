@@ -108,6 +108,8 @@
       <DependentUpon>ConfigurationSpecific.cs</DependentUpon>
     </Compile>
     <Compile Include="CutlistData.cs" />
+    <Compile Include="DrawingRev.cs" />
+    <Compile Include="DrawingRevs.cs" />
     <Compile Include="GeneralProperties.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -158,6 +160,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>DepartmentSelector.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DrawingRedbrick.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DrawingRedbrick.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -184,6 +190,13 @@
     </Compile>
     <Compile Include="DepartmentSelector.Designer.cs">
       <DependentUpon>DepartmentSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DrawingProperties.cs" />
+    <Compile Include="DrawingRedbrick.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DrawingRedbrick.Designer.cs">
+      <DependentUpon>DrawingRedbrick.cs</DependentUpon>
     </Compile>
     <Compile Include="SolidWorksMacro.cs">
       <SubType>Code</SubType>

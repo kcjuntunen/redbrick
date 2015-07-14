@@ -139,12 +139,6 @@ namespace redbrick.csproj
 
                 p.Table = "CUT_PARTS";
                 p.Field = string.Format("OP{0}ID", p.Ctl.Name.Split('p')[1]);
-
-                //string t = string.Empty;
-                //foreach (SwProperty px in this.propertySet)
-                //    t += string.Format("{0} as {1} = {2}, ID {3}, {4}, {5}\n", px.Name, px.Type.ToString(), px.ResValue, px.ID, px.Table, px.Field);
-
-                //System.Windows.Forms.MessageBox.Show(t);
             }
             else
             {

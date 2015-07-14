@@ -56,5 +56,17 @@ namespace redbrick.csproj.Properties {
                 this["Left"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public string RevLimit {
+            get {
+                return ((string)(this["RevLimit"]));
+            }
+            set {
+                this["RevLimit"] = value;
+            }
+        }
     }
 }
