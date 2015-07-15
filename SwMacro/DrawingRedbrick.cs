@@ -27,14 +27,44 @@ namespace redbrick.csproj
         {
             this.PropertySet.Read();
             this.RevSet.Read();
+            this.RevSet.listBox = this.lbRevs;
+
+            //System.Windows.Forms.MessageBox.Show(this.RevSet.ToString());
         }
 
         private void FillBoxes()
         {
-            System.Windows.Forms.MessageBox.Show(this.PropertySet.ToString());
-            System.Windows.Forms.MessageBox.Show(this.RevSet.ToString());
-            this.tbItemNo.Text = this.PropertySet.GetProperty("ItemNo").Value;
-            this.tbItemNoRes.Text = this.PropertySet.GetProperty("ItemNo").ResValue;
+            this.PropertySet.GetProperty("PartNo").Ctl = this.tbItemNo;
+            this.PropertySet.GetProperty("CUSTOMER").Ctl = this.cbCustomer;
+            this.PropertySet.GetProperty("DrawnBy").Ctl = this.cbAuthor;
+            this.PropertySet.GetProperty("DATE").Ctl = this.dpDate;
+
+            for (int i = 1; i < 6; i++)
+            {
+                if (this.PropertySet.Contains("M" + i.ToString()))
+                {
+                    foreach (Control c in this.tableLayoutPanel3.Controls)
+	                {
+                        if (c.Name.ToUpper().Contains("M" + i.ToString()) )
+	                    {
+                            this.PropertySet.GetProperty("M" + i.ToString()).Ctl = c;	 
+	                    }
+
+                        if (c.Name.ToUpper().Contains("FINISH" + i.ToString()))
+                        {
+                            this.PropertySet.GetProperty("FINISH " + i.ToString()).Ctl = c;
+                        }
+	                }
+                }
+            }
+
+            this.PropertySet.UpdateFields();
+            this.RevSet.UpdateListBox();
+            //this.tbItemNo.Text = this.PropertySet.GetProperty("PartNo").Value;
+            this.tbItemNoRes.Text = this.PropertySet.GetProperty("PartNo").ResValue;
+            //this.cbCustomer.Text = this.PropertySet.GetProperty("CUSTOMER").Value;
+            //this.cbAuthor.Text = this.PropertySet.GetProperty("DrawnBy").Value;
+            //this.dpDate.Text = this.PropertySet.GetProperty("DATE").Value;
         }
 
         private DrawingProperties _propSet;

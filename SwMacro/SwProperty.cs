@@ -17,6 +17,19 @@ namespace redbrick.csproj
             this.Global = global;
         }
 
+        public SwProperty()
+        {
+            string n = "STUB" + DateTime.Now.ToLongTimeString();
+            this.Name = n;
+            this.Type = swCustomInfoType_e.swCustomInfoText;
+            this.Value = "NULL";
+            this.Global = false;
+
+            this.ID = "0";
+            this.Field = "[Nope]";
+            this.Table = "[No]";
+        }
+
         private string _id;
 
         public string ID
@@ -89,6 +102,11 @@ namespace redbrick.csproj
         {
             get { return _global; }
             set { _global = value; }
+        }
+
+        public override string ToString()
+        {
+            return this.Name + ": " + this.Value + " => " + this.ResValue;
         }
 
         public override bool Equals(object obj)

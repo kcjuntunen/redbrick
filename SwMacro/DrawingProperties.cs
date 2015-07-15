@@ -178,6 +178,17 @@ namespace redbrick.csproj
             }
         }
 
+        public void UpdateFields()
+        {
+            foreach (SwProperty s in this._innerArray)
+            {
+                if (s.Ctl != null)
+                {
+                    s.Ctl.Text = s.Value;   
+                }
+            }
+        }
+
         public override string ToString()
         {
             string ret = string.Empty;

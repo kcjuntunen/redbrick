@@ -60,9 +60,9 @@ namespace redbrick.csproj.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("15")]
-        public string RevLimit {
+        public int RevLimit {
             get {
-                return ((string)(this["RevLimit"]));
+                return ((int)(this["RevLimit"]));
             }
             set {
                 this["RevLimit"] = value;

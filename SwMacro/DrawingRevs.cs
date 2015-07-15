@@ -15,16 +15,23 @@ namespace redbrick.csproj
         public DrawingRevs(SldWorks sw)
         {
             this.SwApp = sw;
+            this._innerArray = new ArrayList(15);
         }
 
         public override string ToString()
         {
             string ret = string.Empty;
-            foreach (SwProperty p in this._innerArray)
+            if (this._innerArray != null)
             {
-                ret += string.Format("{0}: {1}\n", p.Name, p.Value);
+                foreach (SwProperty p in this._innerArray)
+                {
+                    if (p.Name != null & p.Value != null)
+                    {
+                        ret += string.Format("{0}: {1}\n", p.Name, p.Value);   
+                    }
+                }
             }
-            return ret;
+            return ret;   
         }
 
         public void Read()
@@ -32,59 +39,49 @@ namespace redbrick.csproj
             ModelDoc2 md = (ModelDoc2)SwApp.ActiveDoc;
             CustomPropertyManager pm = md.Extension.get_CustomPropertyManager(string.Empty);
 
-            int res;
-            bool useCached = false;
-            string valOut = string.Empty;
-            string resValOut = string.Empty;
-            bool wasResolved;
-
             int revLetterOffset = 64;
-            int revLimit = 0;
-
-            if (!int.TryParse(Properties.Settings.Default.RevLimit, out revLimit))
-            {
-                revLimit = 15;
-            }
+            int revLimit = Properties.Settings.Default.RevLimit;
 
             for (int i = 1; i <= revLimit; i++)
             {
-                string r = "REVISION A" + (char)(i + revLetterOffset);
+                string r = "REVISION " + (char)(i + revLetterOffset);
                 string e = "ECO " + i.ToString();
                 string de = "DESCRIPTION " + i.ToString();
                 string l = "LIST " + i.ToString();
                 string da = "DATE " + i.ToString();
-                System.Diagnostics.Debug.WriteLine(string.Format("{0}: {1}: {2}: {3}", r, e, de, l));
-                if (pm.Get5(r, useCached, out valOut, out resValOut, out wasResolved) ==
-                    (int)swCustomInfoGetResult_e.swCustomInfoGetResult_ResolvedValue)
+                System.Diagnostics.Debug.Print(string.Format("{0}: {1}: {2}: {3}", r, e, de, l));
+
+                SwProperty rp = this.AssignProperty(pm, r);
+                if (rp.Value == "NULL")
+                    break;
+
+                SwProperty ep = this.AssignProperty(pm, e);
+                SwProperty dep = this.AssignProperty(pm, de);
+                SwProperty lp = this.AssignProperty(pm, l);
+                SwProperty dap = this.AssignProperty(pm, da);
+
+                if ((rp.Value != "NULL"))
                 {
-                    System.Diagnostics.Debug.WriteLine(string.Format("Found {0}.", r));
-                    SwProperty rp = new SwProperty(r, swCustomInfoType_e.swCustomInfoText, valOut, true);
-                    System.Windows.Forms.MessageBox.Show(rp.ToString());
-                    rp.ResValue = resValOut;
-
-                    res = pm.Get5(e, useCached, out valOut, out resValOut, out wasResolved);
-                    SwProperty ep = new SwProperty(e, swCustomInfoType_e.swCustomInfoText, valOut, true);
-                    ep.ResValue = resValOut;
-
-                    res = pm.Get5(de, useCached, out valOut, out resValOut, out wasResolved);
-                    SwProperty dep = new SwProperty(de, swCustomInfoType_e.swCustomInfoText, valOut, true);
-                    dep.ResValue = resValOut;
-
-                    res = pm.Get5(l, useCached, out valOut, out resValOut, out wasResolved);
-                    SwProperty lp = new SwProperty(l, swCustomInfoType_e.swCustomInfoText, valOut, true);
-                    lp.ResValue = resValOut;
-
-                    res = pm.Get5(da, useCached, out valOut, out resValOut, out wasResolved);
-                    SwProperty dap = new SwProperty(da, swCustomInfoType_e.swCustomInfoDate, valOut, true);
-                    dap.ResValue = resValOut;
-
                     DrawingRev dr = new DrawingRev(rp, ep, dep, lp, dap);
-                    this._innerArray.Add(dr);
+                    if (dr != null)
+                    {
+                        //this._innerArray.Insert(i, dr);
+                        this._innerArray.Add(dr);   
+                    }
                 }
                 else
-                {
                     break;
-                }
+            }
+        }
+
+        public void UpdateListBox()
+        {
+            foreach (DrawingRev r in this._innerArray)
+            {
+                object[] x = { r.Revision.Value, r.Eco.Value, r.Description.Value, r.List.Value, r.Date.Value };
+                this.listBox.DataSource = r;
+                
+                
             }
         }
 
@@ -98,6 +95,51 @@ namespace redbrick.csproj
             {
                 glP.Add3(p.Name, (int)p.Type, p.Value, (int)opt);
             }
+        }
+
+        private SwProperty AssignProperty(CustomPropertyManager pm, string name)
+        {
+            int res;
+            int success = (int)swCustomInfoGetResult_e.swCustomInfoGetResult_ResolvedValue;
+            bool useCached = false;
+            string valOut = string.Empty;
+            string resValOut = string.Empty;
+            bool wasResolved;
+
+            SwProperty rp = new SwProperty();
+
+            if (!InThere(pm, name))
+            {
+                return rp;
+            }
+            else
+            {
+            }
+
+            res = pm.Get5(name, useCached, out valOut, out resValOut, out wasResolved);
+
+            if (res == success)
+            {
+                System.Diagnostics.Debug.WriteLine(string.Format("Found {0}.", name));
+                rp.Name = name;
+                rp.Value = valOut;
+                rp.ResValue = resValOut;
+                rp.Type = swCustomInfoType_e.swCustomInfoText;
+                rp.Global = true;
+            }
+            return rp;
+        }
+
+        private bool InThere(CustomPropertyManager c, string name)
+        {
+            foreach (string p in (string[])c.GetNames())
+            {
+                if (p == name)
+                {
+                    return true;
+                }      
+            }
+            return false;
         }
 
         #region ICollection<SwProperty> Members
@@ -200,6 +242,17 @@ namespace redbrick.csproj
         }
 
         #endregion
+
+        
+
+        private System.Windows.Forms.DataGridView _lb;
+
+        public System.Windows.Forms.DataGridView listBox
+        {
+            get { return _lb; }
+            set { _lb = value; }
+        }
+	
 
         private SldWorks _swApp;
 

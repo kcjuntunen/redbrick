@@ -15,6 +15,18 @@ namespace redbrick.csproj
             this.Date = date;
         }
 
+        public override string ToString()
+        {
+            string o = string.Format("{0}\n{1}\n{2}\n{3}\n{4}\n", 
+                this.Revision.ToString(),
+                this.Eco.ToString(),
+                this.Description.ToString(),
+                this.List.ToString(),
+                this.Date.ToString());
+
+            return o;
+        }
+
         private SwProperty _rev;
 
         public SwProperty Revision

@@ -51,21 +51,22 @@ namespace redbrick.csproj
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.comboBox5 = new System.Windows.Forms.ComboBox();
-            this.comboBox6 = new System.Windows.Forms.ComboBox();
-            this.comboBox7 = new System.Windows.Forms.ComboBox();
+            this.cbM1 = new System.Windows.Forms.ComboBox();
+            this.cbM2 = new System.Windows.Forms.ComboBox();
+            this.cbM3 = new System.Windows.Forms.ComboBox();
+            this.cbM4 = new System.Windows.Forms.ComboBox();
+            this.cbM5 = new System.Windows.Forms.ComboBox();
             this.tbFinish1 = new System.Windows.Forms.TextBox();
             this.tbFinish2 = new System.Windows.Forms.TextBox();
             this.tbFinish3 = new System.Windows.Forms.TextBox();
             this.tbFinish4 = new System.Windows.Forms.TextBox();
             this.tbFinish5 = new System.Windows.Forms.TextBox();
-            this.lbRevs = new System.Windows.Forms.ListBox();
+            this.lbRevs = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lbRevs)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -80,8 +81,8 @@ namespace redbrick.csproj
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(844, 470);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -111,7 +112,7 @@ namespace redbrick.csproj
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(416, 229);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(416, 276);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // dpDate
@@ -200,7 +201,7 @@ namespace redbrick.csproj
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(425, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(416, 229);
+            this.groupBox1.Size = new System.Drawing.Size(416, 276);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Materials";
@@ -220,11 +221,11 @@ namespace redbrick.csproj
             this.tableLayoutPanel3.Controls.Add(this.label12, 1, 4);
             this.tableLayoutPanel3.Controls.Add(this.label13, 1, 6);
             this.tableLayoutPanel3.Controls.Add(this.label14, 1, 8);
-            this.tableLayoutPanel3.Controls.Add(this.comboBox3, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.comboBox4, 0, 3);
-            this.tableLayoutPanel3.Controls.Add(this.comboBox5, 0, 5);
-            this.tableLayoutPanel3.Controls.Add(this.comboBox6, 0, 7);
-            this.tableLayoutPanel3.Controls.Add(this.comboBox7, 0, 9);
+            this.tableLayoutPanel3.Controls.Add(this.cbM1, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.cbM2, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.cbM3, 0, 5);
+            this.tableLayoutPanel3.Controls.Add(this.cbM4, 0, 7);
+            this.tableLayoutPanel3.Controls.Add(this.cbM5, 0, 9);
             this.tableLayoutPanel3.Controls.Add(this.tbFinish1, 1, 1);
             this.tableLayoutPanel3.Controls.Add(this.tbFinish2, 1, 3);
             this.tableLayoutPanel3.Controls.Add(this.tbFinish3, 1, 5);
@@ -244,7 +245,7 @@ namespace redbrick.csproj
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(410, 210);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(410, 257);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // label5
@@ -347,50 +348,50 @@ namespace redbrick.csproj
             this.label14.TabIndex = 9;
             this.label14.Text = "Finish 5";
             // 
-            // comboBox3
+            // cbM1
             // 
-            this.comboBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(3, 16);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(117, 21);
-            this.comboBox3.TabIndex = 10;
+            this.cbM1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbM1.FormattingEnabled = true;
+            this.cbM1.Location = new System.Drawing.Point(3, 16);
+            this.cbM1.Name = "cbM1";
+            this.cbM1.Size = new System.Drawing.Size(117, 21);
+            this.cbM1.TabIndex = 10;
             // 
-            // comboBox4
+            // cbM2
             // 
-            this.comboBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(3, 56);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(117, 21);
-            this.comboBox4.TabIndex = 11;
+            this.cbM2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbM2.FormattingEnabled = true;
+            this.cbM2.Location = new System.Drawing.Point(3, 56);
+            this.cbM2.Name = "cbM2";
+            this.cbM2.Size = new System.Drawing.Size(117, 21);
+            this.cbM2.TabIndex = 11;
             // 
-            // comboBox5
+            // cbM3
             // 
-            this.comboBox5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(3, 96);
-            this.comboBox5.Name = "comboBox5";
-            this.comboBox5.Size = new System.Drawing.Size(117, 21);
-            this.comboBox5.TabIndex = 12;
+            this.cbM3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbM3.FormattingEnabled = true;
+            this.cbM3.Location = new System.Drawing.Point(3, 96);
+            this.cbM3.Name = "cbM3";
+            this.cbM3.Size = new System.Drawing.Size(117, 21);
+            this.cbM3.TabIndex = 12;
             // 
-            // comboBox6
+            // cbM4
             // 
-            this.comboBox6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Location = new System.Drawing.Point(3, 136);
-            this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(117, 21);
-            this.comboBox6.TabIndex = 13;
+            this.cbM4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbM4.FormattingEnabled = true;
+            this.cbM4.Location = new System.Drawing.Point(3, 136);
+            this.cbM4.Name = "cbM4";
+            this.cbM4.Size = new System.Drawing.Size(117, 21);
+            this.cbM4.TabIndex = 13;
             // 
-            // comboBox7
+            // cbM5
             // 
-            this.comboBox7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Location = new System.Drawing.Point(3, 176);
-            this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(117, 21);
-            this.comboBox7.TabIndex = 14;
+            this.cbM5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbM5.FormattingEnabled = true;
+            this.cbM5.Location = new System.Drawing.Point(3, 176);
+            this.cbM5.Name = "cbM5";
+            this.cbM5.Size = new System.Drawing.Size(117, 21);
+            this.cbM5.TabIndex = 14;
             // 
             // tbFinish1
             // 
@@ -434,12 +435,12 @@ namespace redbrick.csproj
             // 
             // lbRevs
             // 
+            this.lbRevs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableLayoutPanel1.SetColumnSpan(this.lbRevs, 2);
             this.lbRevs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbRevs.FormattingEnabled = true;
-            this.lbRevs.Location = new System.Drawing.Point(3, 238);
+            this.lbRevs.Location = new System.Drawing.Point(3, 285);
             this.lbRevs.Name = "lbRevs";
-            this.lbRevs.Size = new System.Drawing.Size(838, 225);
+            this.lbRevs.Size = new System.Drawing.Size(838, 182);
             this.lbRevs.TabIndex = 2;
             // 
             // DrawingRedbrick
@@ -456,6 +457,7 @@ namespace redbrick.csproj
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lbRevs)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -485,16 +487,16 @@ namespace redbrick.csproj
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.ComboBox comboBox5;
-        private System.Windows.Forms.ComboBox comboBox6;
-        private System.Windows.Forms.ComboBox comboBox7;
+        private System.Windows.Forms.ComboBox cbM1;
+        private System.Windows.Forms.ComboBox cbM2;
+        private System.Windows.Forms.ComboBox cbM3;
+        private System.Windows.Forms.ComboBox cbM4;
+        private System.Windows.Forms.ComboBox cbM5;
         private System.Windows.Forms.TextBox tbFinish1;
         private System.Windows.Forms.TextBox tbFinish2;
         private System.Windows.Forms.TextBox tbFinish3;
         private System.Windows.Forms.TextBox tbFinish4;
         private System.Windows.Forms.TextBox tbFinish5;
-        private System.Windows.Forms.ListBox lbRevs;
+        private System.Windows.Forms.DataGridView lbRevs;
     }
 }
