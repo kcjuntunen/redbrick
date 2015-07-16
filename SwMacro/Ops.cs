@@ -53,12 +53,12 @@ namespace redbrick.csproj
 
         public void GetProperties()
         {
-            System.Threading.Thread.Sleep(1000);
-            this.propertySet.GetProperty("OP1").Ctl = this.cbOp1;
-            this.propertySet.GetProperty("OP2").Ctl = this.cbOp2;
-            this.propertySet.GetProperty("OP3").Ctl = this.cbOp3;
-            this.propertySet.GetProperty("OP4").Ctl = this.cbOp4;
-            this.propertySet.GetProperty("OP5").Ctl = this.cbOp5;
+            //System.Threading.Thread.Sleep(1000);
+            //this.propertySet.GetProperty("OP1").Ctl = this.cbOp1;
+            //this.propertySet.GetProperty("OP2").Ctl = this.cbOp2;
+            //this.propertySet.GetProperty("OP3").Ctl = this.cbOp3;
+            //this.propertySet.GetProperty("OP4").Ctl = this.cbOp4;
+            //this.propertySet.GetProperty("OP5").Ctl = this.cbOp5;
 
             for (int i = 0; i < 6; i++)
             {
@@ -74,9 +74,27 @@ namespace redbrick.csproj
                             this.propertySet.GetProperty(op).Value);
                         if (idx > cb.Items.Count - 1) idx = 0;
 
+                        //for (int j = 0; j < cb.Items.Count; j++)
+                        //{
+                        //    if ((string)(cb.Items[j] as DataRowView)["OPNAME"] == this.propertySet.GetProperty(op).Value)
+                        //    {
+                        //        System.Diagnostics.Debug.Print(string.Format("{0} == {1}: {2}*",
+                        //            (cb.Items[j] as DataRowView)["OPNAME"],
+                        //            this.propertySet.GetProperty(op).Value,
+                        //            j));
+                        //        idx = j;
+                        //    }
+                        //    else
+                        //    {
+                        //        System.Diagnostics.Debug.Print(string.Format("{0} == {1}: {2}", 
+                        //            (cb.Items[j] as DataRowView)["OPNAME"], 
+                        //            this.propertySet.GetProperty(op).Value,
+                        //            j));
+                        //    }
+                        //}
+
                         cb.SelectedIndex = idx;
                         cb.DisplayMember = "OPDESCR";
-
                         SwProperty p = this.propertySet.GetProperty(op);
                         p.ID = (cb.SelectedItem as DataRowView).Row.ItemArray[0].ToString();
                         p.Value = (cb.SelectedItem as DataRowView).Row.ItemArray[1].ToString();
@@ -121,7 +139,7 @@ namespace redbrick.csproj
                 {
                     count++;
 
-                    if (dr.ItemArray[1].ToString() == val)
+                    if (dr.ItemArray[1].ToString().Trim().ToUpper() == val.Trim().ToUpper())
                         return count;
                 }
             }

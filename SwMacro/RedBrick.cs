@@ -148,13 +148,6 @@ namespace redbrick.csproj
                 }
             }
 
-            if (this.propertySet.Contains("DEPARTMENT"))
-                if (this.propertySet.GetProperty("DEPARTMENT").Value.ToUpper() == "METAL")
-                {
-                    EventArgs e = new EventArgs();
-                    this.ds_CheckedChanged(this, e);
-                }
-
             this.LinkControlToProperty("CUTLIST MATERIAL", this.cs.GetCutlistMatBox());
             this.LinkControlToProperty("EDGE FRONT (L)", this.cs.GetEdgeFrontBox());
             this.LinkControlToProperty("EDGE BACK (L)", this.cs.GetEdgeBackBox());
@@ -275,6 +268,11 @@ namespace redbrick.csproj
 
         private void RedBrick_Shown(object sender, EventArgs e)
         {
+            if (this.propertySet.Contains("DEPARTMENT"))
+                if (this.propertySet.GetProperty("DEPARTMENT").Value.ToUpper() == "METAL")
+                {
+                    this.ds_CheckedChanged(this, e);
+                }
             op.GetProperties();
         }
     }
