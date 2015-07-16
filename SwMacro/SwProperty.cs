@@ -51,7 +51,7 @@ namespace redbrick.csproj
             }
             else
             {
-                System.Diagnostics.Debug.Print("SwApp is undefined");
+                System.Diagnostics.Debug.Print(string.Format("{0}: SwApp is undefined", this.Name));
             }
         }
 

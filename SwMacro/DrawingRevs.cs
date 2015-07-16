@@ -50,7 +50,7 @@ namespace redbrick.csproj
                 string de = "DESCRIPTION " + i.ToString();
                 string l = "LIST " + i.ToString();
                 string da = "DATE " + i.ToString();
-                System.Diagnostics.Debug.Print(string.Format("{0}: {1}: {2}: {3}", r, e, de, l));
+                //System.Diagnostics.Debug.Print(string.Format("{0}: {1}: {2}: {3}", r, e, de, l));
 
                 SwProperty rp = this.AssignProperty(pm, r);
                 if (rp.Value == "NULL" || rp.Value == string.Empty)

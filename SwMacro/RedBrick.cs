@@ -40,7 +40,10 @@ namespace redbrick.csproj
             this.SetLocation();
             this.InitComponents();
             this.SetupEvents();
-            //this.getPartData();
+            this.getPartData();
+
+            this.propertySet.ReadProperties();
+            //this.op.GetProperties();
         }
 
         private void SetupEvents()
@@ -93,8 +96,19 @@ namespace redbrick.csproj
                 this.op.Dock = DockStyle.Fill;
             }
 
-            this.tbMainTable.Controls.Add(new Button(), 0, 3);
+            Button bOK = new Button();
+            bOK.Text = "OK";
+            bOK.Click += new EventHandler(bOK_Click);
+
+            this.tbMainTable.Controls.Add(bOK, 0, 3);
             this.tbMainTable.Controls.Add(new Button(), 1, 3);
+            this.getPartData();
+        }
+
+        void bOK_Click(object sender, EventArgs e)
+        {
+            this.propertySet.ReadControls();
+            this.propertySet.Write();
             this.getPartData();
         }
 
@@ -128,20 +142,72 @@ namespace redbrick.csproj
                 {
                     res = spP.Get5(s, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
                     typ = spP.GetType2(s);
-                    SwProperty p = new SwProperty(s, (swCustomInfoType_e)typ, ValOut, true);
+                    SwProperty p = new SwProperty(s, (swCustomInfoType_e)typ, ValOut, false);
                     p.ResValue = ResolvedValOut;
                     this.propertySet.Add(p);
                 }
             }
+
+            if (this.propertySet.Contains("DEPARTMENT"))
+                if (this.propertySet.GetProperty("DEPARTMENT").Value.ToUpper() == "METAL")
+                {
+                    EventArgs e = new EventArgs();
+                    this.ds_CheckedChanged(this, e);
+                }
+
+            this.LinkControlToProperty("CUTLIST MATERIAL", this.cs.GetCutlistMatBox());
+            this.LinkControlToProperty("EDGE FRONT (L)", this.cs.GetEdgeFrontBox());
+            this.LinkControlToProperty("EDGE BACK (L)", this.cs.GetEdgeBackBox());
+            this.LinkControlToProperty("EDGE LEFT (W)", this.cs.GetEdgeLeftBox());
+            this.LinkControlToProperty("EDGE RIGHT (W)", this.cs.GetEdgeRightBox());
+
+            this.LinkControlToProperty("Description", this.gp.GetDescriptionBox());
+            this.LinkControlToProperty("LENGTH", this.gp.GetLengthBox());
+            this.gp.UpdateLengthRes(propertySet.GetProperty("LENGTH"));
+            this.LinkControlToProperty("WIDTH", gp.GetWidthBox());
+            this.gp.UpdateWidthRes(propertySet.GetProperty("WIDTH"));
+            this.LinkControlToProperty("THICKNESS", gp.GetThicknessBox());
+            this.gp.UpdateThickRes(propertySet.GetProperty("THICKNESS"));
+            this.LinkControlToProperty("WALL THICKNESS", gp.GetWallThicknessBox());
+            this.gp.UpdateWallThickRes(propertySet.GetProperty("WALL THICKNESS"));
+            this.LinkControlToProperty("COMMENT", gp.GetCommentBox());
+            this.LinkControlToProperty("BLANK QTY", mp.GetPartsPerBlankBox());
+            this.LinkControlToProperty("CNC1", mp.GetCNC1Box());
+            this.LinkControlToProperty("CNC2", mp.GetCNC2Box());
+            this.LinkControlToProperty("OVERL", mp.GetOverLBox());
+            this.LinkControlToProperty("OVERW", mp.GetOverWBox());
+            this.LinkControlToProperty("OP1", op.GetOp1Box());
+            this.LinkControlToProperty("OP2", op.GetOp2Box());
+            this.LinkControlToProperty("OP3", op.GetOp3Box());
+            this.LinkControlToProperty("OP4", op.GetOp4Box());
+            this.LinkControlToProperty("OP5", op.GetOp5Box());
+
 
             //string t = string.Empty;
             //foreach (SwProperty px in this.propertySet)
             //    t += string.Format("{0} as {1} = {2}, ID {3}\n", px.Name, px.Type.ToString(), px.ResValue, px.ID);
         }
 
+        private void LinkControlToProperty(string property, Control c)
+        {
+            SwProperty p = this.propertySet.GetProperty(property);
+            if (this.propertySet.Contains(p))
+            {
+                //System.Diagnostics.Debug.Print(p.ToString());
+                p.SwApp = this.swApp;
+                p.Ctl = c;
+            }
+            else
+            {
+                SwProperty x = new SwProperty(property, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                x.SwApp = this.swApp;
+                x.Ctl = c;
+            }
+        }
+
         private void RedBrick_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.propertySet.Write();
+            this.propertySet.Write(this.swApp);
             Properties.Settings.Default.Top = this.Top;
             Properties.Settings.Default.Left = this.Left;
             Properties.Settings.Default.Save();

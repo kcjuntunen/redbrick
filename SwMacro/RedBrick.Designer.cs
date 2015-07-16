@@ -101,9 +101,9 @@ namespace redbrick.csproj
             this.tbMainTable.AutoSize = true;
             this.tbMainTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tbMainTable.ColumnCount = 3;
-            this.tbMainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tbMainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tbMainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tbMainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 34.73684F));
+            this.tbMainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.42105F));
+            this.tbMainTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.84211F));
             this.tbMainTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbMainTable.Location = new System.Drawing.Point(0, 24);
             this.tbMainTable.Name = "tbMainTable";
@@ -111,7 +111,7 @@ namespace redbrick.csproj
             this.tbMainTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tbMainTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tbMainTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tbMainTable.Size = new System.Drawing.Size(996, 440);
+            this.tbMainTable.Size = new System.Drawing.Size(996, 504);
             this.tbMainTable.TabIndex = 2;
             this.tbMainTable.Tag = "";
             // 
@@ -119,7 +119,7 @@ namespace redbrick.csproj
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(996, 464);
+            this.ClientSize = new System.Drawing.Size(996, 528);
             this.Controls.Add(this.tbMainTable);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;

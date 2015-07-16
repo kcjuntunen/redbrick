@@ -121,7 +121,7 @@ namespace redbrick.csproj
                             SwProperty mx = new SwProperty("M" + i.ToString(), swCustomInfoType_e.swCustomInfoText, string.Empty, true);
                             mx.SwApp = this.SwApp;
                             mx.Ctl = c;
-                            System.Diagnostics.Debug.Print("M: " + mx.Value);
+                            //System.Diagnostics.Debug.Print("M: " + mx.Value);
                             this.PropertySet.Add(mx);
                         }
 
@@ -130,7 +130,7 @@ namespace redbrick.csproj
                             SwProperty fx = new SwProperty("FINISH " + i.ToString(), swCustomInfoType_e.swCustomInfoText, string.Empty, true);
                             fx.SwApp = this.SwApp;
                             fx.Ctl = c;
-                            System.Diagnostics.Debug.Print("F: " + fx.Value);
+                            //System.Diagnostics.Debug.Print("F: " + fx.Value);
                             this.PropertySet.Add(fx);
                         }
                     }

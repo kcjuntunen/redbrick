@@ -154,6 +154,33 @@ namespace redbrick.csproj
             }
         }
 
+        public Control GetOp1Box()
+        {
+            return this.cbOp1;
+        }
+
+        public Control GetOp2Box()
+        {
+            return this.cbOp2;
+        }
+
+        public Control GetOp3Box()
+        {
+            return this.cbOp3;
+        }
+
+        public Control GetOp4Box()
+        {
+            return this.cbOp4;
+        }
+
+        public Control GetOp5Box()
+        {
+            return this.cbOp5;
+        }
+
+
+
         private string _opType;
 
         public string OpType

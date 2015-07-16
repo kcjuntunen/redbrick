@@ -95,10 +95,28 @@ namespace redbrick.csproj
             return null;
         }
 
-        //System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        //{
-        //    return this.GetEnumerator();
-        //}
+        public void ReadProperties()
+        {
+            foreach (SwProperty p in this._innerArray)
+            {
+                if (p.Ctl != null)
+                {
+                    //System.Diagnostics.Debug.Print("To " + p.Ctl.Name + " <- " + p.ToString());
+                    p.Ctl.Text = p.Value;
+                }
+            }
+        }
+
+        public void ReadControls()
+        {
+            foreach (SwProperty p in this._innerArray)
+            {
+                if (p.Ctl != null)
+                {
+                    p.Value = p.Ctl.Text;
+                }
+            }
+        }
 
         public void Write()
         {
@@ -152,6 +170,9 @@ namespace redbrick.csproj
 
         public bool Contains(SwProperty item)
         {
+            if (item == null)
+                return false;
+
             foreach (SwProperty p in this._innerArray)
             {
                 if (p.Name == item.Name)

@@ -35,7 +35,7 @@ namespace redbrick.csproj
             return this.tbOverL;
         }
 
-        public TextBox GetOverRBox()
+        public TextBox GetOverWBox()
         {
             return this.tbOverW;
         }

@@ -18,9 +18,9 @@ namespace redbrick.csproj
         public void ToggleFields(string opType)
         {
             bool wood = (opType != "METAL");
-            this.labResWallThickness.Visible = wood;
-            this.lWallThickness.Visible = wood;
-            this.tbWallThick.Visible = wood;
+            this.labResWallThickness.Visible = !wood;
+            this.lWallThickness.Visible = !wood;
+            this.tbWallThick.Visible = !wood;
         }
 
         public TextBox GetDescriptionBox()
@@ -51,6 +51,26 @@ namespace redbrick.csproj
         public TextBox GetCommentBox()
         {
             return this.tbComment;
+        }
+
+        public void UpdateLengthRes(SwProperty p)
+        {
+            this.labResLength.Text = p.ResValue;
+        }
+
+        public void UpdateWidthRes(SwProperty p)
+        {
+            this.labResWidth.Text = p.ResValue;
+        }
+
+        public void UpdateThickRes(SwProperty p)
+        {
+            this.labResThickness.Text = p.ResValue;
+        }
+
+        public void UpdateWallThickRes(SwProperty p)
+        {
+            this.labResWallThickness.Text = p.ResValue;
         }
     }
 }
