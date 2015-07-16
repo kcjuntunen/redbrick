@@ -68,5 +68,73 @@ namespace redbrick.csproj.Properties {
                 this["RevLimit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>BS</string>
+  <string>CD</string>
+  <string>CW</string>
+  <string>DF</string>
+  <string>DH</string>
+  <string>ED</string>
+  <string>JB</string>
+  <string>KC</string>
+  <string>KL</string>
+  <string>LF</string>
+  <string>SP</string>
+  <string>TH</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection Authors {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["Authors"]));
+            }
+            set {
+                this["Authors"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>ACRYLIC</string>
+  <string>ALUMINUM</string>
+  <string>BENDER</string>
+  <string>CRS</string>
+  <string>FELT</string>
+  <string>GLASS FL</string>
+  <string>GLASS LAM</string>
+  <string>GLASS TMP</string>
+  <string>HPL</string>
+  <string>HRS</string>
+  <string>MDF</string>
+  <string>MEL</string>
+  <string>OFF ALL</string>
+  <string>PB</string>
+  <string>PC</string>
+  <string>PE</string>
+  <string>PLWD</string>
+  <string>POPLAR</string>
+  <string>POSTFRM MDF</string>
+  <string>PVC</string>
+  <string>SLAB</string>
+  <string>SOLID SURF</string>
+  <string>SST</string>
+  <string>STYRENE</string>
+  <string>VAC PRESS</string>
+  <string>VENEER</string>
+  <string>VINYL</string>
+  <string>VINYL WRAP</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection Materials {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["Materials"]));
+            }
+            set {
+                this["Materials"] = value;
+            }
+        }
     }
 }

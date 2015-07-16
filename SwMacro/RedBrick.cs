@@ -134,11 +134,9 @@ namespace redbrick.csproj
                 }
             }
 
-            string t = string.Empty;
-            foreach (SwProperty px in this.propertySet)
-                t += string.Format("{0} as {1} = {2}, ID {3}\n", px.Name, px.Type.ToString(), px.ResValue, px.ID);
-
-            System.Windows.Forms.MessageBox.Show(t);
+            //string t = string.Empty;
+            //foreach (SwProperty px in this.propertySet)
+            //    t += string.Format("{0} as {1} = {2}, ID {3}\n", px.Name, px.Type.ToString(), px.ResValue, px.ID);
         }
 
         private void RedBrick_FormClosing(object sender, FormClosingEventArgs e)

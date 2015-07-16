@@ -102,24 +102,17 @@ namespace redbrick.csproj
 
         public void Write()
         {
-            ModelDoc2 md = (ModelDoc2)swApp.ActiveDoc;
-            CustomPropertyManager glP = md.Extension.get_CustomPropertyManager(string.Empty);
-            Configuration conf = md.ConfigurationManager.ActiveConfiguration;
-            CustomPropertyManager spP = md.Extension.get_CustomPropertyManager(conf.Name);
-            swCustomPropertyAddOption_e opt = swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd;
-            
-
-
             foreach (SwProperty p in this._innerArray)
             {
-                if (p.Global)
-                {
-                    glP.Add3(p.Name, (int)p.Type, p.Value, (int)opt);
-                }
-                else
-                {
-                    spP.Add3(p.Name, (int)p.Type, p.Value, (int)opt);
-                }
+                p.Write();
+            }
+        }
+
+        public void Write(SldWorks sw)
+        {
+            foreach (SwProperty p in this._innerArray)
+            {
+                p.Write(sw);
             }
         }
 

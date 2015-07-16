@@ -44,7 +44,7 @@ namespace redbrick.csproj
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1011, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(996, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -111,7 +111,7 @@ namespace redbrick.csproj
             this.tbMainTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tbMainTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tbMainTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tbMainTable.Size = new System.Drawing.Size(1011, 536);
+            this.tbMainTable.Size = new System.Drawing.Size(996, 440);
             this.tbMainTable.TabIndex = 2;
             this.tbMainTable.Tag = "";
             // 
@@ -119,7 +119,7 @@ namespace redbrick.csproj
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1011, 560);
+            this.ClientSize = new System.Drawing.Size(996, 464);
             this.Controls.Add(this.tbMainTable);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;

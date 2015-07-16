@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 using SolidWorks.Interop.swconst;
@@ -8,7 +9,7 @@ using SolidWorks.Interop.sldworks;
 
 namespace redbrick.csproj
 {
-    public class DrawingRevs : ICollection<SwProperty>
+    public class DrawingRevs : ICollection<DrawingRev>
     {
         protected ArrayList _innerArray;
 
@@ -52,13 +53,19 @@ namespace redbrick.csproj
                 System.Diagnostics.Debug.Print(string.Format("{0}: {1}: {2}: {3}", r, e, de, l));
 
                 SwProperty rp = this.AssignProperty(pm, r);
-                if (rp.Value == "NULL")
+                if (rp.Value == "NULL" || rp.Value == string.Empty)
                     break;
 
                 SwProperty ep = this.AssignProperty(pm, e);
                 SwProperty dep = this.AssignProperty(pm, de);
                 SwProperty lp = this.AssignProperty(pm, l);
                 SwProperty dap = this.AssignProperty(pm, da);
+
+                rp.SwApp = this.SwApp;
+                ep.SwApp = this.SwApp;
+                dep.SwApp = this.SwApp;
+                lp.SwApp = this.SwApp;
+                dap.SwApp = this.SwApp;
 
                 if ((rp.Value != "NULL"))
                 {
@@ -76,24 +83,88 @@ namespace redbrick.csproj
 
         public void UpdateListBox()
         {
+            DataTable dt = new DataTable("revs");
+            dt.Columns.Add("LVL");
+            dt.Columns.Add("ECR");
+            dt.Columns.Add("DESCRIPTION");
+            dt.Columns.Add("BY");
+            dt.Columns.Add("DATE");
+
             foreach (DrawingRev r in this._innerArray)
             {
                 object[] x = { r.Revision.Value, r.Eco.Value, r.Description.Value, r.List.Value, r.Date.Value };
-                this.listBox.DataSource = r;
-                
-                
+                dt.Rows.Add(x);
+            }
+            DataSet ds = new DataSet("revisions");
+            this.listBox.DataSource = dt;
+            this.listBox.Show();
+        }
+
+        public void ClearProps()
+        {
+            ModelDoc2 md = (ModelDoc2)SwApp.ActiveDoc;
+            CustomPropertyManager glP = md.Extension.get_CustomPropertyManager(string.Empty);
+            int res;
+
+            for (int i = 1; i <= Properties.Settings.Default.RevLimit; i++)
+            {
+                res = glP.Delete2("REVISION " + (char)(i + 65));
+                res = glP.Delete2("ECO " + i.ToString());
+                res = glP.Delete2("DESCRIPTION " + i.ToString());
+                res = glP.Delete2("LIST " + i.ToString());
+                res = glP.Delete2("DATE " + i.ToString());
             }
         }
 
         public void Write()
         {
-            ModelDoc2 md = (ModelDoc2)SwApp.ActiveDoc;
-            CustomPropertyManager glP = md.Extension.get_CustomPropertyManager(string.Empty);
-            swCustomPropertyAddOption_e opt = swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd;
+            this.ClearProps();
 
-            foreach (SwProperty p in this._innerArray)
+            foreach (DrawingRev dr in this._innerArray)
             {
-                glP.Add3(p.Name, (int)p.Type, p.Value, (int)opt);
+                dr.Write();
+            }
+        }
+
+        public void Write(SldWorks sw)
+        {
+            this.ClearProps();
+
+            foreach (DrawingRev dr in this._innerArray)
+            {
+                dr.Write(sw);
+            }
+        }
+
+        public void ReadControls()
+        {
+            DataTable dt = (DataTable)this.listBox.DataSource;
+            this._innerArray.Clear();
+            int count = 1;
+            foreach (DataRow dr in dt.Rows)
+            {
+                SwProperty rev = new SwProperty("REVISION " + (char)(count + 64), swCustomInfoType_e.swCustomInfoText, dr[0].ToString(), true);
+                SwProperty eco = new SwProperty("ECO " + count.ToString(), swCustomInfoType_e.swCustomInfoText, dr[1].ToString(), true);
+                SwProperty des = new SwProperty("DESCRIPTION " + count.ToString(), swCustomInfoType_e.swCustomInfoText, dr[2].ToString(), true);
+                SwProperty lis = new SwProperty("LIST " + count.ToString(), swCustomInfoType_e.swCustomInfoText, dr[3].ToString(), true);
+                SwProperty dat = new SwProperty("DATE " + count.ToString(), swCustomInfoType_e.swCustomInfoDate, dr[4].ToString(), true);
+
+                rev.SwApp = this.SwApp;
+                eco.SwApp = this.SwApp;
+                des.SwApp = this.SwApp;
+                lis.SwApp = this.SwApp;
+                dat.SwApp = this.SwApp;
+
+                rev.Del();
+                eco.Del();
+                des.Del();
+                lis.Del();
+                dat.Del();
+
+                DrawingRev r = new DrawingRev(rev, eco, des, lis, dat);
+
+                this._innerArray.Add(r);
+                count++;
             }
         }
 
@@ -107,6 +178,7 @@ namespace redbrick.csproj
             bool wasResolved;
 
             SwProperty rp = new SwProperty();
+            rp.SwApp = this.SwApp;
 
             if (!InThere(pm, name))
             {
@@ -144,7 +216,7 @@ namespace redbrick.csproj
 
         #region ICollection<SwProperty> Members
 
-        public void Add(SwProperty item)
+        public void Add(DrawingRev item)
         {
             this._innerArray.Add(item);
         }
@@ -166,11 +238,11 @@ namespace redbrick.csproj
             return false;
         }
 
-        public bool Contains(string name)
+        public bool Contains(DrawingRev rev)
         {
-            foreach (SwProperty p in this._innerArray)
+            foreach (DrawingRev r in this._innerArray)
             {
-                if (name == p.Name)
+                if (r.Revision.Name == rev.Revision.Name)
                 {
                     return true;
                 }
@@ -178,7 +250,19 @@ namespace redbrick.csproj
             return false;
         }
 
-        public void CopyTo(SwProperty[] array, int arrayIndex)
+        public bool Contains(string name)
+        {
+            foreach (DrawingRev r in this._innerArray)
+            {
+                if (name == r.Revision.Name)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void CopyTo(DrawingRev[] array, int arrayIndex)
         {
             this._innerArray.CopyTo(array, arrayIndex);
         }
@@ -193,12 +277,12 @@ namespace redbrick.csproj
             get { return this._innerArray.IsReadOnly; }
         }
 
-        public bool Remove(SwProperty item)
+        public bool Remove(DrawingRev rev)
         {
             int count = 0;
-            foreach (SwProperty p in this._innerArray)
+            foreach (DrawingRev r in this._innerArray)
             {
-                if (item.Name == p.Name)
+                if (r.Revision.Name == rev.Revision.Name)
                 {
                     this._innerArray.RemoveAt(count);
                     return true;
@@ -211,9 +295,9 @@ namespace redbrick.csproj
         public bool Remove(string name)
         {
             int count = 0;
-            foreach (SwProperty p in this._innerArray)
+            foreach (DrawingRev p in this._innerArray)
             {
-                if (name == p.Name)
+                if (name == p.Revision.Name)
                 {
                     this._innerArray.RemoveAt(count);
                     return true;
@@ -225,11 +309,11 @@ namespace redbrick.csproj
 
         #endregion
 
-        #region IEnumerable<SwProperty> Members
+        #region IEnumerable<DrawingRev> Members
 
-        public IEnumerator<SwProperty> GetEnumerator()
+        public IEnumerator<DrawingRev> GetEnumerator()
         {
-            return (new List<SwProperty>(this).GetEnumerator());
+            return (new List<DrawingRev>(this).GetEnumerator());
         }
 
         #endregion

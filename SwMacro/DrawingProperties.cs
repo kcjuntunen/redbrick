@@ -82,99 +82,164 @@ namespace redbrick.csproj
             res = pm.Get5("PartNo", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoText, valOut, true));
+                SwProperty x = new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
                 this.GetProperty("PartNo").ResValue = resValOut;
             }
 
             res = pm.Get5("CUSTOMER", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("CUSTOMER", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("CUSTOMER", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
 
             res = pm.Get5("REVISION LEVEL", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("REVISION LEVEL", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("REVISION LEVEL", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
 
             res = pm.Get5("DrawnBy", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("DrawnBy", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("DrawnBy", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
 
             res = pm.Get5("DATE", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("DATE", swCustomInfoType_e.swCustomInfoDate, valOut, true));   
+                SwProperty x = new SwProperty("DATE", swCustomInfoType_e.swCustomInfoDate, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
 
             res = pm.Get5("M1", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("M1", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("M1", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
             res = pm.Get5("FINISH 1", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("FINISH 1", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("FINISH 1", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
 
             res = pm.Get5("M2", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("M2", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("M2", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
             res = pm.Get5("FINISH 2", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("FINISH 2", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("FINISH 2", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
 
             res = pm.Get5("M3", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("M3", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("M3", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
             res = pm.Get5("FINISH 3", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("FINISH 3", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("FINISH 3", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
 
             res = pm.Get5("M4", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("M4", swCustomInfoType_e.swCustomInfoText, valOut, true));
+                SwProperty x = new SwProperty("M4", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
             res = pm.Get5("FINISH 4", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("FINISH 4", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("FINISH 4", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);  
             }
 
             res = pm.Get5("M5", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("M5", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("M5", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
             res = pm.Get5("FINISH 5", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
-                this._innerArray.Add(new SwProperty("FINISH 5", swCustomInfoType_e.swCustomInfoText, valOut, true));   
+                SwProperty x = new SwProperty("FINISH 5", swCustomInfoType_e.swCustomInfoText, valOut, true);
+                x.SwApp = this.swApp;
+                this._innerArray.Add(x);
             }
+        }
+
+        public void ClearProps()
+        {
+            ModelDoc2 md = (ModelDoc2)this.swApp.ActiveDoc;
+            CustomPropertyManager glP = md.Extension.get_CustomPropertyManager(string.Empty);
+            int res;
+
+            res = glP.Delete2("PartNo");
+            res = glP.Delete2("CUSTOMER");
+            res = glP.Delete2("REVISION LEVEL");
+            res = glP.Delete2("DrawnBy");
+            res = glP.Delete2("DATE");
+            res = glP.Delete2("M1");
+            res = glP.Delete2("FINISH 1");
+            res = glP.Delete2("M2");
+            res = glP.Delete2("FINISH 2");
+            res = glP.Delete2("M3");
+            res = glP.Delete2("FINISH 3");
+            res = glP.Delete2("M4");
+            res = glP.Delete2("FINISH 4");
+            res = glP.Delete2("M5");
+            res = glP.Delete2("FINISH 5");
         }
 
         public void Write()
         {
             ModelDoc2 md = (ModelDoc2)swApp.ActiveDoc;
             CustomPropertyManager glP = md.Extension.get_CustomPropertyManager(string.Empty);
-            swCustomPropertyAddOption_e opt = swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd;
 
+            this.ClearProps();
             foreach (SwProperty p in this._innerArray)
             {
-                glP.Add3(p.Name, (int)p.Type, p.Value, (int)opt);
+                p.Write();
+            }
+        }
+
+        public void Write(SldWorks sw)
+        {
+            ModelDoc2 md = (ModelDoc2)sw.ActiveDoc;
+            CustomPropertyManager glP = md.Extension.get_CustomPropertyManager(string.Empty);
+
+            this.ClearProps();
+            foreach (SwProperty p in this._innerArray)
+            {
+                p.Write(sw);
             }
         }
 
@@ -185,6 +250,20 @@ namespace redbrick.csproj
                 if (s.Ctl != null)
                 {
                     s.Ctl.Text = s.Value;   
+                }
+            }
+        }
+
+        public void ReadControls()
+        {
+            foreach (SwProperty s in this._innerArray)
+            {
+                if (s.Ctl != null)
+                {
+                    if (s.Ctl is System.Windows.Forms.DateTimePicker)
+                        s.Value = (s.Ctl as System.Windows.Forms.DateTimePicker).Value.ToShortDateString();
+                    else
+                        s.Value = s.Ctl.Text;
                 }
             }
         }

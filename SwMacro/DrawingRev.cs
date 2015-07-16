@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using SolidWorks.Interop.swconst;
+using SolidWorks.Interop.sldworks;
+
 namespace redbrick.csproj
 {
-    class DrawingRev
+    public class DrawingRev
     {
         public DrawingRev(SwProperty rev, SwProperty eco, SwProperty desc, SwProperty list, SwProperty date)
         {
@@ -13,6 +16,32 @@ namespace redbrick.csproj
             this.Description = desc;
             this.List = list;
             this.Date = date;
+
+            this.Revision.SwApp = this.SwApp;
+            this.Eco.SwApp = this.SwApp;
+            this.Description.SwApp = this.SwApp;
+            this.List.SwApp = this.SwApp;
+            this.Date.SwApp = this.SwApp;
+        }
+
+        public void Write()
+        {
+            System.Diagnostics.Debug.Print("Writing " + this.Revision.Value);
+            this.Revision.Write();
+            this.Eco.Write();
+            this.Description.Write();
+            this.List.Write();
+            this.Date.Write();
+        }
+
+        public void Write(SldWorks sw)
+        {
+            System.Diagnostics.Debug.Print("Writing " + this.Revision.Value);
+            this.Revision.Write(sw);
+            this.Eco.Write(sw);
+            this.Description.Write(sw);
+            this.List.Write(sw);
+            this.Date.Write(sw);
         }
 
         public override string ToString()
@@ -65,6 +94,14 @@ namespace redbrick.csproj
         {
             get { return _date; }
             set { _date = value; }
+        }
+
+        private SldWorks _swApp;
+
+        public SldWorks SwApp
+        {
+            get { return _swApp; }
+            set { _swApp = value; }
         }
 	
     }

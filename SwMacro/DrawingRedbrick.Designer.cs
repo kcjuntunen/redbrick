@@ -62,6 +62,8 @@ namespace redbrick.csproj
             this.tbFinish4 = new System.Windows.Forms.TextBox();
             this.tbFinish5 = new System.Windows.Forms.TextBox();
             this.lbRevs = new System.Windows.Forms.DataGridView();
+            this.bOK = new System.Windows.Forms.Button();
+            this.bCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -74,16 +76,20 @@ namespace redbrick.csproj
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.lbRevs, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.bOK, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.bCancel, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(844, 470);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(645, 470);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -112,7 +118,7 @@ namespace redbrick.csproj
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(416, 276);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(316, 258);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // dpDate
@@ -128,16 +134,16 @@ namespace redbrick.csproj
             this.cbCustomer.FormattingEnabled = true;
             this.cbCustomer.Location = new System.Drawing.Point(3, 55);
             this.cbCustomer.Name = "cbCustomer";
-            this.cbCustomer.Size = new System.Drawing.Size(285, 21);
+            this.cbCustomer.Size = new System.Drawing.Size(215, 21);
             this.cbCustomer.TabIndex = 1;
             // 
             // cbAuthor
             // 
             this.cbAuthor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cbAuthor.FormattingEnabled = true;
-            this.cbAuthor.Location = new System.Drawing.Point(294, 55);
+            this.cbAuthor.Location = new System.Drawing.Point(224, 55);
             this.cbAuthor.Name = "cbAuthor";
-            this.cbAuthor.Size = new System.Drawing.Size(119, 21);
+            this.cbAuthor.Size = new System.Drawing.Size(89, 21);
             this.cbAuthor.TabIndex = 2;
             // 
             // label1
@@ -146,7 +152,7 @@ namespace redbrick.csproj
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 39);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(285, 13);
+            this.label1.Size = new System.Drawing.Size(215, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Customer";
             // 
@@ -154,9 +160,9 @@ namespace redbrick.csproj
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(294, 39);
+            this.label2.Location = new System.Drawing.Point(224, 39);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(119, 13);
+            this.label2.Size = new System.Drawing.Size(89, 13);
             this.label2.TabIndex = 4;
             this.label2.Text = "Author";
             // 
@@ -166,16 +172,16 @@ namespace redbrick.csproj
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Location = new System.Drawing.Point(3, 79);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(285, 13);
+            this.label3.Size = new System.Drawing.Size(215, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = "Date";
             // 
             // tbItemNoRes
             // 
             this.tbItemNoRes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbItemNoRes.Location = new System.Drawing.Point(294, 16);
+            this.tbItemNoRes.Location = new System.Drawing.Point(224, 16);
             this.tbItemNoRes.Name = "tbItemNoRes";
-            this.tbItemNoRes.Size = new System.Drawing.Size(119, 20);
+            this.tbItemNoRes.Size = new System.Drawing.Size(89, 20);
             this.tbItemNoRes.TabIndex = 6;
             // 
             // tbItemNo
@@ -183,7 +189,7 @@ namespace redbrick.csproj
             this.tbItemNo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbItemNo.Location = new System.Drawing.Point(3, 16);
             this.tbItemNo.Name = "tbItemNo";
-            this.tbItemNo.Size = new System.Drawing.Size(285, 20);
+            this.tbItemNo.Size = new System.Drawing.Size(215, 20);
             this.tbItemNo.TabIndex = 7;
             // 
             // label4
@@ -199,9 +205,9 @@ namespace redbrick.csproj
             // 
             this.groupBox1.Controls.Add(this.tableLayoutPanel3);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(425, 3);
+            this.groupBox1.Location = new System.Drawing.Point(325, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(416, 276);
+            this.groupBox1.Size = new System.Drawing.Size(317, 258);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Materials";
@@ -245,7 +251,7 @@ namespace redbrick.csproj
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(410, 257);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(311, 239);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // label5
@@ -254,7 +260,7 @@ namespace redbrick.csproj
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label5.Location = new System.Drawing.Point(3, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(117, 13);
+            this.label5.Size = new System.Drawing.Size(87, 13);
             this.label5.TabIndex = 0;
             this.label5.Text = "Material 1";
             // 
@@ -264,7 +270,7 @@ namespace redbrick.csproj
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label6.Location = new System.Drawing.Point(3, 40);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(117, 13);
+            this.label6.Size = new System.Drawing.Size(87, 13);
             this.label6.TabIndex = 1;
             this.label6.Text = "Material 2";
             // 
@@ -274,7 +280,7 @@ namespace redbrick.csproj
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label7.Location = new System.Drawing.Point(3, 80);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(117, 13);
+            this.label7.Size = new System.Drawing.Size(87, 13);
             this.label7.TabIndex = 2;
             this.label7.Text = "Material 3";
             // 
@@ -284,7 +290,7 @@ namespace redbrick.csproj
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label8.Location = new System.Drawing.Point(3, 120);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(117, 13);
+            this.label8.Size = new System.Drawing.Size(87, 13);
             this.label8.TabIndex = 3;
             this.label8.Text = "Material 4";
             // 
@@ -294,7 +300,7 @@ namespace redbrick.csproj
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label9.Location = new System.Drawing.Point(3, 160);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(117, 13);
+            this.label9.Size = new System.Drawing.Size(87, 13);
             this.label9.TabIndex = 4;
             this.label9.Text = "Material 5";
             // 
@@ -302,9 +308,9 @@ namespace redbrick.csproj
             // 
             this.label10.AutoSize = true;
             this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.Location = new System.Drawing.Point(126, 0);
+            this.label10.Location = new System.Drawing.Point(96, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(281, 13);
+            this.label10.Size = new System.Drawing.Size(212, 13);
             this.label10.TabIndex = 5;
             this.label10.Text = "Finish 1";
             // 
@@ -312,9 +318,9 @@ namespace redbrick.csproj
             // 
             this.label11.AutoSize = true;
             this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label11.Location = new System.Drawing.Point(126, 40);
+            this.label11.Location = new System.Drawing.Point(96, 40);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(281, 13);
+            this.label11.Size = new System.Drawing.Size(212, 13);
             this.label11.TabIndex = 6;
             this.label11.Text = "Finish 2";
             // 
@@ -322,9 +328,9 @@ namespace redbrick.csproj
             // 
             this.label12.AutoSize = true;
             this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label12.Location = new System.Drawing.Point(126, 80);
+            this.label12.Location = new System.Drawing.Point(96, 80);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(281, 13);
+            this.label12.Size = new System.Drawing.Size(212, 13);
             this.label12.TabIndex = 7;
             this.label12.Text = "Finish 3";
             // 
@@ -332,9 +338,9 @@ namespace redbrick.csproj
             // 
             this.label13.AutoSize = true;
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label13.Location = new System.Drawing.Point(126, 120);
+            this.label13.Location = new System.Drawing.Point(96, 120);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(281, 13);
+            this.label13.Size = new System.Drawing.Size(212, 13);
             this.label13.TabIndex = 8;
             this.label13.Text = "Finish 4";
             // 
@@ -342,9 +348,9 @@ namespace redbrick.csproj
             // 
             this.label14.AutoSize = true;
             this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label14.Location = new System.Drawing.Point(126, 160);
+            this.label14.Location = new System.Drawing.Point(96, 160);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(281, 13);
+            this.label14.Size = new System.Drawing.Size(212, 13);
             this.label14.TabIndex = 9;
             this.label14.Text = "Finish 5";
             // 
@@ -354,7 +360,7 @@ namespace redbrick.csproj
             this.cbM1.FormattingEnabled = true;
             this.cbM1.Location = new System.Drawing.Point(3, 16);
             this.cbM1.Name = "cbM1";
-            this.cbM1.Size = new System.Drawing.Size(117, 21);
+            this.cbM1.Size = new System.Drawing.Size(87, 21);
             this.cbM1.TabIndex = 10;
             // 
             // cbM2
@@ -363,7 +369,7 @@ namespace redbrick.csproj
             this.cbM2.FormattingEnabled = true;
             this.cbM2.Location = new System.Drawing.Point(3, 56);
             this.cbM2.Name = "cbM2";
-            this.cbM2.Size = new System.Drawing.Size(117, 21);
+            this.cbM2.Size = new System.Drawing.Size(87, 21);
             this.cbM2.TabIndex = 11;
             // 
             // cbM3
@@ -372,7 +378,7 @@ namespace redbrick.csproj
             this.cbM3.FormattingEnabled = true;
             this.cbM3.Location = new System.Drawing.Point(3, 96);
             this.cbM3.Name = "cbM3";
-            this.cbM3.Size = new System.Drawing.Size(117, 21);
+            this.cbM3.Size = new System.Drawing.Size(87, 21);
             this.cbM3.TabIndex = 12;
             // 
             // cbM4
@@ -381,7 +387,7 @@ namespace redbrick.csproj
             this.cbM4.FormattingEnabled = true;
             this.cbM4.Location = new System.Drawing.Point(3, 136);
             this.cbM4.Name = "cbM4";
-            this.cbM4.Size = new System.Drawing.Size(117, 21);
+            this.cbM4.Size = new System.Drawing.Size(87, 21);
             this.cbM4.TabIndex = 13;
             // 
             // cbM5
@@ -390,47 +396,47 @@ namespace redbrick.csproj
             this.cbM5.FormattingEnabled = true;
             this.cbM5.Location = new System.Drawing.Point(3, 176);
             this.cbM5.Name = "cbM5";
-            this.cbM5.Size = new System.Drawing.Size(117, 21);
+            this.cbM5.Size = new System.Drawing.Size(87, 21);
             this.cbM5.TabIndex = 14;
             // 
             // tbFinish1
             // 
             this.tbFinish1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbFinish1.Location = new System.Drawing.Point(126, 16);
+            this.tbFinish1.Location = new System.Drawing.Point(96, 16);
             this.tbFinish1.Name = "tbFinish1";
-            this.tbFinish1.Size = new System.Drawing.Size(281, 20);
+            this.tbFinish1.Size = new System.Drawing.Size(212, 20);
             this.tbFinish1.TabIndex = 15;
             // 
             // tbFinish2
             // 
             this.tbFinish2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbFinish2.Location = new System.Drawing.Point(126, 56);
+            this.tbFinish2.Location = new System.Drawing.Point(96, 56);
             this.tbFinish2.Name = "tbFinish2";
-            this.tbFinish2.Size = new System.Drawing.Size(281, 20);
+            this.tbFinish2.Size = new System.Drawing.Size(212, 20);
             this.tbFinish2.TabIndex = 16;
             // 
             // tbFinish3
             // 
             this.tbFinish3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbFinish3.Location = new System.Drawing.Point(126, 96);
+            this.tbFinish3.Location = new System.Drawing.Point(96, 96);
             this.tbFinish3.Name = "tbFinish3";
-            this.tbFinish3.Size = new System.Drawing.Size(281, 20);
+            this.tbFinish3.Size = new System.Drawing.Size(212, 20);
             this.tbFinish3.TabIndex = 17;
             // 
             // tbFinish4
             // 
             this.tbFinish4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbFinish4.Location = new System.Drawing.Point(126, 136);
+            this.tbFinish4.Location = new System.Drawing.Point(96, 136);
             this.tbFinish4.Name = "tbFinish4";
-            this.tbFinish4.Size = new System.Drawing.Size(281, 20);
+            this.tbFinish4.Size = new System.Drawing.Size(212, 20);
             this.tbFinish4.TabIndex = 18;
             // 
             // tbFinish5
             // 
             this.tbFinish5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbFinish5.Location = new System.Drawing.Point(126, 176);
+            this.tbFinish5.Location = new System.Drawing.Point(96, 176);
             this.tbFinish5.Name = "tbFinish5";
-            this.tbFinish5.Size = new System.Drawing.Size(281, 20);
+            this.tbFinish5.Size = new System.Drawing.Size(212, 20);
             this.tbFinish5.TabIndex = 19;
             // 
             // lbRevs
@@ -438,19 +444,40 @@ namespace redbrick.csproj
             this.lbRevs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableLayoutPanel1.SetColumnSpan(this.lbRevs, 2);
             this.lbRevs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbRevs.Location = new System.Drawing.Point(3, 285);
+            this.lbRevs.Location = new System.Drawing.Point(3, 267);
             this.lbRevs.Name = "lbRevs";
-            this.lbRevs.Size = new System.Drawing.Size(838, 182);
+            this.lbRevs.Size = new System.Drawing.Size(639, 170);
             this.lbRevs.TabIndex = 2;
+            // 
+            // bOK
+            // 
+            this.bOK.Location = new System.Drawing.Point(3, 443);
+            this.bOK.Name = "bOK";
+            this.bOK.Size = new System.Drawing.Size(75, 23);
+            this.bOK.TabIndex = 3;
+            this.bOK.Text = "OK";
+            this.bOK.UseVisualStyleBackColor = true;
+            this.bOK.Click += new System.EventHandler(this.bOK_Click);
+            // 
+            // bCancel
+            // 
+            this.bCancel.Location = new System.Drawing.Point(325, 443);
+            this.bCancel.Name = "bCancel";
+            this.bCancel.Size = new System.Drawing.Size(75, 23);
+            this.bCancel.TabIndex = 4;
+            this.bCancel.Text = "Cancel";
+            this.bCancel.UseVisualStyleBackColor = true;
+            this.bCancel.Click += new System.EventHandler(this.bCancel_Click);
             // 
             // DrawingRedbrick
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(844, 470);
+            this.ClientSize = new System.Drawing.Size(645, 470);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DrawingRedbrick";
             this.Text = "DrawingRedbrick";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DrawingRedbrick_FormClosing);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -498,5 +525,7 @@ namespace redbrick.csproj
         private System.Windows.Forms.TextBox tbFinish4;
         private System.Windows.Forms.TextBox tbFinish5;
         private System.Windows.Forms.DataGridView lbRevs;
+        private System.Windows.Forms.Button bOK;
+        private System.Windows.Forms.Button bCancel;
     }
 }

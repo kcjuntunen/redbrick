@@ -17,10 +17,21 @@ namespace redbrick.csproj
         {
             this._swApp = sw;
             InitializeComponent();
+            this.fillMat();
+            this.fillAuthor();
+
+            this.SetLocation();
+
             this.PropertySet = new DrawingProperties(this._swApp);
             this.RevSet = new DrawingRevs(this._swApp);
             this.GetData();
             this.FillBoxes();
+        }
+
+        private void SetLocation()
+        {
+            this.Top = Properties.Settings.Default.Top;
+            this.Left = Properties.Settings.Default.Left;
         }
 
         private void GetData()
@@ -34,37 +45,123 @@ namespace redbrick.csproj
 
         private void FillBoxes()
         {
-            this.PropertySet.GetProperty("PartNo").Ctl = this.tbItemNo;
-            this.PropertySet.GetProperty("CUSTOMER").Ctl = this.cbCustomer;
-            this.PropertySet.GetProperty("DrawnBy").Ctl = this.cbAuthor;
-            this.PropertySet.GetProperty("DATE").Ctl = this.dpDate;
+            SwProperty partNo = this.PropertySet.GetProperty("PartNo");
+            SwProperty custo = this.PropertySet.GetProperty("CUSTOMER");
+            SwProperty by = this.PropertySet.GetProperty("DrawnBy");
+            SwProperty d = this.PropertySet.GetProperty("DATE");
+
+            if (partNo != null)
+            {
+                partNo.Ctl = this.tbItemNo;
+            }
+            else
+            {
+                partNo = new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                partNo.SwApp = this.SwApp;
+                partNo.Ctl = this.tbItemNo;
+                this.PropertySet.Add(partNo);
+            }
+
+            if (custo != null)
+            {
+                custo.Ctl = this.cbCustomer;
+            }
+            else
+            {
+                custo = new SwProperty("CUSTOMER", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                custo.SwApp = this.SwApp;
+                custo.Ctl = this.cbCustomer;
+                this.PropertySet.Add(custo);
+            }
+
+            if (by != null)
+            {
+                by.Ctl = this.cbAuthor;
+            }
+            else
+            {
+                by = new SwProperty("DrawnBy", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                by.SwApp = this.SwApp;
+                by.Ctl = this.cbAuthor;
+                this.PropertySet.Add(by);
+            }
+
+            if (d != null)
+            {
+                d.Ctl = this.dpDate;
+            }
+            else
+            {
+                d = new SwProperty("DATE", swCustomInfoType_e.swCustomInfoDate, string.Empty, true);
+                d.SwApp = this.SwApp;
+                d.Ctl = this.dpDate;
+                this.PropertySet.Add(d);
+            }
 
             for (int i = 1; i < 6; i++)
             {
                 if (this.PropertySet.Contains("M" + i.ToString()))
                 {
                     foreach (Control c in this.tableLayoutPanel3.Controls)
-	                {
-                        if (c.Name.ToUpper().Contains("M" + i.ToString()) )
-	                    {
-                            this.PropertySet.GetProperty("M" + i.ToString()).Ctl = c;	 
-	                    }
+                    {
+                        if (c.Name.ToUpper().Contains("M" + i.ToString()))
+                            this.PropertySet.GetProperty("M" + i.ToString()).Ctl = c;
+
+
+                        if (c.Name.ToUpper().Contains("FINISH" + i.ToString()))
+                            this.PropertySet.GetProperty("FINISH " + i.ToString()).Ctl = c;
+                    }
+                }
+                else
+                {
+                    foreach (Control c in this.tableLayoutPanel3.Controls)
+                    {
+                        if (c.Name.ToUpper().Contains("M" + i.ToString()))
+                        {
+                            SwProperty mx = new SwProperty("M" + i.ToString(), swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                            mx.SwApp = this.SwApp;
+                            mx.Ctl = c;
+                            System.Diagnostics.Debug.Print("M: " + mx.Value);
+                            this.PropertySet.Add(mx);
+                        }
 
                         if (c.Name.ToUpper().Contains("FINISH" + i.ToString()))
                         {
-                            this.PropertySet.GetProperty("FINISH " + i.ToString()).Ctl = c;
+                            SwProperty fx = new SwProperty("FINISH " + i.ToString(), swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                            fx.SwApp = this.SwApp;
+                            fx.Ctl = c;
+                            System.Diagnostics.Debug.Print("F: " + fx.Value);
+                            this.PropertySet.Add(fx);
                         }
-	                }
+                    }
                 }
             }
 
             this.PropertySet.UpdateFields();
             this.RevSet.UpdateListBox();
-            //this.tbItemNo.Text = this.PropertySet.GetProperty("PartNo").Value;
             this.tbItemNoRes.Text = this.PropertySet.GetProperty("PartNo").ResValue;
-            //this.cbCustomer.Text = this.PropertySet.GetProperty("CUSTOMER").Value;
-            //this.cbAuthor.Text = this.PropertySet.GetProperty("DrawnBy").Value;
-            //this.dpDate.Text = this.PropertySet.GetProperty("DATE").Value;
+        }
+
+        private void fillMat()
+        {
+            System.Collections.Specialized.StringCollection sc = Properties.Settings.Default.Materials;
+            foreach (string s in sc)
+	        {
+        	    this.cbM1.Items.Add(s);	    
+                this.cbM2.Items.Add(s);
+                this.cbM3.Items.Add(s);
+                this.cbM4.Items.Add(s);
+                this.cbM5.Items.Add(s);
+	        }
+        }
+
+        private void fillAuthor()
+        {
+            System.Collections.Specialized.StringCollection sc = Properties.Settings.Default.Authors;
+            foreach (string s in sc)
+            {
+                this.cbAuthor.Items.Add(s);
+            }
         }
 
         private DrawingProperties _propSet;
@@ -91,6 +188,28 @@ namespace redbrick.csproj
             get { return _swApp; }
             set { _swApp = value; }
         }
-	
+
+        private void bCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void bOK_Click(object sender, EventArgs e)
+        {
+            this.PropertySet.ReadControls();
+            this.PropertySet.Write(this.SwApp);
+
+            this.RevSet.ReadControls();
+            this.RevSet.Write(this.SwApp);
+            (this.SwApp.ActiveDoc as ModelDoc2).ForceRebuild3(true);
+            this.Close();
+        }
+
+        private void DrawingRedbrick_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.Left = this.Left;
+            Properties.Settings.Default.Top = this.Top;
+            Properties.Settings.Default.Save();
+        }
     }
 }
