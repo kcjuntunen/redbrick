@@ -53,7 +53,7 @@
     <Optimize>true</Optimize>
     <OutputPath>.\bin\Release\</OutputPath>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <!-- This section enables pre- and post-build steps. However,
@@ -101,6 +101,12 @@
   -->
   <ItemGroup>
     <AppDesigner Include="Properties\" />
+    <Compile Include="CalendarCell.cs">
+    </Compile>
+    <Compile Include="CalendarColumn.cs" />
+    <Compile Include="CalendarEditingControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ConfigurationSpecific.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -193,7 +199,7 @@
     </Compile>
     <Compile Include="DrawingProperties.cs" />
     <Compile Include="DrawingRedbrick.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DrawingRedbrick.Designer.cs">
       <DependentUpon>DrawingRedbrick.cs</DependentUpon>

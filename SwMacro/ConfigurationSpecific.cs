@@ -7,18 +7,50 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
+using SolidWorks.Interop.swconst;
+
 namespace redbrick.csproj
 {
     public partial class ConfigurationSpecific : UserControl
     {
         private CutlistData cd;
+        private SwProperties propertySet;
+
         //private List<ComboBox> cc = new List<ComboBox>();
-        public ConfigurationSpecific()
+        public ConfigurationSpecific(ref SwProperties prop)
         {
+            propertySet = prop;
+            cd = prop.cutlistData;
+
             InitializeComponent();
+            this.LinkControls();
             cd = new CutlistData();
 
             this.fillComboBoxes();
+        }
+
+        private void LinkControls()
+        {
+
+            this.LinkControlToProperty("CUTLIST MATERIAL", this.cbMat);
+            this.LinkControlToProperty("EDGE FRONT (L)", this.cbEf);
+            this.LinkControlToProperty("EDGE BACK (L)", this.cbEb);
+            this.LinkControlToProperty("EDGE LEFT (W)", this.cbEl);
+            this.LinkControlToProperty("EDGE RIGHT (W)", this.cbEr);
+        }
+
+        private void LinkControlToProperty(string property, Control c)
+        {
+            SwProperty p = this.propertySet.GetProperty(property);
+            if (this.propertySet.Contains(p))
+            {
+                p.Ctl = c;
+            }
+            else
+            {
+                SwProperty x = new SwProperty(property, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                x.Ctl = c;
+            }
         }
 
         private void fillComboBoxes()

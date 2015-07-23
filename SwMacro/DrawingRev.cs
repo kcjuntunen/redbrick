@@ -24,6 +24,25 @@ namespace redbrick.csproj
             this.Date.SwApp = this.SwApp;
         }
 
+        public void Del()
+        {
+            this.Revision.Del();
+            this.Eco.Del();
+            this.Description.Del();
+            this.List.Del();
+            this.Date.Del();
+        }
+
+        public void Del(SldWorks sw)
+        {
+            this.SwApp = sw;
+            this.Revision.Del(sw);
+            this.Eco.Del(sw);
+            this.Description.Del(sw);
+            this.List.Del(sw);
+            this.Date.Del(sw);
+        }
+
         public void Write()
         {
             //System.Diagnostics.Debug.Print("Writing " + this.Revision.Value);
@@ -36,6 +55,7 @@ namespace redbrick.csproj
 
         public void Write(SldWorks sw)
         {
+            this.SwApp = sw;
             //System.Diagnostics.Debug.Print("Writing " + this.Revision.Value);
             this.Revision.Write(sw);
             this.Eco.Write(sw);

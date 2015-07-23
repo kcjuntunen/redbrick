@@ -6,13 +6,41 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
+using SolidWorks.Interop.swconst;
+
 namespace redbrick.csproj
 {
     public partial class MachineProperties : UserControl
     {
-        public MachineProperties()
+        SwProperties propertySet;
+        public MachineProperties(ref SwProperties prop)
         {
+            this.propertySet = prop;
             InitializeComponent();
+            this.LinkControls();
+        }
+
+        private void LinkControls()
+        {
+            this.LinkControlToProperty("BLANK QTY", this.tbPPB);
+            this.LinkControlToProperty("CNC1", this.tbCNC1);
+            this.LinkControlToProperty("CNC2", this.tbCNC2);
+            this.LinkControlToProperty("OVERL", this.tbOverL);
+            this.LinkControlToProperty("OVERW", this.tbOverW);
+        }
+
+        private void LinkControlToProperty(string property, Control c)
+        {
+            SwProperty p = this.propertySet.GetProperty(property);
+            if (this.propertySet.Contains(p))
+            {
+                p.Ctl = c;
+            }
+            else
+            {
+                SwProperty x = new SwProperty(property, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                x.Ctl = c;
+            }
         }
 
         public TextBox GetCNC1Box()

@@ -24,12 +24,9 @@ namespace redbrick.csproj
             string ret = string.Empty;
             if (this._innerArray != null)
             {
-                foreach (SwProperty p in this._innerArray)
+                foreach (DrawingRev p in this._innerArray)
                 {
-                    if (p.Name != null & p.Value != null)
-                    {
-                        ret += string.Format("{0}: {1}\n", p.Name, p.Value);   
-                    }
+                    ret += p.ToString();
                 }
             }
             return ret;   
@@ -84,19 +81,56 @@ namespace redbrick.csproj
         public void UpdateListBox()
         {
             DataTable dt = new DataTable("revs");
-            dt.Columns.Add("LVL");
-            dt.Columns.Add("ECR");
-            dt.Columns.Add("DESCRIPTION");
-            dt.Columns.Add("BY");
-            dt.Columns.Add("DATE");
+            CalendarColumn cc = new CalendarColumn();
+            System.Windows.Forms.DataGridViewColumn dc1 = new System.Windows.Forms.DataGridViewColumn();
+            System.Windows.Forms.DataGridViewColumn dc2 = new System.Windows.Forms.DataGridViewColumn();
+            System.Windows.Forms.DataGridViewColumn dc3 = new System.Windows.Forms.DataGridViewColumn();
+            System.Windows.Forms.DataGridViewColumn dc4 = new System.Windows.Forms.DataGridViewColumn();
+            
+            dc1.Name = ("Level");
+            dc2.Name = ("ECR");
+            dc3.Name = ("Description");
+            dc4.Name = ("By");
+            cc.Name = ("Date");
+
+            dc1.CellTemplate = new System.Windows.Forms.DataGridViewTextBoxCell();
+            dc2.CellTemplate = new System.Windows.Forms.DataGridViewTextBoxCell();
+            dc3.CellTemplate = new System.Windows.Forms.DataGridViewTextBoxCell();
+            dc4.CellTemplate = new System.Windows.Forms.DataGridViewTextBoxCell();
+            //DataSet ds = new DataSet("revisions");
+            this.listBox.Columns.Add(dc1);
+            this.listBox.Columns.Add(dc2);
+            this.listBox.Columns.Add(dc3);
+            this.listBox.Columns.Add(dc4);
+            this.listBox.Columns.Add(cc);
+
+            //dt.Columns.Add("Level");
+            //dt.Columns.Add("ECR");
+            //dt.Columns.Add("Description");
+            //dt.Columns.Add("By");
+            //dt.Columns.Add("Date");
 
             foreach (DrawingRev r in this._innerArray)
             {
-                object[] x = { r.Revision.Value, r.Eco.Value, r.Description.Value, r.List.Value, r.Date.Value };
-                dt.Rows.Add(x);
+                System.Windows.Forms.DataGridViewCell[] x = { new System.Windows.Forms.DataGridViewTextBoxCell(), 
+                    new System.Windows.Forms.DataGridViewTextBoxCell(), 
+                    new System.Windows.Forms.DataGridViewTextBoxCell(), 
+                    new System.Windows.Forms.DataGridViewTextBoxCell(),
+                    new CalendarCell() };
+                    // = { r.Revision.Value, r.Eco.Value, r.Description.Value, r.List.Value, r.Date.Value };
+                x[0].Value = r.Revision.Value;
+                x[1].Value = r.Eco.Value;
+                x[2].Value = r.Description.Value;
+                x[3].Value = r.List.Value;
+                x[4].Value = r.Date.Value;
+
+                //dt.Rows.Add(x);
+                System.Windows.Forms.DataGridViewRow dgvr = new System.Windows.Forms.DataGridViewRow();
+
+                dgvr.Cells.AddRange(x);
+                this.listBox.Rows.Add(dgvr);
             }
-            DataSet ds = new DataSet("revisions");
-            this.listBox.DataSource = dt;
+            //this.listBox.DataSource = dt;
             this.listBox.Show();
         }
 
@@ -139,32 +173,43 @@ namespace redbrick.csproj
         public void ReadControls()
         {
             DataTable dt = (DataTable)this.listBox.DataSource;
+
             this._innerArray.Clear();
             int count = 1;
-            foreach (DataRow dr in dt.Rows)
+
+            foreach (System.Windows.Forms.DataGridViewRow dr in this.listBox.Rows)
             {
-                SwProperty rev = new SwProperty("REVISION " + (char)(count + 64), swCustomInfoType_e.swCustomInfoText, dr[0].ToString(), true);
-                SwProperty eco = new SwProperty("ECO " + count.ToString(), swCustomInfoType_e.swCustomInfoText, dr[1].ToString(), true);
-                SwProperty des = new SwProperty("DESCRIPTION " + count.ToString(), swCustomInfoType_e.swCustomInfoText, dr[2].ToString(), true);
-                SwProperty lis = new SwProperty("LIST " + count.ToString(), swCustomInfoType_e.swCustomInfoText, dr[3].ToString(), true);
-                SwProperty dat = new SwProperty("DATE " + count.ToString(), swCustomInfoType_e.swCustomInfoDate, dr[4].ToString(), true);
+                if (dr.Cells[0].Value != null && dr.Cells[2].Value != null)
+                {
+                    SwProperty rev = new SwProperty("REVISION " + (char)(count + 64), swCustomInfoType_e.swCustomInfoText, dr.Cells[0].Value.ToString(), true);
+                    SwProperty eco = new SwProperty("ECO " + count.ToString(), swCustomInfoType_e.swCustomInfoText, dr.Cells[1].Value.ToString(), true);
+                    SwProperty des = new SwProperty("DESCRIPTION " + count.ToString(), swCustomInfoType_e.swCustomInfoText, dr.Cells[2].Value.ToString(), true);
+                    SwProperty lis = new SwProperty("LIST " + count.ToString(), swCustomInfoType_e.swCustomInfoText, dr.Cells[3].Value.ToString(), true);
+                    SwProperty dat = new SwProperty("DATE " + count.ToString(), swCustomInfoType_e.swCustomInfoDate, dr.Cells[4].Value.ToString(), true);
 
-                rev.SwApp = this.SwApp;
-                eco.SwApp = this.SwApp;
-                des.SwApp = this.SwApp;
-                lis.SwApp = this.SwApp;
-                dat.SwApp = this.SwApp;
+                    DrawingRev r = new DrawingRev(rev, eco, des, lis, dat);
+                    r.Del(this.SwApp); 
 
-                rev.Del();
-                eco.Del();
-                des.Del();
-                lis.Del();
-                dat.Del();
+                    this._innerArray.Add(r);
 
-                DrawingRev r = new DrawingRev(rev, eco, des, lis, dat);
+                    count++;   
+                }
+            }
+        }
 
-                this._innerArray.Add(r);
-                count++;
+        public void DelAll()
+        {
+            foreach (DrawingRev dr in this._innerArray)
+            {
+                dr.Del();
+            }
+        }
+
+        public void DelAll(SldWorks sw)
+        {
+            foreach (DrawingRev dr in this._innerArray)
+            {
+                dr.Del(sw);
             }
         }
 

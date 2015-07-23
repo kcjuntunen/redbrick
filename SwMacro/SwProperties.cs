@@ -16,11 +16,11 @@ namespace redbrick.csproj
         public SwProperties(SldWorks sw)
         {
             this.swApp = sw;
+            this.cutlistData = new CutlistData();
             this._innerArray = new ArrayList();
-
         }
 
-        private void CreateDefaultSet()
+        public void CreateDefaultPartSet()
         {
             this._innerArray.Add(new SwProperty("CUTLIST MATERIAL", swCustomInfoType_e.swCustomInfoNumber, "TBD MATERIAL", false));
             this._innerArray.Add(new SwProperty("EDGE FRONT (L)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
@@ -53,6 +53,42 @@ namespace redbrick.csproj
             this._innerArray.Add(new SwProperty("WEIGHT", swCustomInfoType_e.swCustomInfoText, "\"SW-Mass@{0}\"", true));
             this._innerArray.Add(new SwProperty("VOLUME", swCustomInfoType_e.swCustomInfoText, "\"SW-Volume@{0}\"", true));
             this._innerArray.Add(new SwProperty("COST-TOTALCOST", swCustomInfoType_e.swCustomInfoText, "\"SW-Cost-TotalCost@{0}\"", true));
+
+            string s = string.Empty;
+            foreach (SwProperty p in this._innerArray)
+            {
+                p.Get(this.swApp);
+                s += p.Name + ": " + p.ResValue + "\n";
+            }
+            System.Windows.Forms.MessageBox.Show(s);
+        }
+
+        public void CreateDefaultDrawingSet()
+        {
+            this._innerArray.Add(new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoNumber, "$PRP:\"SW-File Name\"", true));
+            this._innerArray.Add(new SwProperty("CUSTOMER", swCustomInfoType_e.swCustomInfoNumber, string.Empty, true));
+            this._innerArray.Add(new SwProperty("REVISION LEVEL", swCustomInfoType_e.swCustomInfoNumber, "100", true));
+            this._innerArray.Add(new SwProperty("DrawnBy", swCustomInfoType_e.swCustomInfoNumber, string.Empty, true));
+            this._innerArray.Add(new SwProperty("DATE", swCustomInfoType_e.swCustomInfoNumber, DateTime.Now.ToShortDateString(), true));
+
+            this._innerArray.Add(new SwProperty("M1", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("FINISH 1", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("M2", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("FINISH 2", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("M3", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("FINISH 3", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("M4", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("FINISH 4", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("M5", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("FINISH 5", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+
+            string s = string.Empty;
+            foreach (SwProperty p in this._innerArray)
+            {
+                p.Get(this.swApp);
+                s += p.Name + ": " + p.ResValue + "\n";
+            }
+            System.Windows.Forms.MessageBox.Show(s);
         }
 
         public virtual IEnumerator<SwProperty> GetEnumerator()
@@ -267,5 +303,14 @@ namespace redbrick.csproj
         }
 	
         #endregion
+
+        private CutlistData _cutlistData;
+
+        public CutlistData cutlistData
+        {
+            get { return _cutlistData; }
+            set { _cutlistData = value; }
+        }
+	
     }
 }

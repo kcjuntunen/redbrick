@@ -11,7 +11,7 @@ using SolidWorks.Interop.swconst;
 
 namespace redbrick.csproj
 {
-    public partial class DrawingRedbrick : Form
+    public partial class DrawingRedbrick : UserControl //Form
     {
         public DrawingRedbrick(SldWorks sw)
         {
@@ -19,13 +19,18 @@ namespace redbrick.csproj
             InitializeComponent();
             this.fillMat();
             this.fillAuthor();
+            this.fillCustomer();
 
             this.SetLocation();
 
             this.PropertySet = new DrawingProperties(this._swApp);
             this.RevSet = new DrawingRevs(this._swApp);
+
+            //this.dataGridTest();
+
             this.GetData();
             this.FillBoxes();
+
         }
 
         private void SetLocation()
@@ -164,6 +169,15 @@ namespace redbrick.csproj
             }
         }
 
+        private void fillCustomer()
+        {
+            System.Collections.Specialized.StringCollection sc = Properties.Settings.Default.Customers;
+            foreach (string s in sc)
+            {
+                this.cbCustomer.Items.Add(s);
+            }
+        }
+
         private DrawingProperties _propSet;
 
 	    public DrawingProperties PropertySet
@@ -191,7 +205,7 @@ namespace redbrick.csproj
 
         private void bCancel_Click(object sender, EventArgs e)
         {
-            this.Close();
+            //this.Close();
         }
 
         private void bOK_Click(object sender, EventArgs e)
@@ -202,7 +216,7 @@ namespace redbrick.csproj
             this.RevSet.ReadControls();
             this.RevSet.Write(this.SwApp);
             (this.SwApp.ActiveDoc as ModelDoc2).ForceRebuild3(true);
-            this.Close();
+            //this.Close();
         }
 
         private void DrawingRedbrick_FormClosing(object sender, FormClosingEventArgs e)
@@ -210,6 +224,37 @@ namespace redbrick.csproj
             Properties.Settings.Default.Left = this.Left;
             Properties.Settings.Default.Top = this.Top;
             Properties.Settings.Default.Save();
+        }
+
+        private void dataGridTest()
+        {
+            System.Windows.Forms.MessageBox.Show("Inside dataGridTest();");
+            CalendarColumn col = new CalendarColumn();
+            //DataGridViewColumn col = new DataGridViewColumn();
+
+            System.Windows.Forms.MessageBox.Show("DataGridViewColumn col = new DataGridViewColumn();");
+            this.lbRevs.Columns.Add(col);
+            System.Windows.Forms.MessageBox.Show("this.lbRevs.Columns.Add(col);");
+            this.lbRevs.RowCount = 5;
+            
+            //System.Windows.Forms.MessageBox.Show(this.lbRevs.RowCount.ToString());
+
+            foreach (DataGridViewRow r in this.lbRevs.Rows)
+            {
+                try
+                {
+                    r.Cells[0].Value = DateTime.Now;
+                }
+                catch (Exception)
+                {
+                    System.Diagnostics.Debug.Print("Whoops");
+                }
+            }
+        }
+
+        private void lbRevs_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        {
+
         }
     }
 }

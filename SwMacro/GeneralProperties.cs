@@ -5,14 +5,47 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using SolidWorks.Interop.swconst;
 
 namespace redbrick.csproj
 {
     public partial class GeneralProperties : UserControl
     {
-        public GeneralProperties()
+        SwProperties propertySet;
+
+        public GeneralProperties(ref SwProperties prop)
         {
+            this.propertySet = prop;
             InitializeComponent();
+            this.LinkControls();
+        }
+
+        private void LinkControls()
+        {
+            this.LinkControlToProperty("Description", this.tbDescription);
+            this.LinkControlToProperty("LENGTH", this.tbLength);
+            //this.gp.UpdateLengthRes(propertySet.GetProperty("LENGTH"));
+            this.LinkControlToProperty("WIDTH", this.tbWidth);
+            //this.gp.UpdateWidthRes(propertySet.GetProperty("WIDTH"));
+            this.LinkControlToProperty("THICKNESS", this.tbThick);
+            //this.gp.UpdateThickRes(propertySet.GetProperty("THICKNESS"));
+            this.LinkControlToProperty("WALL THICKNESS", this.tbWallThick);
+            //this.gp.UpdateWallThickRes(propertySet.GetProperty("WALL THICKNESS"));
+            this.LinkControlToProperty("COMMENT", this.tbComment);
+        }
+
+        private void LinkControlToProperty(string property, Control c)
+        {
+            SwProperty p = this.propertySet.GetProperty(property);
+            if (this.propertySet.Contains(p))
+            {
+                p.Ctl = c;
+            }
+            else
+            {
+                SwProperty x = new SwProperty(property, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                x.Ctl = c;
+            }
         }
 
         public void ToggleFields(string opType)
@@ -71,6 +104,6 @@ namespace redbrick.csproj
         public void UpdateWallThickRes(SwProperty p)
         {
             this.labResWallThickness.Text = p.ResValue;
-        }
+        }	
     }
 }

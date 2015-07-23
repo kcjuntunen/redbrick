@@ -69,7 +69,7 @@ namespace redbrick.csproj.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
@@ -90,12 +90,9 @@ namespace redbrick.csproj.Properties {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["Authors"]));
             }
-            set {
-                this["Authors"] = value;
-            }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
@@ -132,8 +129,49 @@ namespace redbrick.csproj.Properties {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["Materials"]));
             }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>JCPENNEY - 220</string>
+  <string>KMART - 239</string>
+  <string>KOHLS - 201</string>
+  <string>MACY'S  - 495</string>
+  <string>SEARS - 210</string>
+  <string>STERLING-491</string>
+  <string>TARGET - 274</string>
+  <string>WALGREENS - 510</string>
+  <string>WALMART - 505</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection Customers {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["Customers"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("800")]
+        public int Width {
+            get {
+                return ((int)(this["Width"]));
+            }
             set {
-                this["Materials"] = value;
+                this["Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("600")]
+        public int Height {
+            get {
+                return ((int)(this["Height"]));
+            }
+            set {
+                this["Height"] = value;
             }
         }
     }

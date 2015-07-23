@@ -20,6 +20,12 @@ namespace redbrick.csproj
             base.Dispose(disposing);
         }
 
+        public void Close()
+        {
+        }
+
+
+
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -62,8 +68,6 @@ namespace redbrick.csproj
             this.tbFinish4 = new System.Windows.Forms.TextBox();
             this.tbFinish5 = new System.Windows.Forms.TextBox();
             this.lbRevs = new System.Windows.Forms.DataGridView();
-            this.bOK = new System.Windows.Forms.Button();
-            this.bCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -80,15 +84,13 @@ namespace redbrick.csproj
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.groupBox1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.lbRevs, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.bOK, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.bCancel, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(645, 470);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -118,7 +120,7 @@ namespace redbrick.csproj
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(316, 258);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(316, 264);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // dpDate
@@ -207,7 +209,7 @@ namespace redbrick.csproj
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(325, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(317, 258);
+            this.groupBox1.Size = new System.Drawing.Size(317, 264);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Materials";
@@ -251,7 +253,7 @@ namespace redbrick.csproj
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(311, 239);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(311, 245);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // label5
@@ -444,40 +446,19 @@ namespace redbrick.csproj
             this.lbRevs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableLayoutPanel1.SetColumnSpan(this.lbRevs, 2);
             this.lbRevs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbRevs.Location = new System.Drawing.Point(3, 267);
+            this.lbRevs.Location = new System.Drawing.Point(3, 273);
             this.lbRevs.Name = "lbRevs";
-            this.lbRevs.Size = new System.Drawing.Size(639, 170);
+            this.lbRevs.Size = new System.Drawing.Size(639, 174);
             this.lbRevs.TabIndex = 2;
-            // 
-            // bOK
-            // 
-            this.bOK.Location = new System.Drawing.Point(3, 443);
-            this.bOK.Name = "bOK";
-            this.bOK.Size = new System.Drawing.Size(75, 23);
-            this.bOK.TabIndex = 3;
-            this.bOK.Text = "OK";
-            this.bOK.UseVisualStyleBackColor = true;
-            this.bOK.Click += new System.EventHandler(this.bOK_Click);
-            // 
-            // bCancel
-            // 
-            this.bCancel.Location = new System.Drawing.Point(325, 443);
-            this.bCancel.Name = "bCancel";
-            this.bCancel.Size = new System.Drawing.Size(75, 23);
-            this.bCancel.TabIndex = 4;
-            this.bCancel.Text = "Cancel";
-            this.bCancel.UseVisualStyleBackColor = true;
-            this.bCancel.Click += new System.EventHandler(this.bCancel_Click);
+            this.lbRevs.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.lbRevs_UserDeletedRow);
             // 
             // DrawingRedbrick
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(645, 470);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DrawingRedbrick";
-            this.Text = "DrawingRedbrick";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DrawingRedbrick_FormClosing);
+            this.Size = new System.Drawing.Size(645, 470);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -525,7 +506,5 @@ namespace redbrick.csproj
         private System.Windows.Forms.TextBox tbFinish4;
         private System.Windows.Forms.TextBox tbFinish5;
         private System.Windows.Forms.DataGridView lbRevs;
-        private System.Windows.Forms.Button bOK;
-        private System.Windows.Forms.Button bCancel;
     }
 }

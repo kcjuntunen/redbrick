@@ -10,9 +10,21 @@ namespace redbrick.csproj
 {
     public partial class DepartmentSelector : UserControl
     {
-        public DepartmentSelector()
+        public DepartmentSelector(ref SwProperties prop)
         {
             InitializeComponent();
+            if (prop.GetProperty("DEPARTMENT").Value.ToUpper() == "METAL")
+            {
+                this.rbDeptMetal.Checked = true;
+                this.rbDeptWood.Checked = false;
+                this.OpType = "METAL";
+            }
+            else
+            {
+                this.rbDeptWood.Checked = true;
+                this.rbDeptMetal.Checked = false;
+                this.OpType = "WOOD";
+            }
         }
 
         private void rbDeptWood_CheckedChanged(object sender, EventArgs e)

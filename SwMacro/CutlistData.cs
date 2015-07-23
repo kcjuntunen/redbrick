@@ -6,7 +6,7 @@ using System.Text;
 
 namespace redbrick.csproj
 {	
-    class CutlistData : IDisposable
+    public class CutlistData : IDisposable
     {
         private object threadLock = new object();
 

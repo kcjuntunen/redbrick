@@ -15,35 +15,78 @@ namespace redbrick.csproj
     {
         private SldWorks swApp;
         private ModelDoc2 md;
-        private CustomPropertyManager spP;
-        private CustomPropertyManager glP;
+        //private CustomPropertyManager spP;
+        //private CustomPropertyManager glP;
 
-        //public List<SwProperty> propertySet = new List<SwProperty>();
-
-        private DepartmentSelector ds = new DepartmentSelector();
-        private ConfigurationSpecific cs = new ConfigurationSpecific();
-        private GeneralProperties gp = new GeneralProperties();
-        private MachineProperties mp = new MachineProperties();
+        private DepartmentSelector ds; // = new DepartmentSelector();
+        private ConfigurationSpecific cs; // = new ConfigurationSpecific();
+        private GeneralProperties gp; // = new GeneralProperties(ref propertySe);
+        private MachineProperties mp; // = new MachineProperties(ref AcquiredProperties);
         public Ops op;
-
-        private SwProperties propertySet;
 
         public RedBrick(SldWorks sw)
         {
             this.swApp = sw;
             this.md = (ModelDoc2)swApp.ActiveDoc;
-            this.spP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(this.md.ConfigurationManager.ActiveConfiguration.Name);
-            this.glP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(string.Empty);
+
+            int _dt = md.GetType();
+            this.DocType = (swDocumentTypes_e)_dt;
+
+
             this.propertySet = new SwProperties(this.swApp);
 
-            InitializeComponent();
-            this.SetLocation();
+            switch (_dt)
+            {
+                case (int)swDocumentTypes_e.swDocASSEMBLY:
+                    this.AcquiredProperties.CreateDefaultPartSet();
+                    break;
+                case (int)swDocumentTypes_e.swDocDRAWING:
+                    this.AcquiredProperties.CreateDefaultDrawingSet();
+                    DrawingRedbrick drb = new DrawingRedbrick(this.swApp);
+                    InitializeComponent();
+                    this.tbMainTable.ColumnCount = 1;
+                    this.tbMainTable.RowCount = 2;
+                    this.InitDrawing();
+                    //this.tbMainTable.Hide();
+                    this.tbMainTable.Controls.Add(drb);
+                    drb.Dock = DockStyle.Fill;
+                    //this.spP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(string.Empty);
+                    //this.glP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(string.Empty);
+                    break;
+                case (int)swDocumentTypes_e.swDocPART:
+                    this.AcquiredProperties.CreateDefaultPartSet();
+                    InitializeComponent();
+                    this.tbMainTable.ColumnCount = 3;
+                    this.tbMainTable.RowCount = 3;
+                    this.InitModel();
+                    this.propertySet.ReadProperties();
+                    //this.tbMainTable.Show();
+                    //this.spP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(this.md.ConfigurationManager.ActiveConfiguration.Name);
+                    //this.glP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(string.Empty);
+                    break;
+                case (int)swDocumentTypes_e.swDocSDM:
+                    break;
+                case (int)swDocumentTypes_e.swDocNONE:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void InitModel()
+        {
+            this.SetWindowProperties();
             this.InitComponents();
             this.SetupEvents();
-            this.getPartData();
+            //this.getPartData();
 
-            this.propertySet.ReadProperties();
+            //this.propertySet.ReadProperties();
             //this.op.GetProperties();
+        }
+
+        public void InitDrawing()
+        {
+            this.SetWindowProperties();
         }
 
         private void SetupEvents()
@@ -53,19 +96,29 @@ namespace redbrick.csproj
 
         void ds_CheckedChanged(object sender, EventArgs e)
         {
+            System.Windows.Forms.MessageBox.Show("It worked");
             op.RefreshOps(ds.OpType);
             cs.ToggleFields(ds.OpType);
             gp.ToggleFields(ds.OpType);
         }
 
-        private void SetLocation()
+        private void SetWindowProperties()
         {
             this.Top = Properties.Settings.Default.Top;
             this.Left = Properties.Settings.Default.Left;
+            this.Width = Properties.Settings.Default.Width;
+            this.Height = Properties.Settings.Default.Height;
+            this.Text = "Editing " + this.AcquiredProperties.GetProperty("PartNo").ResValue + " ...";
         }
 
         private void InitComponents()
         {
+            ds = new DepartmentSelector(ref this.propertySet);
+            cs = new ConfigurationSpecific(ref this.propertySet);
+            gp = new GeneralProperties(ref this.propertySet);
+            mp = new MachineProperties(ref this.propertySet);
+            op = new Ops(ref this.propertySet);
+
             this.tbMainTable.Controls.Add(ds, 0, 0);
             this.ds.Dock = DockStyle.Fill;
 
@@ -88,12 +141,13 @@ namespace redbrick.csproj
                 this.mp.Dock = DockStyle.Fill;
             }
 
-            op = new Ops(this.swApp, ref this.propertySet);
             if (this.operationsToolStripMenuItem.Checked)
             {
                 this.tbMainTable.Controls.Add(op, 2, 1);
                 this.tbMainTable.SetRowSpan(op, 2);
                 this.op.Dock = DockStyle.Fill;
+                this.op.OpType = this.ds.OpType;
+                this.ds_CheckedChanged(this, new EventArgs());
             }
 
             Button bOK = new Button();
@@ -102,51 +156,66 @@ namespace redbrick.csproj
 
             this.tbMainTable.Controls.Add(bOK, 0, 3);
             this.tbMainTable.Controls.Add(new Button(), 1, 3);
-            this.getPartData();
+            //this.getPartData();
+        }
+
+        private void InitDrawgingComponents()
+        {
+            Button bOK = new Button();
+            bOK.Text = "OK";
+            bOK.Click += new EventHandler(bOK_Click);
+
+
+            this.tbMainTable.Controls.Add(bOK, 0, 1);
+            //this.tbMainTable.Controls.Add(new Button(), 1, 1);
         }
 
         void bOK_Click(object sender, EventArgs e)
         {
             this.propertySet.ReadControls();
             this.propertySet.Write();
-            this.getPartData();
+            this.Close();
         }
 
-        private void getPartData()
-        {
-            int res;
-            bool UseCached = false;
-            string ValOut;
-            string ResolvedValOut;
-            bool WasResolved;
-            int typ;
+        //public void getPartData()
+        //{
+        //    int res;
+        //    bool UseCached = false;
+        //    string ValOut;
+        //    string ResolvedValOut;
+        //    bool WasResolved;
+        //    int typ;
 
-
-            string[] globalNames = (string[])glP.GetNames();
-            if (globalNames != null)
-	        {
-                foreach (string s in globalNames)
-                {
-                    res = glP.Get5(s, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
-                    typ = glP.GetType2(s);
-                    SwProperty p = new SwProperty(s, (swCustomInfoType_e)typ, ValOut, true);
-                    p.ResValue = ResolvedValOut;
-                    this.propertySet.Add(p);
-                }
-            }
+        //    string[] globalNames = (string[])glP.GetNames();
+        //    if (globalNames != null)
+        //    {
+        //        foreach (string s in globalNames)
+        //        {
+        //            res = glP.Get5(s, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
+        //            typ = glP.GetType2(s);
+        //            SwProperty p = new SwProperty(s, (swCustomInfoType_e)typ, ValOut, true);
+        //            p.Get(this.swApp);
+        //            this.propertySet.Add(p);
+        //        }
+        //    }
             
-            string[] specNames = (string[])spP.GetNames();
-            if (spP != null)
-            {
-                foreach (string s in specNames)
-                {
-                    res = spP.Get5(s, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
-                    typ = spP.GetType2(s);
-                    SwProperty p = new SwProperty(s, (swCustomInfoType_e)typ, ValOut, false);
-                    p.ResValue = ResolvedValOut;
-                    this.propertySet.Add(p);
-                }
-            }
+        //    string[] specNames = (string[])spP.GetNames();
+        //    if (spP != null)
+        //    {
+        //        foreach (string s in specNames)
+        //        {
+        //            System.Diagnostics.Debug.Print(s);
+        //            res = spP.Get5(s, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
+        //            typ = spP.GetType2(s);
+        //            SwProperty p = new SwProperty(s, (swCustomInfoType_e)typ, ValOut, false);
+        //            p.Get(this.swApp);
+        //            this.propertySet.Add(p);
+        //        }
+        //    }
+        //}
+
+        private void LinkControls()
+        {
 
             this.LinkControlToProperty("CUTLIST MATERIAL", this.cs.GetCutlistMatBox());
             this.LinkControlToProperty("EDGE FRONT (L)", this.cs.GetEdgeFrontBox());
@@ -174,11 +243,6 @@ namespace redbrick.csproj
             this.LinkControlToProperty("OP3", op.GetOp3Box());
             this.LinkControlToProperty("OP4", op.GetOp4Box());
             this.LinkControlToProperty("OP5", op.GetOp5Box());
-
-
-            //string t = string.Empty;
-            //foreach (SwProperty px in this.propertySet)
-            //    t += string.Format("{0} as {1} = {2}, ID {3}\n", px.Name, px.Type.ToString(), px.ResValue, px.ID);
         }
 
         private void LinkControlToProperty(string property, Control c)
@@ -203,6 +267,8 @@ namespace redbrick.csproj
             this.propertySet.Write(this.swApp);
             Properties.Settings.Default.Top = this.Top;
             Properties.Settings.Default.Left = this.Left;
+            Properties.Settings.Default.Width = this.Width;
+            Properties.Settings.Default.Height = this.Height;
             Properties.Settings.Default.Save();
         }
 
@@ -268,12 +334,33 @@ namespace redbrick.csproj
 
         private void RedBrick_Shown(object sender, EventArgs e)
         {
-            if (this.propertySet.Contains("DEPARTMENT"))
-                if (this.propertySet.GetProperty("DEPARTMENT").Value.ToUpper() == "METAL")
-                {
-                    this.ds_CheckedChanged(this, e);
-                }
-            op.GetProperties();
+            //if (this.DocType != swDocumentTypes_e.swDocDRAWING)
+            //{
+            //    if (this.propertySet.Contains("DEPARTMENT"))
+            //        if (this.propertySet.GetProperty("DEPARTMENT").Value.ToUpper() == "METAL")
+            //        {
+            //            System.Windows.Forms.MessageBox.Show(this.propertySet.GetProperty("DEPARTMENT").Value.ToUpper());
+            //            this.ds_CheckedChanged(this, e);
+            //        }
+            //    op.GetProperties();   
+            //}
         }
+
+        private swDocumentTypes_e _docType;
+
+        public swDocumentTypes_e DocType
+        {
+            get { return _docType; }
+            set { _docType = value; }
+        }
+
+        private SwProperties propertySet;
+
+        public SwProperties AcquiredProperties
+        {
+            get { return propertySet; }
+            set { propertySet = value; }
+        }
+	
     }
 }

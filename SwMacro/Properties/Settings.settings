@@ -18,7 +18,7 @@
     <Setting Name="RevLimit" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">15</Value>
     </Setting>
-    <Setting Name="Authors" Type="System.Collections.Specialized.StringCollection" Scope="User">
+    <Setting Name="Authors" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;BS&lt;/string&gt;
@@ -35,7 +35,7 @@
   &lt;string&gt;TH&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
-    <Setting Name="Materials" Type="System.Collections.Specialized.StringCollection" Scope="User">
+    <Setting Name="Materials" Type="System.Collections.Specialized.StringCollection" Scope="Application">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;string&gt;ACRYLIC&lt;/string&gt;
@@ -67,6 +67,26 @@
   &lt;string&gt;VINYL&lt;/string&gt;
   &lt;string&gt;VINYL WRAP&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="Customers" Type="System.Collections.Specialized.StringCollection" Scope="Application">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;JCPENNEY - 220&lt;/string&gt;
+  &lt;string&gt;KMART - 239&lt;/string&gt;
+  &lt;string&gt;KOHLS - 201&lt;/string&gt;
+  &lt;string&gt;MACY'S  - 495&lt;/string&gt;
+  &lt;string&gt;SEARS - 210&lt;/string&gt;
+  &lt;string&gt;STERLING-491&lt;/string&gt;
+  &lt;string&gt;TARGET - 274&lt;/string&gt;
+  &lt;string&gt;WALGREENS - 510&lt;/string&gt;
+  &lt;string&gt;WALMART - 505&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">800</Value>
+    </Setting>
+    <Setting Name="Height" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">600</Value>
     </Setting>
   </Settings>
 </SettingsFile>

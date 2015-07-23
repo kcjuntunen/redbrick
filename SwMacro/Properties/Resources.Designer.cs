@@ -66,5 +66,14 @@ namespace redbrick.csproj.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must have a drawing document open..
+        /// </summary>
+        internal static string MustOpenDocument {
+            get {
+                return ResourceManager.GetString("MustOpenDocument", resourceCulture);
+            }
+        }
     }
 }

@@ -59,6 +59,7 @@ namespace redbrick.csproj
         {
             if (sw != null)
             {
+                this.SwApp = sw;
                 ModelDoc2 md = (ModelDoc2)sw.ActiveDoc;
                 Configuration cf = md.ConfigurationManager.ActiveConfiguration;
 
@@ -80,6 +81,76 @@ namespace redbrick.csproj
                     res = gcpm.Add3(this.Name, (int)this.Type, this.Value, (int)ao);
                 else
                     res = scpm.Add3(this.Name, (int)this.Type, this.Value, (int)ao);
+            }
+            else
+            {
+                System.Diagnostics.Debug.Print("SwApp is undefined");
+            }
+        }
+
+        public void Get()
+        {
+            if (this.SwApp != null)
+                if (this.SwApp != null)
+                {
+                    ModelDoc2 md = (ModelDoc2)this.SwApp.ActiveDoc;
+                    Configuration cf = md.ConfigurationManager.ActiveConfiguration;
+
+                    CustomPropertyManager gcpm = md.Extension.get_CustomPropertyManager(string.Empty);
+                    CustomPropertyManager scpm;
+
+                    bool wasResolved;
+                    bool useCached = false;
+
+                    if (cf != null)
+                    {
+                        scpm = md.Extension.get_CustomPropertyManager(cf.Name);
+                    }
+                    else
+                    {
+                        scpm = md.Extension.get_CustomPropertyManager(string.Empty);
+                    }
+                    int res;
+
+                    if (this.Global)
+                        res = gcpm.Get5(this.Name, useCached, out this._value, out this._resValue, out wasResolved);
+                    else
+                        res = scpm.Get5(this.Name, useCached, out this._value, out this._resValue, out wasResolved);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Print("SwApp is undefined");
+                }
+        }
+
+        public void Get(SldWorks sw)
+        {
+            if (sw != null)
+            {
+                this.SwApp = sw;
+                ModelDoc2 md = (ModelDoc2)sw.ActiveDoc;
+                Configuration cf = md.ConfigurationManager.ActiveConfiguration;
+
+                CustomPropertyManager gcpm = md.Extension.get_CustomPropertyManager(string.Empty);
+                CustomPropertyManager scpm;
+
+                bool wasResolved;
+                bool useCached = false;
+
+                if (cf != null)
+                {
+                    scpm = md.Extension.get_CustomPropertyManager(cf.Name);
+                }
+                else
+                {
+                    scpm = md.Extension.get_CustomPropertyManager(string.Empty);
+                }
+                int res;
+
+                if (this.Global)
+                    res = gcpm.Get5(this.Name, useCached, out this._value, out this._resValue, out wasResolved);
+                else
+                    res = scpm.Get5(this.Name, useCached, out this._value, out this._resValue, out wasResolved);
             }
             else
             {
@@ -122,6 +193,7 @@ namespace redbrick.csproj
         {
             if (sw != null)
             {
+                this.SwApp = sw;
                 ModelDoc2 md = (ModelDoc2)sw.ActiveDoc;
                 Configuration cf = md.ConfigurationManager.ActiveConfiguration;
 
