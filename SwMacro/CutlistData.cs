@@ -96,6 +96,17 @@ namespace redbrick.csproj
             }
         }
 
+        public double GetEdgeThickness(int ID)
+        {
+            string SQL = string.Format("SELECT THICKNESS FROM CUT_EDGES WHERE EDGEID = {0}", ID.ToString());
+            OdbcCommand comm = new OdbcCommand(SQL, conn);
+            OdbcDataReader dr = comm.ExecuteReader();
+            if (dr.HasRows)
+                return dr.GetDouble(0);
+            else
+                return 0.0;
+        }
+
         private DataSet _materials;
 
         public DataSet Materials

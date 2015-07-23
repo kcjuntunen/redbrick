@@ -27,6 +27,10 @@ namespace redbrick.csproj
             this.LinkControlToProperty("CNC2", this.tbCNC2);
             this.LinkControlToProperty("OVERL", this.tbOverL);
             this.LinkControlToProperty("OVERW", this.tbOverW);
+
+            //this.tbBlankL = double.Parse(this.propertySet.GetProperty("LENGTH").ResValue) -
+            //    (this.propertySet.cutlistData.GetEdgeThickness(this.propertySet.GetProperty("")) + this.propertySet.cutlistData.GetEdgeThickness());
+            // yadda yadda
         }
 
         private void LinkControlToProperty(string property, Control c)

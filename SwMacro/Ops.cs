@@ -17,11 +17,8 @@ namespace redbrick.csproj
         private CutlistData cd = new CutlistData();
         public SwProperties propertySet;
 
-        private bool notMachine = false;
-
         public Ops(ref SwProperties prop)
         {
-            this.notMachine = false;
             this.cd = prop.cutlistData;
             this.propertySet = prop;
 
@@ -32,7 +29,6 @@ namespace redbrick.csproj
 
         private void fillBox(object occ)
         {
-            this.notMachine = false;
             ComboBox c = (ComboBox)occ;
             c.DataSource = cd.GetOps(this.OpType).Tables[0];
             c.DisplayMember = "OPDESCR";
@@ -71,7 +67,6 @@ namespace redbrick.csproj
 
         public void RefreshOps(string opType)
         {
-            this.notMachine = false;
             if (opType == null)
                 this.OpType = "WOOD";
             else
@@ -134,8 +129,6 @@ namespace redbrick.csproj
             return this.cbOp5;
         }
 
-
-
         private string _opType;
 
         public string OpType
@@ -144,84 +137,6 @@ namespace redbrick.csproj
             set { _opType = value; }
         }
 
-        private void cbOp2_TextUpdate(object sender, EventArgs e)
-        {
-            //string t = string.Empty;
-            //foreach (SwProperty p in this.propertySet)
-            //{
-            //    t += string.Format("{0} as {1} = {2}\n", p.Name, p.Type.ToString(), p.Value);
-            //}
-            //System.Windows.Forms.MessageBox.Show(t);
-        }
 
-        private void cbOp1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void cbOp2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void cbOp3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void cbOp4_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void cbOp5_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void cbOp1_MouseEnter(object sender, EventArgs e)
-        {
-            this.notMachine = true;
-        }
-
-        private void cbOp1_MouseLeave(object sender, EventArgs e)
-        {
-            this.notMachine = false;
-        }
-
-        private void cbOp2_MouseEnter(object sender, EventArgs e)
-        {
-            this.notMachine = true;
-        }
-
-        private void cbOp2_MouseLeave(object sender, EventArgs e)
-        {
-            this.notMachine = false;
-        }
-
-        private void cbOp3_MouseEnter(object sender, EventArgs e)
-        {
-            this.notMachine = true;
-        }
-
-        private void cbOp3_MouseLeave(object sender, EventArgs e)
-        {
-            this.notMachine = false;
-        }
-
-        private void cbOp4_MouseEnter(object sender, EventArgs e)
-        {
-            this.notMachine = true;
-        }
-
-        private void cbOp4_MouseLeave(object sender, EventArgs e)
-        {
-            this.notMachine = false;
-        }
-
-        private void cbOp5_MouseEnter(object sender, EventArgs e)
-        {
-            this.notMachine = true;
-        }
-
-        private void cbOp5_MouseLeave(object sender, EventArgs e)
-        {
-            this.notMachine = false;
-        }
     }
 }

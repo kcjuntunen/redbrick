@@ -15,14 +15,12 @@ namespace redbrick.csproj
     {
         private SldWorks swApp;
         private ModelDoc2 md;
-        //private CustomPropertyManager spP;
-        //private CustomPropertyManager glP;
 
-        private DepartmentSelector ds; // = new DepartmentSelector();
-        private ConfigurationSpecific cs; // = new ConfigurationSpecific();
-        private GeneralProperties gp; // = new GeneralProperties(ref propertySe);
-        private MachineProperties mp; // = new MachineProperties(ref AcquiredProperties);
-        public Ops op;
+        private DepartmentSelector ds;
+        private ConfigurationSpecific cs;
+        private GeneralProperties gp;
+        private MachineProperties mp;
+        private Ops op;
 
         public RedBrick(SldWorks sw)
         {
@@ -47,11 +45,8 @@ namespace redbrick.csproj
                     this.tbMainTable.ColumnCount = 1;
                     this.tbMainTable.RowCount = 2;
                     this.InitDrawing();
-                    //this.tbMainTable.Hide();
                     this.tbMainTable.Controls.Add(drb);
                     drb.Dock = DockStyle.Fill;
-                    //this.spP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(string.Empty);
-                    //this.glP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(string.Empty);
                     break;
                 case (int)swDocumentTypes_e.swDocPART:
                     this.AcquiredProperties.CreateDefaultPartSet();
@@ -60,9 +55,6 @@ namespace redbrick.csproj
                     this.tbMainTable.RowCount = 3;
                     this.InitModel();
                     this.propertySet.ReadProperties();
-                    //this.tbMainTable.Show();
-                    //this.spP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(this.md.ConfigurationManager.ActiveConfiguration.Name);
-                    //this.glP = (CustomPropertyManager)this.md.Extension.get_CustomPropertyManager(string.Empty);
                     break;
                 case (int)swDocumentTypes_e.swDocSDM:
                     break;
@@ -78,10 +70,6 @@ namespace redbrick.csproj
             this.SetWindowProperties();
             this.InitComponents();
             this.SetupEvents();
-            //this.getPartData();
-
-            //this.propertySet.ReadProperties();
-            //this.op.GetProperties();
         }
 
         public void InitDrawing()
@@ -176,43 +164,6 @@ namespace redbrick.csproj
             this.propertySet.Write();
             this.Close();
         }
-
-        //public void getPartData()
-        //{
-        //    int res;
-        //    bool UseCached = false;
-        //    string ValOut;
-        //    string ResolvedValOut;
-        //    bool WasResolved;
-        //    int typ;
-
-        //    string[] globalNames = (string[])glP.GetNames();
-        //    if (globalNames != null)
-        //    {
-        //        foreach (string s in globalNames)
-        //        {
-        //            res = glP.Get5(s, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
-        //            typ = glP.GetType2(s);
-        //            SwProperty p = new SwProperty(s, (swCustomInfoType_e)typ, ValOut, true);
-        //            p.Get(this.swApp);
-        //            this.propertySet.Add(p);
-        //        }
-        //    }
-            
-        //    string[] specNames = (string[])spP.GetNames();
-        //    if (spP != null)
-        //    {
-        //        foreach (string s in specNames)
-        //        {
-        //            System.Diagnostics.Debug.Print(s);
-        //            res = spP.Get5(s, UseCached, out ValOut, out ResolvedValOut, out WasResolved);
-        //            typ = spP.GetType2(s);
-        //            SwProperty p = new SwProperty(s, (swCustomInfoType_e)typ, ValOut, false);
-        //            p.Get(this.swApp);
-        //            this.propertySet.Add(p);
-        //        }
-        //    }
-        //}
 
         private void LinkControls()
         {

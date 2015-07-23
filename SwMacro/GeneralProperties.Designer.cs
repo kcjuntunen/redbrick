@@ -29,23 +29,23 @@ namespace redbrick.csproj
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tbDescription = new System.Windows.Forms.TextBox();
-            this.bCopy = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.tbComment = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbWallThick = new System.Windows.Forms.TextBox();
+            this.lWallThickness = new System.Windows.Forms.Label();
+            this.tbThick = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbWidth = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbLength = new System.Windows.Forms.TextBox();
-            this.tbWidth = new System.Windows.Forms.TextBox();
-            this.labResLength = new System.Windows.Forms.Label();
-            this.labResWidth = new System.Windows.Forms.Label();
-            this.labResThickness = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbComment = new System.Windows.Forms.TextBox();
-            this.lWallThickness = new System.Windows.Forms.Label();
-            this.tbWallThick = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tbThick = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.tbDescription = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.labResWallThickness = new System.Windows.Forms.Label();
+            this.labResThickness = new System.Windows.Forms.Label();
+            this.labResWidth = new System.Windows.Forms.Label();
+            this.labResLength = new System.Windows.Forms.Label();
+            this.bCopy = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,47 +91,71 @@ namespace redbrick.csproj
             this.tableLayoutPanel1.Size = new System.Drawing.Size(305, 282);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // label1
+            // tbComment
             // 
-            this.label1.AutoSize = true;
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(238, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Description";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.tbComment.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbComment.Location = new System.Drawing.Point(3, 211);
+            this.tbComment.Multiline = true;
+            this.tbComment.Name = "tbComment";
+            this.tbComment.Size = new System.Drawing.Size(238, 68);
+            this.tbComment.TabIndex = 10;
             // 
-            // tbDescription
+            // label5
             // 
-            this.tbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbDescription.Location = new System.Drawing.Point(3, 16);
-            this.tbDescription.Name = "tbDescription";
-            this.tbDescription.Size = new System.Drawing.Size(238, 20);
-            this.tbDescription.TabIndex = 1;
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Location = new System.Drawing.Point(3, 195);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(238, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Comment";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // bCopy
+            // tbWallThick
             // 
-            this.bCopy.AutoSize = true;
-            this.bCopy.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.bCopy.Image = global::redbrick.csproj.Properties.Resources.clipboard;
-            this.bCopy.Location = new System.Drawing.Point(247, 16);
-            this.bCopy.Name = "bCopy";
-            this.tableLayoutPanel1.SetRowSpan(this.bCopy, 2);
-            this.bCopy.Size = new System.Drawing.Size(22, 27);
-            this.bCopy.TabIndex = 2;
-            this.bCopy.UseVisualStyleBackColor = true;
+            this.tbWallThick.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbWallThick.Location = new System.Drawing.Point(3, 172);
+            this.tbWallThick.Name = "tbWallThick";
+            this.tbWallThick.Size = new System.Drawing.Size(238, 20);
+            this.tbWallThick.TabIndex = 9;
             // 
-            // label2
+            // lWallThickness
             // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 39);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(238, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Length";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.lWallThickness.AutoSize = true;
+            this.lWallThickness.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lWallThickness.Location = new System.Drawing.Point(3, 156);
+            this.lWallThickness.Name = "lWallThickness";
+            this.lWallThickness.Size = new System.Drawing.Size(238, 13);
+            this.lWallThickness.TabIndex = 5;
+            this.lWallThickness.Text = "Wall Thickness";
+            this.lWallThickness.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // tbThick
+            // 
+            this.tbThick.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbThick.Location = new System.Drawing.Point(3, 133);
+            this.tbThick.Name = "tbThick";
+            this.tbThick.Size = new System.Drawing.Size(238, 20);
+            this.tbThick.TabIndex = 15;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Location = new System.Drawing.Point(3, 117);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(238, 13);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Thickness";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // tbWidth
+            // 
+            this.tbWidth.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbWidth.Location = new System.Drawing.Point(3, 94);
+            this.tbWidth.Name = "tbWidth";
+            this.tbWidth.Size = new System.Drawing.Size(238, 20);
+            this.tbWidth.TabIndex = 8;
             // 
             // label3
             // 
@@ -151,36 +175,48 @@ namespace redbrick.csproj
             this.tbLength.Name = "tbLength";
             this.tbLength.Size = new System.Drawing.Size(238, 20);
             this.tbLength.TabIndex = 7;
+            this.tbLength.TextChanged += new System.EventHandler(this.tbLength_TextChanged);
             // 
-            // tbWidth
+            // label2
             // 
-            this.tbWidth.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbWidth.Location = new System.Drawing.Point(3, 94);
-            this.tbWidth.Name = "tbWidth";
-            this.tbWidth.Size = new System.Drawing.Size(238, 20);
-            this.tbWidth.TabIndex = 8;
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(3, 39);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(238, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Length";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // labResLength
+            // tbDescription
             // 
-            this.labResLength.AutoSize = true;
-            this.labResLength.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labResLength.Location = new System.Drawing.Point(247, 52);
-            this.labResLength.Name = "labResLength";
-            this.labResLength.Size = new System.Drawing.Size(55, 26);
-            this.labResLength.TabIndex = 11;
-            this.labResLength.Text = "00.000";
-            this.labResLength.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tbDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbDescription.Location = new System.Drawing.Point(3, 16);
+            this.tbDescription.Name = "tbDescription";
+            this.tbDescription.Size = new System.Drawing.Size(238, 20);
+            this.tbDescription.TabIndex = 1;
             // 
-            // labResWidth
+            // label1
             // 
-            this.labResWidth.AutoSize = true;
-            this.labResWidth.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labResWidth.Location = new System.Drawing.Point(247, 91);
-            this.labResWidth.Name = "labResWidth";
-            this.labResWidth.Size = new System.Drawing.Size(55, 26);
-            this.labResWidth.TabIndex = 12;
-            this.labResWidth.Text = "00.000";
-            this.labResWidth.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(238, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Description";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // labResWallThickness
+            // 
+            this.labResWallThickness.AutoSize = true;
+            this.labResWallThickness.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labResWallThickness.Location = new System.Drawing.Point(247, 169);
+            this.labResWallThickness.Name = "labResWallThickness";
+            this.labResWallThickness.Size = new System.Drawing.Size(55, 26);
+            this.labResWallThickness.TabIndex = 16;
+            this.labResWallThickness.Text = "00.000";
+            this.labResWallThickness.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // labResThickness
             // 
@@ -193,74 +229,39 @@ namespace redbrick.csproj
             this.labResThickness.Text = "00.000";
             this.labResThickness.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label5
+            // labResWidth
             // 
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(3, 195);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(238, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Comment";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.labResWidth.AutoSize = true;
+            this.labResWidth.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labResWidth.Location = new System.Drawing.Point(247, 91);
+            this.labResWidth.Name = "labResWidth";
+            this.labResWidth.Size = new System.Drawing.Size(55, 26);
+            this.labResWidth.TabIndex = 12;
+            this.labResWidth.Text = "00.000";
+            this.labResWidth.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tbComment
+            // labResLength
             // 
-            this.tbComment.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbComment.Location = new System.Drawing.Point(3, 211);
-            this.tbComment.Multiline = true;
-            this.tbComment.Name = "tbComment";
-            this.tbComment.Size = new System.Drawing.Size(238, 68);
-            this.tbComment.TabIndex = 10;
+            this.labResLength.AutoSize = true;
+            this.labResLength.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labResLength.Location = new System.Drawing.Point(247, 52);
+            this.labResLength.Name = "labResLength";
+            this.labResLength.Size = new System.Drawing.Size(55, 26);
+            this.labResLength.TabIndex = 11;
+            this.labResLength.Text = "00.000";
+            this.labResLength.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lWallThickness
+            // bCopy
             // 
-            this.lWallThickness.AutoSize = true;
-            this.lWallThickness.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lWallThickness.Location = new System.Drawing.Point(3, 156);
-            this.lWallThickness.Name = "lWallThickness";
-            this.lWallThickness.Size = new System.Drawing.Size(238, 13);
-            this.lWallThickness.TabIndex = 5;
-            this.lWallThickness.Text = "Wall Thickness";
-            this.lWallThickness.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
-            // tbWallThick
-            // 
-            this.tbWallThick.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbWallThick.Location = new System.Drawing.Point(3, 172);
-            this.tbWallThick.Name = "tbWallThick";
-            this.tbWallThick.Size = new System.Drawing.Size(238, 20);
-            this.tbWallThick.TabIndex = 9;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Location = new System.Drawing.Point(3, 117);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(238, 13);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Thickness";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
-            // tbThick
-            // 
-            this.tbThick.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbThick.Location = new System.Drawing.Point(3, 133);
-            this.tbThick.Name = "tbThick";
-            this.tbThick.Size = new System.Drawing.Size(238, 20);
-            this.tbThick.TabIndex = 15;
-            // 
-            // labResWallThickness
-            // 
-            this.labResWallThickness.AutoSize = true;
-            this.labResWallThickness.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labResWallThickness.Location = new System.Drawing.Point(247, 169);
-            this.labResWallThickness.Name = "labResWallThickness";
-            this.labResWallThickness.Size = new System.Drawing.Size(55, 26);
-            this.labResWallThickness.TabIndex = 16;
-            this.labResWallThickness.Text = "00.000";
-            this.labResWallThickness.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.bCopy.AutoSize = true;
+            this.bCopy.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.bCopy.Image = global::redbrick.csproj.Properties.Resources.clipboard;
+            this.bCopy.Location = new System.Drawing.Point(247, 16);
+            this.bCopy.Name = "bCopy";
+            this.tableLayoutPanel1.SetRowSpan(this.bCopy, 2);
+            this.bCopy.Size = new System.Drawing.Size(22, 27);
+            this.bCopy.TabIndex = 2;
+            this.bCopy.UseVisualStyleBackColor = true;
             // 
             // GeneralProperties
             // 

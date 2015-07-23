@@ -24,13 +24,13 @@ namespace redbrick.csproj
         {
             this.LinkControlToProperty("Description", this.tbDescription);
             this.LinkControlToProperty("LENGTH", this.tbLength);
-            //this.gp.UpdateLengthRes(propertySet.GetProperty("LENGTH"));
+            this.UpdateLengthRes(propertySet.GetProperty("LENGTH"));
             this.LinkControlToProperty("WIDTH", this.tbWidth);
-            //this.gp.UpdateWidthRes(propertySet.GetProperty("WIDTH"));
+            this.UpdateWidthRes(propertySet.GetProperty("WIDTH"));
             this.LinkControlToProperty("THICKNESS", this.tbThick);
-            //this.gp.UpdateThickRes(propertySet.GetProperty("THICKNESS"));
+            this.UpdateThickRes(propertySet.GetProperty("THICKNESS"));
             this.LinkControlToProperty("WALL THICKNESS", this.tbWallThick);
-            //this.gp.UpdateWallThickRes(propertySet.GetProperty("WALL THICKNESS"));
+            this.UpdateWallThickRes(propertySet.GetProperty("WALL THICKNESS"));
             this.LinkControlToProperty("COMMENT", this.tbComment);
         }
 
@@ -104,6 +104,13 @@ namespace redbrick.csproj
         public void UpdateWallThickRes(SwProperty p)
         {
             this.labResWallThickness.Text = p.ResValue;
+        }
+
+        private void tbLength_TextChanged(object sender, EventArgs e)
+        {
+            this.propertySet.GetProperty("LENGTH").Write();
+            this.propertySet.GetProperty("LENGTH").Get();
+            this.labResLength.Text = this.propertySet.GetProperty("LENGTH").ResValue;
         }	
     }
 }
