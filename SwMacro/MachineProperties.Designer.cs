@@ -163,6 +163,7 @@ namespace redbrick.csproj
             this.tbOverL.Size = new System.Drawing.Size(99, 20);
             this.tbOverL.TabIndex = 9;
             this.tbOverL.TextChanged += new System.EventHandler(this.tbOverL_TextChanged);
+            this.tbOverL.Leave += new System.EventHandler(this.tbOverL_Validated);
             // 
             // tbOverW
             // 
@@ -172,6 +173,7 @@ namespace redbrick.csproj
             this.tbOverW.Size = new System.Drawing.Size(99, 20);
             this.tbOverW.TabIndex = 10;
             this.tbOverW.TextChanged += new System.EventHandler(this.tbOverW_TextChanged);
+            this.tbOverW.Leave += new System.EventHandler(this.tbOverW_Validated);
             // 
             // tbBlankL
             // 

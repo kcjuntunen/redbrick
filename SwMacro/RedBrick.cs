@@ -6,13 +6,18 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using System.Runtime.InteropServices;
+
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 
 namespace redbrick.csproj
 {
+    [ComVisible(true)]
+    [ProgId(SWTASKPANE_PROGID)]
     public partial class RedBrick : Form
     {
+        public const string SWTASKPANE_PROGID = "amstore.redbrick";
         private SldWorks swApp;
         private ModelDoc2 md;
 
@@ -39,22 +44,24 @@ namespace redbrick.csproj
                     this.AcquiredProperties.CreateDefaultPartSet();
                     break;
                 case (int)swDocumentTypes_e.swDocDRAWING:
-                    this.AcquiredProperties.CreateDefaultDrawingSet();
+                    //this.AcquiredProperties.CreateDefaultDrawingSet();
+                    this.AcquiredProperties.GetPropertyData();
                     DrawingRedbrick drb = new DrawingRedbrick(this.swApp);
                     InitializeComponent();
                     this.tbMainTable.ColumnCount = 1;
-                    this.tbMainTable.RowCount = 2;
+                    this.tbMainTable.RowCount = 3;
                     this.InitDrawing();
                     this.tbMainTable.Controls.Add(drb);
                     drb.Dock = DockStyle.Fill;
                     break;
                 case (int)swDocumentTypes_e.swDocPART:
-                    this.AcquiredProperties.CreateDefaultPartSet();
+                    //this.AcquiredProperties.CreateDefaultPartSet();
+                    this.AcquiredProperties.GetPropertyData();
                     InitializeComponent();
                     this.tbMainTable.ColumnCount = 3;
                     this.tbMainTable.RowCount = 3;
                     this.InitModel();
-                    this.propertySet.ReadProperties();
+                    //this.propertySet.ReadProperties();
                     break;
                 case (int)swDocumentTypes_e.swDocSDM:
                     break;
@@ -80,11 +87,18 @@ namespace redbrick.csproj
         private void SetupEvents()
         {
             ds.CheckedChanged += new EventHandler(ds_CheckedChanged);
+            cs.GetEdgeFrontBox().SelectedIndexChanged += new EventHandler(RedBrick_SelectedIndexChanged);
+            cs.GetEdgeBackBox().SelectedIndexChanged += new EventHandler(RedBrick_SelectedIndexChanged);
+            cs.GetEdgeLeftBox().SelectedIndexChanged += new EventHandler(RedBrick_SelectedIndexChanged);
+            cs.GetEdgeRightBox().SelectedIndexChanged += new EventHandler(RedBrick_SelectedIndexChanged);
+            mp.GetOverLBox().TextChanged += new EventHandler(RedBrick_SelectedIndexChanged);
+            mp.GetOverWBox().TextChanged += new EventHandler(RedBrick_SelectedIndexChanged);
+            gp.GetLengthBox().TextChanged += new EventHandler(RedBrick_SelectedIndexChanged);
+            gp.GetWidthBox().TextChanged += new EventHandler(RedBrick_SelectedIndexChanged);
         }
 
         void ds_CheckedChanged(object sender, EventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("It worked");
             op.RefreshOps(ds.OpType);
             cs.ToggleFields(ds.OpType);
             gp.ToggleFields(ds.OpType);
@@ -110,33 +124,21 @@ namespace redbrick.csproj
             this.tbMainTable.Controls.Add(ds, 0, 0);
             this.ds.Dock = DockStyle.Fill;
 
-            if (this.configurationSpecificPropertiesToolStripMenuItem.Checked)
-            {
-                this.tbMainTable.Controls.Add(cs, 0, 1);
-                this.tbMainTable.SetRowSpan(cs, 2);
-                this.cs.Dock = DockStyle.Fill;
-            }
+            this.tbMainTable.Controls.Add(cs, 0, 1);
+            this.tbMainTable.SetRowSpan(cs, 2);
+            this.cs.Dock = DockStyle.Fill;
+            
 
-            if (this.globalPropertiesToolStripMenuItem.Checked)
-            {
-                this.tbMainTable.Controls.Add(gp, 1, 1);
-                this.gp.Dock = DockStyle.Fill;
-            }
+            this.tbMainTable.Controls.Add(gp, 1, 1);
+            this.gp.Dock = DockStyle.Fill;
+            this.tbMainTable.Controls.Add(mp, 1, 2);
+            this.mp.Dock = DockStyle.Fill;
 
-            if (this.machinePropertiesToolStripMenuItem.Checked)
-            {
-                this.tbMainTable.Controls.Add(mp, 1, 2);
-                this.mp.Dock = DockStyle.Fill;
-            }
-
-            if (this.operationsToolStripMenuItem.Checked)
-            {
-                this.tbMainTable.Controls.Add(op, 2, 1);
-                this.tbMainTable.SetRowSpan(op, 2);
-                this.op.Dock = DockStyle.Fill;
-                this.op.OpType = this.ds.OpType;
-                this.ds_CheckedChanged(this, new EventArgs());
-            }
+            this.tbMainTable.Controls.Add(op, 2, 1);
+            this.tbMainTable.SetRowSpan(op, 2);
+            this.op.Dock = DockStyle.Fill;
+            this.op.OpType = this.ds.OpType;
+            this.ds_CheckedChanged(this, new EventArgs());
 
             Button bOK = new Button();
             bOK.Text = "OK";
@@ -145,6 +147,24 @@ namespace redbrick.csproj
             this.tbMainTable.Controls.Add(bOK, 0, 3);
             this.tbMainTable.Controls.Add(new Button(), 1, 3);
             //this.getPartData();
+
+        }
+
+        void RedBrick_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateBlankSize();
+        }
+
+        void UpdateBlankSize()
+        {
+            double blankL;
+            double blankW;
+            blankL = gp.PartLength + mp.OverL + cs.EdgeDiffL;
+            blankW = gp.PartWidth + mp.OverW + cs.EdgeDiffW;
+            mp.GetBlankLBox().Text = blankL.ToString();
+            mp.GetBlankWBox().Text = blankW.ToString();
+            System.Diagnostics.Debug.Print(string.Format("{0} + {1} + {2} = {3}", gp.PartLength, mp.OverL, cs.EdgeDiffL, blankL));
+            System.Diagnostics.Debug.Print(string.Format("{0} + {1} + {2} = {3}", gp.PartWidth, mp.OverW, cs.EdgeDiffW, blankW));
         }
 
         private void InitDrawgingComponents()
@@ -194,6 +214,13 @@ namespace redbrick.csproj
             this.LinkControlToProperty("OP3", op.GetOp3Box());
             this.LinkControlToProperty("OP4", op.GetOp4Box());
             this.LinkControlToProperty("OP5", op.GetOp5Box());
+
+            TextBox tbBlankL = mp.GetBlankLBox();
+            TextBox tbBlankW = mp.GetBlankWBox();
+            double l = gp.PartLength - cs.EdgeDiffL;
+            double w = gp.PartWidth - cs.EdgeDiffW;
+            tbBlankL.Text = l.ToString();
+            tbBlankW.Text = w.ToString();
         }
 
         private void LinkControlToProperty(string property, Control c)
@@ -223,65 +250,65 @@ namespace redbrick.csproj
             Properties.Settings.Default.Save();
         }
 
-        private void configurationSpecificPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.configurationSpecificPropertiesToolStripMenuItem.Checked)
-            {
-                this.configurationSpecificPropertiesToolStripMenuItem.Checked = false;
-                this.tbMainTable.Controls.Remove(cs);
-            }
-            else
-            {
-                this.configurationSpecificPropertiesToolStripMenuItem.Checked = true;
-                this.tbMainTable.Controls.Add(cs, 0, 1);
-                cs.Dock = DockStyle.Fill;
-            }
-        }
+        //private void configurationSpecificPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    if (this.configurationSpecificPropertiesToolStripMenuItem.Checked)
+        //    {
+        //        this.configurationSpecificPropertiesToolStripMenuItem.Checked = false;
+        //        this.tbMainTable.Controls.Remove(cs);
+        //    }
+        //    else
+        //    {
+        //        this.configurationSpecificPropertiesToolStripMenuItem.Checked = true;
+        //        this.tbMainTable.Controls.Add(cs, 0, 1);
+        //        cs.Dock = DockStyle.Fill;
+        //    }
+        //}
 
-        private void globalPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.globalPropertiesToolStripMenuItem.Checked)
-            {
-                this.globalPropertiesToolStripMenuItem.Checked = false;
-                this.tbMainTable.Controls.Remove(gp);
-            }
-            else
-            {
-                this.globalPropertiesToolStripMenuItem.Checked = true;
-                this.tbMainTable.Controls.Add(gp, 1, 1);
-                gp.Dock = DockStyle.Fill;
-            }
-        }
+        //private void globalPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    if (this.globalPropertiesToolStripMenuItem.Checked)
+        //    {
+        //        this.globalPropertiesToolStripMenuItem.Checked = false;
+        //        this.tbMainTable.Controls.Remove(gp);
+        //    }
+        //    else
+        //    {
+        //        this.globalPropertiesToolStripMenuItem.Checked = true;
+        //        this.tbMainTable.Controls.Add(gp, 1, 1);
+        //        gp.Dock = DockStyle.Fill;
+        //    }
+        //}
 
-        private void machinePropertiesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.machinePropertiesToolStripMenuItem.Checked)
-            {
-                this.machinePropertiesToolStripMenuItem.Checked = false;
-                this.tbMainTable.Controls.Remove(mp);
-            }
-            else
-            {
-                this.machinePropertiesToolStripMenuItem.Checked = true;
-                this.tbMainTable.Controls.Add(mp, 1, 2);
-                mp.Dock = DockStyle.Fill;
-            }
-        }
+        //private void machinePropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    if (this.machinePropertiesToolStripMenuItem.Checked)
+        //    {
+        //        this.machinePropertiesToolStripMenuItem.Checked = false;
+        //        this.tbMainTable.Controls.Remove(mp);
+        //    }
+        //    else
+        //    {
+        //        this.machinePropertiesToolStripMenuItem.Checked = true;
+        //        this.tbMainTable.Controls.Add(mp, 1, 2);
+        //        mp.Dock = DockStyle.Fill;
+        //    }
+        //}
 
-        private void operationsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.operationsToolStripMenuItem.Checked)
-            {
-                this.operationsToolStripMenuItem.Checked = false;
-                this.tbMainTable.Controls.Remove(op);
-            }
-            else
-            {
-                this.operationsToolStripMenuItem.Checked = true;
-                this.tbMainTable.Controls.Add(op, 2, 1);
-                op.Dock = DockStyle.Fill;
-            }
-        }
+        //private void operationsToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    if (this.operationsToolStripMenuItem.Checked)
+        //    {
+        //        this.operationsToolStripMenuItem.Checked = false;
+        //        this.tbMainTable.Controls.Remove(op);
+        //    }
+        //    else
+        //    {
+        //        this.operationsToolStripMenuItem.Checked = true;
+        //        this.tbMainTable.Controls.Add(op, 2, 1);
+        //        op.Dock = DockStyle.Fill;
+        //    }
+        //}
 
         private void RedBrick_Shown(object sender, EventArgs e)
         {

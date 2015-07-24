@@ -118,6 +118,7 @@ namespace redbrick.csproj
             this.tbWallThick.Name = "tbWallThick";
             this.tbWallThick.Size = new System.Drawing.Size(238, 20);
             this.tbWallThick.TabIndex = 9;
+            this.tbWallThick.Leave += new System.EventHandler(this.tbWallThick_Leave);
             // 
             // lWallThickness
             // 
@@ -137,6 +138,7 @@ namespace redbrick.csproj
             this.tbThick.Name = "tbThick";
             this.tbThick.Size = new System.Drawing.Size(238, 20);
             this.tbThick.TabIndex = 15;
+            this.tbThick.Leave += new System.EventHandler(this.tbThick_Leave);
             // 
             // label6
             // 
@@ -156,6 +158,7 @@ namespace redbrick.csproj
             this.tbWidth.Name = "tbWidth";
             this.tbWidth.Size = new System.Drawing.Size(238, 20);
             this.tbWidth.TabIndex = 8;
+            this.tbWidth.Leave += new System.EventHandler(this.tbWidth_Leave);
             // 
             // label3
             // 
@@ -175,7 +178,7 @@ namespace redbrick.csproj
             this.tbLength.Name = "tbLength";
             this.tbLength.Size = new System.Drawing.Size(238, 20);
             this.tbLength.TabIndex = 7;
-            this.tbLength.TextChanged += new System.EventHandler(this.tbLength_TextChanged);
+            this.tbLength.Leave += new System.EventHandler(this.tbLength_Leave);
             // 
             // label2
             // 
@@ -239,6 +242,7 @@ namespace redbrick.csproj
             this.labResWidth.TabIndex = 12;
             this.labResWidth.Text = "00.000";
             this.labResWidth.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labResWidth.TextChanged += new System.EventHandler(this.labResWidth_TextChanged);
             // 
             // labResLength
             // 
@@ -250,6 +254,7 @@ namespace redbrick.csproj
             this.labResLength.TabIndex = 11;
             this.labResLength.Text = "00.000";
             this.labResLength.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labResLength.TextChanged += new System.EventHandler(this.labResLength_TextChanged);
             // 
             // bCopy
             // 
@@ -262,6 +267,7 @@ namespace redbrick.csproj
             this.bCopy.Size = new System.Drawing.Size(22, 27);
             this.bCopy.TabIndex = 2;
             this.bCopy.UseVisualStyleBackColor = true;
+            this.bCopy.Click += new System.EventHandler(this.bCopy_Click);
             // 
             // GeneralProperties
             // 

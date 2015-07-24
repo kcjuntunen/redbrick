@@ -27,14 +27,6 @@ namespace redbrick.csproj
             this.OpType = "WOOD";
         }
 
-        private void fillBox(object occ)
-        {
-            ComboBox c = (ComboBox)occ;
-            c.DataSource = cd.GetOps(this.OpType).Tables[0];
-            c.DisplayMember = "OPDESCR";
-            c.ValueMember = "OPNAME";
-        }
-
         public void GetProperties()
         {
             for (int i = 0; i < 6; i++)
@@ -46,13 +38,34 @@ namespace redbrick.csproj
                     if ((c is ComboBox) && c.Name.ToUpper().Contains(op))
                     {
                         ComboBox cb = (c as ComboBox);
-                        cb.DisplayMember = "OPNAME";
-                        int idx = this.GetIndex((cb.DataSource as DataTable), 
+
+                        if (!this.propertySet.Contains(op))
+                        {
+                            SwProperty ps = new SwProperty(op, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                            ps.ID = (cb.SelectedItem as DataRowView).Row.ItemArray[0].ToString();
+                            ps.Value = (cb.SelectedItem as DataRowView).Row.ItemArray[1].ToString();
+                            ps.ResValue = (cb.SelectedItem as DataRowView).Row.ItemArray[2].ToString();
+
+                            ps.Table = "CUT_PARTS";
+                            ps.Field = string.Format("OP{0}ID", c.Name.Split('p')[1]);
+                            ps.SwApp = this.propertySet.SwApp;
+                            this.propertySet.Add(ps);
+                        }
+
+                        this.propertySet.GetProperty(op).Ctl = c;
+                        cb.DisplayMember = "OPID";
+
+                        int idx = this.GetIndex((cb.DataSource as DataTable),
                             this.propertySet.GetProperty(op).Value);
+
+                        System.Diagnostics.Debug.Print(this.GetIndex((cb.DataSource as DataTable),
+                            this.propertySet.GetProperty(op).Value).ToString());
+
                         if (idx > cb.Items.Count - 1) idx = 0;
-                        System.Diagnostics.Debug.Print(this.propertySet.GetProperty(op).Value);
+
                         cb.SelectedIndex = idx;
                         cb.DisplayMember = "OPDESCR";
+
                         SwProperty p = this.propertySet.GetProperty(op);
                         p.ID = (cb.SelectedItem as DataRowView).Row.ItemArray[0].ToString();
                         p.Value = (cb.SelectedItem as DataRowView).Row.ItemArray[1].ToString();
@@ -63,6 +76,14 @@ namespace redbrick.csproj
                     }
                 }
             }
+        }
+
+        private void fillBox(object occ)
+        {
+            ComboBox c = (ComboBox)occ;
+            c.DataSource = cd.GetOps(this.OpType).Tables[0];
+            c.DisplayMember = "OPDESCR";
+            c.ValueMember = "OPNAME";
         }
 
         public void RefreshOps(string opType)
@@ -97,7 +118,7 @@ namespace redbrick.csproj
                 {
                     count++;
 
-                    if (dr.ItemArray[1].ToString().Trim().ToUpper() == val.Trim().ToUpper())
+                    if (dr.ItemArray[0].ToString().Trim().ToUpper() == val.Trim().ToUpper())
                         return count;
                 }
             }

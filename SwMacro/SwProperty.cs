@@ -40,14 +40,35 @@ namespace redbrick.csproj
 
                 CustomPropertyManager gcpm = md.Extension.get_CustomPropertyManager(string.Empty);
                 CustomPropertyManager scpm = md.Extension.get_CustomPropertyManager(cf.Name);
-
+                
                 swCustomPropertyAddOption_e ao = swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd;
+                
                 int res;
-
                 if (this.Global)
-                    res = gcpm.Add3(this.Name, (int)this.Type, this.Value, (int)ao);
+                {
+                    if (this.Name.Contains("OP"))
+                    {
+                        string v = ((this.Ctl as System.Windows.Forms.ComboBox).SelectedItem as System.Data.DataRowView).Row.ItemArray[0].ToString();
+                        res = gcpm.Add3(this.Name, (int)swCustomInfoType_e.swCustomInfoNumber, v, (int)ao);
+                        System.Diagnostics.Debug.Print(string.Format("Writing {0} to {1}: {2}", this.Name, v, this.Value));
+                    }
+                    else
+                    {
+                        res = gcpm.Add3(this.Name, (int)this.Type, this.Value, (int)ao);
+                    }
+                }
                 else
-                    res = scpm.Add3(this.Name, (int)this.Type, this.Value, (int)ao);
+                {
+                    if (this.Name.Contains("EDGE") || this.Name.Contains("CUTLIST MATERIAL"))
+                    {
+                        string v = "0";
+                        if ((this.Ctl as System.Windows.Forms.ComboBox).SelectedItem != null)
+                            v = ((this.Ctl as System.Windows.Forms.ComboBox).SelectedItem as System.Data.DataRowView).Row.ItemArray[0].ToString();
+
+                        res = scpm.Add3(this.Name, (int)swCustomInfoType_e.swCustomInfoNumber, v, (int)ao);
+                        System.Diagnostics.Debug.Print(this.Name + " <-- " + this.Value);
+                    }
+                }
             }
             else
             {
@@ -81,6 +102,8 @@ namespace redbrick.csproj
                     res = gcpm.Add3(this.Name, (int)this.Type, this.Value, (int)ao);
                 else
                     res = scpm.Add3(this.Name, (int)this.Type, this.Value, (int)ao);
+
+                System.Diagnostics.Debug.Print(this.Name + " <-- " + this.Value);
             }
             else
             {
@@ -113,9 +136,20 @@ namespace redbrick.csproj
                     int res;
 
                     if (this.Global)
+                    {
                         res = gcpm.Get5(this.Name, useCached, out this._value, out this._resValue, out wasResolved);
+                        this.Type = (swCustomInfoType_e)gcpm.GetType2(this.Name);
+
+
+                        if (this.Type == swCustomInfoType_e.swCustomInfoNumber && this.Name.ToUpper().Contains("OVER"))
+                            this.Type = swCustomInfoType_e.swCustomInfoDouble;
+                    }
                     else
+                    {
                         res = scpm.Get5(this.Name, useCached, out this._value, out this._resValue, out wasResolved);
+                        this.Type = (swCustomInfoType_e)gcpm.GetType2(this.Name);
+                    }
+                    System.Diagnostics.Debug.Print(this.Name + " --> " + this.Value);
                 }
                 else
                 {
@@ -148,9 +182,20 @@ namespace redbrick.csproj
                 int res;
 
                 if (this.Global)
+                {
                     res = gcpm.Get5(this.Name, useCached, out this._value, out this._resValue, out wasResolved);
+                    this.Type = (swCustomInfoType_e)gcpm.GetType2(this.Name);
+
+
+                    if (this.Type == swCustomInfoType_e.swCustomInfoNumber && this.Name.ToUpper().Contains("OVER"))
+                        this.Type = swCustomInfoType_e.swCustomInfoDouble;
+                }
                 else
+                {
                     res = scpm.Get5(this.Name, useCached, out this._value, out this._resValue, out wasResolved);
+                    this.Type = (swCustomInfoType_e)gcpm.GetType2(this.Name);
+                }
+                System.Diagnostics.Debug.Print(this.Name + " --> " + this.Value);
             }
             else
             {

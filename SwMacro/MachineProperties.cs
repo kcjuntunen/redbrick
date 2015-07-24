@@ -26,11 +26,22 @@ namespace redbrick.csproj
             this.LinkControlToProperty("CNC1", this.tbCNC1);
             this.LinkControlToProperty("CNC2", this.tbCNC2);
             this.LinkControlToProperty("OVERL", this.tbOverL);
+
+            string tVal = this.propertySet.GetProperty("OVERL").Value;
+            double dVal = 0.0;
+            if (double.TryParse(tVal, out dVal))
+            {
+                this._overL = dVal;
+            }
+
             this.LinkControlToProperty("OVERW", this.tbOverW);
 
-            //this.tbBlankL = double.Parse(this.propertySet.GetProperty("LENGTH").ResValue) -
-            //    (this.propertySet.cutlistData.GetEdgeThickness(this.propertySet.GetProperty("")) + this.propertySet.cutlistData.GetEdgeThickness());
-            // yadda yadda
+            tVal = this.propertySet.GetProperty("OVERW").Value;
+            dVal = 0.0;
+            if (double.TryParse(tVal, out dVal))
+            {
+                this._overW = dVal;
+            }
         }
 
         private void LinkControlToProperty(string property, Control c)
@@ -38,10 +49,13 @@ namespace redbrick.csproj
             SwProperty p = this.propertySet.GetProperty(property);
             if (this.propertySet.Contains(p))
             {
+                System.Diagnostics.Debug.Print("Linking " + p.Name);
                 p.Ctl = c;
+                c.Text = p.Value;
             }
             else
             {
+                System.Diagnostics.Debug.Print("Creating " + p.Name);
                 SwProperty x = new SwProperty(property, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
                 x.Ctl = c;
             }
@@ -82,6 +96,22 @@ namespace redbrick.csproj
             return this.tbBlankW;
         }
 
+        private double _overL;
+
+        public double OverL
+        {
+            get { return _overL; }
+            set { _overL = value; }
+        }
+
+        private double _overW;
+
+        public double OverW
+        {
+            get { return _overW; }
+            set { _overW = value; }
+        }
+	
         private void tbOverL_TextChanged(object sender, EventArgs e)
         {
             this.tbOverL.Text = string.Format("{0:0.000}", this.tbOverL.Text);
@@ -90,6 +120,28 @@ namespace redbrick.csproj
         private void tbOverW_TextChanged(object sender, EventArgs e)
         {
             this.tbOverW.Text = string.Format("{0:0.000}", this.tbOverW.Text);
+        }
+
+        private void tbOverL_Validated(object sender, EventArgs e)
+        {
+            string tVal = this.tbOverL.Text;
+            double dVal = 0.0;
+            if (double.TryParse(tVal, out dVal))
+            {
+                this._overL = dVal;
+                System.Diagnostics.Debug.Print(double.Parse(tVal).ToString());
+            }
+        }
+
+        private void tbOverW_Validated(object sender, EventArgs e)
+        {
+            string tVal = this.tbOverW.Text;
+            double dVal = 0.0;
+            if (double.TryParse(tVal, out dVal))
+            {
+                this._overW = dVal;
+                System.Diagnostics.Debug.Print(tVal);
+            }
         }
     }
 }

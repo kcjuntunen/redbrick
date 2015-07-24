@@ -54,12 +54,15 @@ namespace redbrick.csproj
                 OdbcCommand comm = new OdbcCommand(SQL, conn);
                 OdbcDataAdapter da = new OdbcDataAdapter(comm);
                 DataSet ds = new DataSet();
-                da.Fill(ds);
                 //conn.Close();
+                da.Fill(ds);
+                
                 DataRow dar = ds.Tables[0].NewRow();
                 dar[0] = 0;
                 dar[1] = string.Empty;
-                dar[2] = string.Empty;
+                dar[2] = "None";
+                dar[3] = 0.0;
+
                 ds.Tables[0].Rows.Add(dar);
                 return ds;
             }
@@ -105,6 +108,20 @@ namespace redbrick.csproj
                 return dr.GetDouble(0);
             else
                 return 0.0;
+        }
+
+        public int GetMaterialID(string description)
+        {
+            if (description == null)
+                return 0;
+
+            string SQL = string.Format("SELECT MATID FROM CUT_MATERIALS WHERE DESCR = '{0}'", description);
+            OdbcCommand comm = new OdbcCommand(SQL, conn);
+            OdbcDataReader dr = comm.ExecuteReader();
+            if (dr.HasRows)
+                return dr.GetInt32(0);
+            else
+                return 0;
         }
 
         private DataSet _materials;

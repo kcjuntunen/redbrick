@@ -71,13 +71,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files\SolidWorks Corp\SolidWorks (3)\api\redist\CLR2\SolidWorks.Interop.SldWorks.dll</HintPath>
     </Reference>
+    <Reference Include="SolidWorks.Interop.swcommands, Version=22.3.0.56, Culture=neutral, PublicKeyToken=0fda92720ba7919f, processorArchitecture=MSIL" />
     <Reference Include="SolidWorks.Interop.swconst, Version=22.3.0.56, Culture=neutral, PublicKeyToken=19f43e188e4269d8, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files\SolidWorks Corp\SolidWorks (3)\api\redist\CLR2\SolidWorks.Interop.swconst.dll</HintPath>
     </Reference>
+    <Reference Include="SolidWorks.Interop.swpublished, Version=22.3.0.56, Culture=neutral, PublicKeyToken=89a97bdc5284e6d8, processorArchitecture=MSIL" />
     <Reference Include="SolidWorks.Proxy.Sldworks, Version=22.3.0.56, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files\SolidWorks Corp\SolidWorks (3)\SolidWorks.Proxy.Sldworks.dll</HintPath>
+    </Reference>
+    <Reference Include="solidworkstools, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bd18593873b4686d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files\SolidWorks Corp\SolidWorks (3)\solidworkstools.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

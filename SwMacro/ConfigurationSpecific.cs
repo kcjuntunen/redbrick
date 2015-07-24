@@ -21,12 +21,19 @@ namespace redbrick.csproj
         {
             propertySet = prop;
             cd = prop.cutlistData;
+            this._edgeDiffL = 0.0;
+            this._edgeDiffW = 0.0;
 
             InitializeComponent();
+            //this.fillComboBoxes();
+            this.fillMat();
+            ComboBox[] cc = { this.cbEf, this.cbEb, this.cbEl, this.cbEr };
+            foreach (ComboBox c in cc)
+            {
+                this.fillEdg((object)c);
+                
+            }
             this.LinkControls();
-            cd = new CutlistData();
-
-            this.fillComboBoxes();
         }
 
         private void LinkControls()
@@ -42,15 +49,41 @@ namespace redbrick.csproj
         private void LinkControlToProperty(string property, Control c)
         {
             SwProperty p = this.propertySet.GetProperty(property);
+            ComboBox cb = (c as ComboBox);
             if (this.propertySet.Contains(p))
             {
+                System.Diagnostics.Debug.Print("Linking " + p.Name);
+                p.Type = swCustomInfoType_e.swCustomInfoText;
                 p.Ctl = c;
+                int idx = this.GetIndex((cb.DataSource as DataTable), p.Value);
+                
+                if (idx > cb.Items.Count - 1) idx = -1;
+
+                (c as ComboBox).SelectedIndex = idx;
+                System.Diagnostics.Debug.Print(p.Value + " " + idx);
             }
             else
             {
+                System.Diagnostics.Debug.Print("Creating " + p.Name);
                 SwProperty x = new SwProperty(property, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                p.Type = swCustomInfoType_e.swCustomInfoText;
                 x.Ctl = c;
             }
+        }
+
+        private int GetIndex(DataTable dt, string val)
+        {
+            if (dt != null)
+            {
+                int count = 0;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    count++;
+                    if (dr.ItemArray[0].ToString().Trim().ToUpper() == val.Trim().ToUpper())
+                        return count;
+                }
+            }
+            return -1;
         }
 
         private void fillComboBoxes()
@@ -93,13 +126,15 @@ namespace redbrick.csproj
             //System.Windows.Forms.MessageBox.Show("fillMat()");
             this.cbMat.DataSource = cd.Materials.Tables[0];
             this.cbMat.DisplayMember = "DESCR";
+            this.cbMat.ValueMember = "MATID";
         }
 
         private void fillEdg(object occ)
         {
             ComboBox c = (ComboBox)occ;
             c.DataSource = cd.Edges.Tables[0];
-            c.DisplayMember = "DESCR"; 
+            c.DisplayMember = "DESCR";
+            c.ValueMember = "EDGEID";
         }
 
         public void ToggleFields(string opType)
@@ -122,29 +157,160 @@ namespace redbrick.csproj
             cbEr.Visible = wood;
         }
 
+        private void UpdateDiffW(ComboBox cbl, ComboBox cbr)
+        {
+            this._edgeDiffW = 0.0;
+            double t = 0.0;
+            string thk = string.Empty;
+            try
+            {
+                System.Data.DataRowView drv = (System.Data.DataRowView)cbl.SelectedItem;
+                if (drv != null)
+                    thk = drv[3].ToString();
+            }
+            catch (InvalidCastException ice)
+            {
+                thk = "0.0";
+            }
+            catch (NullReferenceException nre)
+            {
+                thk = "0.0";
+            }
+
+            if (double.TryParse(thk, out t))
+            {
+                this._edgeDiffW += t * -1;
+            }
+
+            try
+            {
+                System.Data.DataRowView drv = (System.Data.DataRowView)cbr.SelectedItem;
+                if (drv != null)
+                    thk = drv[3].ToString();
+            }
+            catch (InvalidCastException ice)
+            {
+                thk = "0.0";
+            }
+            catch (NullReferenceException nre)
+            {
+                thk = "0.0";
+            }
+
+            if (double.TryParse(thk, out t))
+            {
+                this._edgeDiffW += t * -1;
+            }
+        }
+
+        private void UpdateDiffL(ComboBox cbf, ComboBox cbb)
+        {
+            this._edgeDiffL = 0.0;
+            double t = 0.0;
+            string thk = string.Empty;
+            try
+            {
+                System.Data.DataRowView drv = (System.Data.DataRowView)cbf.SelectedItem;
+                if (drv != null)
+                    thk = drv[3].ToString();
+            }
+            catch (InvalidCastException ice)
+            {
+                thk = "0.0";
+            }
+            catch (NullReferenceException nre)
+            {
+                thk = "0.0";
+            }
+
+            if (double.TryParse(thk, out t))
+            {
+                this._edgeDiffL += t * -1;
+            }
+
+            try
+            {
+                System.Data.DataRowView drv = (System.Data.DataRowView)cbb.SelectedItem;
+                if (drv != null)
+                    thk = drv[3].ToString();
+            }
+            catch (InvalidCastException ice)
+            {
+                thk = "0.0";
+            }
+            catch (NullReferenceException nre)
+            {
+                thk = "0.0";
+            }
+
+            if (double.TryParse(thk, out t))
+            {
+                this._edgeDiffL += t * -1;
+            }
+        }
+
         private void cbMat_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.lMatColor.Text = (this.cbMat.SelectedValue as System.Data.DataRowView)["COLOR"].ToString();
+            if (this.cbMat.SelectedValue != null)
+                this.lMatColor.Text = (this.cbMat.SelectedItem as System.Data.DataRowView)["COLOR"].ToString();
+            else
+                this.lMatColor.Text = string.Empty;
         }
 
         private void cbEf_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.leFColor.Text = (this.cbEf.SelectedValue as System.Data.DataRowView)["COLOR"].ToString();
+            if (this.cbEf.SelectedValue != null)
+            {
+                this.leFColor.Text = (this.cbEf.SelectedItem as System.Data.DataRowView)[2].ToString();
+            }
+            else
+            {
+                this.leFColor.Text = string.Empty;
+            }
+
+            this.UpdateDiffL(this.cbEf, this.cbEb);
         }
 
         private void cbEb_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.leBColor.Text = (this.cbEb.SelectedValue as System.Data.DataRowView)["COLOR"].ToString();
+            if (this.cbEb.SelectedValue != null)
+            {
+                this.leBColor.Text = (this.cbEb.SelectedItem as System.Data.DataRowView)["COLOR"].ToString();
+            }
+            else
+            {
+                this.leBColor.Text = string.Empty;
+            }
+
+            this.UpdateDiffL(this.cbEf, this.cbEb);
         }
 
         private void cbEl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.leLColor.Text = (this.cbEl.SelectedValue as System.Data.DataRowView)["COLOR"].ToString();
+            if (this.cbEl.SelectedValue != null)
+            {
+                this.leLColor.Text = (this.cbEl.SelectedItem as System.Data.DataRowView)["COLOR"].ToString();
+            }
+            else
+            {
+                this.leLColor.Text = string.Empty;
+            }
+
+            this.UpdateDiffW(this.cbEl, this.cbEr);
         }
 
         private void cbEr_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.leRColor.Text = (this.cbEr.SelectedValue as System.Data.DataRowView)["COLOR"].ToString();
+            if (this.cbEr.SelectedValue != null)
+            {
+                this.leRColor.Text = (this.cbEr.SelectedItem as System.Data.DataRowView)["COLOR"].ToString();
+            }
+            else
+            {
+                this.leRColor.Text = string.Empty;
+            }
+
+            this.UpdateDiffW(this.cbEl, this.cbEr);
         }
 
         public ComboBox GetCutlistMatBox()
@@ -172,5 +338,22 @@ namespace redbrick.csproj
             return this.cbEr;
         }
 
+        private double _edgeDiffL;
+
+        public double EdgeDiffL
+        {
+            get { return _edgeDiffL; }
+            set { _edgeDiffL = value; }
+        }
+
+        private double _edgeDiffW;
+
+        public double EdgeDiffW
+        {
+            get { return _edgeDiffW; }
+            set { _edgeDiffW = value; }
+        }
+	
+	
     }
 }

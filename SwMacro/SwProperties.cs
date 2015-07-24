@@ -13,6 +13,11 @@ namespace redbrick.csproj
         protected ArrayList _innerArray;
         protected SldWorks swApp;
 
+        public SldWorks SwApp
+        {
+            get { return this.swApp; }
+        }
+
         public SwProperties(SldWorks sw)
         {
             this.swApp = sw;
@@ -22,7 +27,7 @@ namespace redbrick.csproj
 
         public void CreateDefaultPartSet()
         {
-            this._innerArray.Add(new SwProperty("CUTLIST MATERIAL", swCustomInfoType_e.swCustomInfoNumber, "TBD MATERIAL", false));
+            //this._innerArray.Add(new SwProperty("CUTLIST MATERIAL", swCustomInfoType_e.swCustomInfoNumber, "TBD MATERIAL", false));
             this._innerArray.Add(new SwProperty("EDGE FRONT (L)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
             this._innerArray.Add(new SwProperty("EDGE BACK (L)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
             this._innerArray.Add(new SwProperty("EDGE LEFT (W)", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
@@ -34,7 +39,7 @@ namespace redbrick.csproj
             this._innerArray.Add(new SwProperty("THICKNESS", swCustomInfoType_e.swCustomInfoText, "\"D1@Boss-Extrude1\"", true));
             this._innerArray.Add(new SwProperty("WALL THICKNESS", swCustomInfoType_e.swCustomInfoText, "\"Thickness@Sheet-Metal1\"", true));
             this._innerArray.Add(new SwProperty("COMMENT", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
-            this._innerArray.Add(new SwProperty("BLANK QTY", swCustomInfoType_e.swCustomInfoDouble, "1", true));
+            this._innerArray.Add(new SwProperty("BLANK QTY", swCustomInfoType_e.swCustomInfoNumber, "1", true));
             this._innerArray.Add(new SwProperty("CNC1", swCustomInfoType_e.swCustomInfoText, "NA", true));
             this._innerArray.Add(new SwProperty("CNC2", swCustomInfoType_e.swCustomInfoText, "NA", true));
             this._innerArray.Add(new SwProperty("OVERL", swCustomInfoType_e.swCustomInfoDouble, "0.0", true));
@@ -63,6 +68,62 @@ namespace redbrick.csproj
             System.Windows.Forms.MessageBox.Show(s);
         }
 
+        public void CreateDefaultPartSet2()
+        {
+            this._innerArray.Add(new SwProperty("MATID", swCustomInfoType_e.swCustomInfoNumber, "TBD MATERIAL", false));
+            this._innerArray.Add(new SwProperty("EDGEID_LF", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
+            this._innerArray.Add(new SwProperty("EDGEID_LB", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
+            this._innerArray.Add(new SwProperty("EDGEID_WR", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
+            this._innerArray.Add(new SwProperty("EDGEID_WL", swCustomInfoType_e.swCustomInfoNumber, string.Empty, false));
+
+            this._innerArray.Add(new SwProperty("Description", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("LENGTH", swCustomInfoType_e.swCustomInfoText, "\"D1@Sketch1\"", true));
+            this._innerArray.Add(new SwProperty("WIDTH", swCustomInfoType_e.swCustomInfoText, "\"D2@Sketch1\"", true));
+            this._innerArray.Add(new SwProperty("THICKNESS", swCustomInfoType_e.swCustomInfoText, "\"D1@Boss-Extrude1\"", true));
+            this._innerArray.Add(new SwProperty("WALL THICKNESS", swCustomInfoType_e.swCustomInfoText, "\"Thickness@Sheet-Metal1\"", true));
+            this._innerArray.Add(new SwProperty("COMMENT", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("BLANK QTY", swCustomInfoType_e.swCustomInfoNumber, "1", true));
+            this._innerArray.Add(new SwProperty("CNC1", swCustomInfoType_e.swCustomInfoText, "NA", true));
+            this._innerArray.Add(new SwProperty("CNC2", swCustomInfoType_e.swCustomInfoText, "NA", true));
+            this._innerArray.Add(new SwProperty("OVERL", swCustomInfoType_e.swCustomInfoDouble, "0.0", true));
+            this._innerArray.Add(new SwProperty("OVERW", swCustomInfoType_e.swCustomInfoDouble, "0.0", true));
+            this._innerArray.Add(new SwProperty("OP1ID", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("OP2ID", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("OP3ID", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("OP4ID", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("OP5ID", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
+            this._innerArray.Add(new SwProperty("DEPARTMENT", swCustomInfoType_e.swCustomInfoText, "WOOD", true));
+            this._innerArray.Add(new SwProperty("UPDATE CNC", swCustomInfoType_e.swCustomInfoYesOrNo, "No", true));
+            this._innerArray.Add(new SwProperty("INCLUDE IN CUTLIST", swCustomInfoType_e.swCustomInfoYesOrNo, "Yes", true));
+
+            this._innerArray.Add(new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoText, "$PRP:\"SW-File Name\"", true));
+            this._innerArray.Add(new SwProperty("MATERIAL", swCustomInfoType_e.swCustomInfoText, "\"SW-Material@{0}\"", true));
+            this._innerArray.Add(new SwProperty("WEIGHT", swCustomInfoType_e.swCustomInfoText, "\"SW-Mass@{0}\"", true));
+            this._innerArray.Add(new SwProperty("VOLUME", swCustomInfoType_e.swCustomInfoText, "\"SW-Volume@{0}\"", true));
+            this._innerArray.Add(new SwProperty("COST-TOTALCOST", swCustomInfoType_e.swCustomInfoText, "\"SW-Cost-TotalCost@{0}\"", true));
+
+            string s = string.Empty;
+            foreach (SwProperty p in this._innerArray)
+            {
+                p.Get(this.swApp);
+                //s += p.Name + ": " + p.ResValue + "\n";
+            }
+            //System.Windows.Forms.MessageBox.Show(s);
+
+            if (this._innerArray.Contains("CUTLIST MATERIAL"))
+            {
+                int id = cutlistData.GetMaterialID(this.GetProperty("CUTLIST MATERIAL").Value);
+                SwProperty p = new SwProperty("MATID", swCustomInfoType_e.swCustomInfoNumber, id.ToString(), false );
+                this.Remove("CUTLIST MATERIAL");
+                this._innerArray.Add(p);
+            }
+
+            if (this._innerArray.Contains("EDGE FRONT (L)"))
+            {
+                
+            }
+        }
+
         public void CreateDefaultDrawingSet()
         {
             this._innerArray.Add(new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoNumber, "$PRP:\"SW-File Name\"", true));
@@ -86,9 +147,113 @@ namespace redbrick.csproj
             foreach (SwProperty p in this._innerArray)
             {
                 p.Get(this.swApp);
-                s += p.Name + ": " + p.ResValue + "\n";
+                //s += p.Name + ": " + p.ResValue + "\n";
             }
-            System.Windows.Forms.MessageBox.Show(s);
+            //System.Windows.Forms.MessageBox.Show(s);
+        }
+
+        public void GetPropertyData()
+        {
+            ModelDoc2 md = (ModelDoc2)swApp.ActiveDoc;
+            CustomPropertyManager g = md.Extension.get_CustomPropertyManager(string.Empty);
+
+            string[] ss = (string[])g.GetNames();
+            foreach (string s in ss)
+            {
+                SwProperty p = new SwProperty(s, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                p.Get(this.swApp);
+                
+                this._innerArray.Add(p);
+            }
+
+
+            if ((swDocumentTypes_e)md.GetType() != swDocumentTypes_e.swDocDRAWING)
+            {
+                CustomPropertyManager c = md.Extension.get_CustomPropertyManager(md.ConfigurationManager.ActiveConfiguration.Name);
+                ss = (string[])c.GetNames();
+                foreach (string s in ss)
+                {
+                    SwProperty p = new SwProperty(s, swCustomInfoType_e.swCustomInfoText, string.Empty, false);
+                    p.Get(this.swApp);
+                    this._innerArray.Add(p);
+                }
+            }
+        }
+
+        public void GetPropertyData(SldWorks sw)
+        {
+            this.swApp = sw;
+            ModelDoc2 md = (ModelDoc2)swApp.ActiveDoc;
+            CustomPropertyManager g = md.Extension.get_CustomPropertyManager(string.Empty);
+            string valOut;
+            string resValOut;
+            bool wasResolved;
+            int res;
+
+            string[] ss = (string[])g.GetNames();
+            foreach (string s in ss)
+            {
+                res = g.Get5(s, false, out valOut, out resValOut, out wasResolved);
+                SwProperty p = new SwProperty(s, swCustomInfoType_e.swCustomInfoText, valOut, true);
+                p.ResValue = resValOut;
+                p.Type = (swCustomInfoType_e)g.GetType2(s);
+
+                if (p.Type == swCustomInfoType_e.swCustomInfoNumber && p.Name.ToUpper().Contains("OVER"))
+                    p.Type = swCustomInfoType_e.swCustomInfoDouble;
+
+                p.SwApp = this.swApp;
+                this._innerArray.Add(p);
+                System.Diagnostics.Debug.Print(s);
+            }
+
+
+            if ((swDocumentTypes_e)md.GetType() != swDocumentTypes_e.swDocDRAWING)
+            {
+                CustomPropertyManager c = md.Extension.get_CustomPropertyManager(md.ConfigurationManager.ActiveConfiguration.Name);
+                ss = (string[])c.GetNames();
+                foreach (string s in ss)
+                {
+                    res = c.Get5(s, false, out valOut, out resValOut, out wasResolved);
+                    SwProperty p = new SwProperty(s, swCustomInfoType_e.swCustomInfoText, valOut, false);
+                    p.ResValue = resValOut;
+                    p.Type = (swCustomInfoType_e)g.GetType2(s);
+                    p.SwApp = this.swApp;
+                    System.Diagnostics.Debug.Print(s);
+                    this._innerArray.Add(p);
+                }
+            }
+        }
+
+        public bool SWContains(string property)
+        {
+            ModelDoc2 md = (ModelDoc2)swApp.ActiveDoc;
+            Configuration conf = md.ConfigurationManager.ActiveConfiguration;
+            CustomPropertyManager gp = md.Extension.get_CustomPropertyManager(string.Empty);
+            CustomPropertyManager sp = md.Extension.get_CustomPropertyManager(conf.Name);
+            string[] ss = (string[])gp.GetNames();
+
+            foreach (string s in ss)
+            {
+                if (s.ToUpper() == property.ToUpper())
+                {
+                    return true;
+                }
+            }
+
+            if ((swDocumentTypes_e)md.GetType() != swDocumentTypes_e.swDocDRAWING)
+            {
+                ss = (string[])sp.GetNames();
+
+                foreach (string s in ss)
+                {
+                    if (s.ToUpper() == property.ToUpper())
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public virtual IEnumerator<SwProperty> GetEnumerator()
@@ -122,7 +287,7 @@ namespace redbrick.csproj
         {
             foreach (SwProperty p in this._innerArray)
             {
-                if (name == p.Name)
+                if (name.ToUpper() == p.Name.ToUpper())
                 {
                     return p;
                 }
@@ -149,7 +314,7 @@ namespace redbrick.csproj
             {
                 if (p.Ctl != null)
                 {
-                    p.Value = p.Ctl.Text;
+                    p.Value = p.Ctl.Text.ToUpper();
                 }
             }
         }
@@ -209,9 +374,10 @@ namespace redbrick.csproj
             if (item == null)
                 return false;
 
+            string n = item.Name.ToUpper();
             foreach (SwProperty p in this._innerArray)
             {
-                if (p.Name == item.Name)
+                if (p.Name.ToUpper() == n)
                 {
                     return true;
                 }
@@ -221,9 +387,10 @@ namespace redbrick.csproj
 
         public bool Contains(string name)
         {
+            string n = name.ToUpper();
             foreach (SwProperty p in this._innerArray)
             {
-                if (p.Name == name)
+                if (p.Name.ToUpper() == n)
                 {
                     return true;
                 }
