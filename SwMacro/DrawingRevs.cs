@@ -249,12 +249,16 @@ namespace redbrick.csproj
 
         private bool InThere(CustomPropertyManager c, string name)
         {
-            foreach (string p in (string[])c.GetNames())
+            string[] ss = (string[])c.GetNames();
+            if (ss != null)
             {
-                if (p == name)
+                foreach (string p in ss)
                 {
-                    return true;
-                }      
+                    if (p == name)
+                    {
+                        return true;
+                    }
+                }
             }
             return false;
         }

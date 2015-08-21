@@ -44,13 +44,17 @@ namespace redbrick.csproj
             SwProperty p = this.propertySet.GetProperty(property);
             if (this.propertySet.Contains(p))
             {
+#if DEBUG
                 System.Diagnostics.Debug.Print("Linking " + p.Name + ": " + p.Value);
+#endif
                 p.Ctl = c;
                 c.Text = p.Value;
             }
             else
             {
+#if DEBUG
                 System.Diagnostics.Debug.Print("Creating " + property);
+#endif
                 SwProperty x = new SwProperty(property, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
                 x.Ctl = c;
             }

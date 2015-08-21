@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Data.Odbc;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
 
@@ -31,17 +32,86 @@ namespace redbrick.csproj
 
         private DataSet GetMaterials()
         {
-            lock (threadLock)
+            if (this._materials == null)
             {
-                string SQL = "SELECT MATID,DESCR,COLOR FROM CUT_MATERIALS ORDER BY DESCR;";
-                //conn.Open();
-                OdbcCommand comm = new OdbcCommand(SQL, conn);
-                OdbcDataAdapter da = new OdbcDataAdapter(comm);
-                DataSet ds = new DataSet();
-                da.Fill(ds);
+                lock (threadLock)
+                {
+#if DEBUG
+                    DateTime start;
+                    DateTime end;
+                    start = DateTime.Now;
+#endif
+                    string SQL = "SELECT MATID,DESCR,COLOR FROM CUT_MATERIALS ORDER BY DESCR;";
+                    //conn.Open();
+                    OdbcCommand comm = new OdbcCommand(SQL, conn);
+                    OdbcDataAdapter da = new OdbcDataAdapter(comm);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
+#if DEBUG
+                    end = DateTime.Now;
+                    System.Diagnostics.Debug.Print("*** MAT ***<<< " + (end - start).ToString() + " >>>");
+#endif
+                    return ds;
+                }
+            }
+            else
+	        {
+		         return this._materials;
+	        }
+        }
 
-                //conn.Close();
+        private DataSet GetMaterials2()
+        {
+            string cacheFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string cacheFileName = Properties.Settings.Default.MatCacheFileName;
+            string cacheFile = cacheFilePath + @"\" + cacheFileName;
+            int cacheExpireTime = Properties.Settings.Default.CacheExpireTime;
+
+            FileInfo fi = new FileInfo(cacheFile);
+
+            if (((!fi.Exists) || (DateTime.Now - fi.LastWriteTime) > new TimeSpan(0, cacheExpireTime, 0)))
+            {
+                FileStream fs = new FileStream(fi.FullName, System.IO.FileMode.OpenOrCreate);
+                lock (threadLock)
+                {
+                    string SQL = "SELECT MATID,DESCR,COLOR FROM CUT_MATERIALS ORDER BY DESCR;";
+                    //conn.Open();
+                    OdbcCommand comm = new OdbcCommand(SQL, conn);
+                    OdbcDataAdapter da = new OdbcDataAdapter(comm);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds);
+
+                    //conn.Close();
+                    using (TextWriter sw = new StreamWriter(fs))
+                    {
+#if DEBUG
+                        System.Diagnostics.Debug.Print("Writing " + cacheFile);
+#endif
+                        System.Xml.Serialization.XmlSerializer xs = new System.Xml.Serialization.XmlSerializer(typeof(DataSet));
+                        xs.Serialize(sw, ds);
+                    }
+                    return ds;
+                }
+            }
+            else if (this._materials == null)
+            {
+#if DEBUG
+                DateTime start;
+                DateTime end;
+                start = DateTime.Now;
+                System.Diagnostics.Debug.Print("Reading from " + cacheFile);
+#endif
+                DataSet ds = new DataSet();
+                ds.ReadXml(cacheFile);
+#if DEBUG
+                end = DateTime.Now;
+                System.Diagnostics.Debug.Print("<<< " + (end - start).ToString() + " >>>");
+#endif
                 return ds;
+            }
+            else
+            {
+                return this._materials;
             }
         }
 
@@ -49,6 +119,11 @@ namespace redbrick.csproj
         {
             lock (threadLock)
             {
+#if DEBUG
+                DateTime start;
+                DateTime end;
+                start = DateTime.Now;
+#endif
                 string SQL = "SELECT EDGEID,DESCR,COLOR,THICKNESS FROM CUT_EDGES ORDER BY DESCR;";
                 //conn.Open();
                 OdbcCommand comm = new OdbcCommand(SQL, conn);
@@ -63,7 +138,11 @@ namespace redbrick.csproj
                 dar[2] = "None";
                 dar[3] = 0.0;
 
-                ds.Tables[0].Rows.Add(dar);
+                ds.Tables[0].Rows.Add(dar); ;
+#if DEBUG
+                end = DateTime.Now;
+                System.Diagnostics.Debug.Print("*** EDG ***<<< " + (end - start).ToString() + " >>>");
+#endif
                 return ds;
             }
         }
@@ -128,18 +207,7 @@ namespace redbrick.csproj
 
         public DataSet Materials
         {
-            get 
-            {
-                if (this._materials != null)
-                {
-                    return this._materials.Copy();
-                }
-                else
-                {
-                    this._materials = this.GetMaterials();
-                    return this._materials;
-                }
-            }
+            get { return this.GetMaterials(); }
             private set { _materials = value; }
         }
 

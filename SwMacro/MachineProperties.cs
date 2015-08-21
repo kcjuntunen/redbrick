@@ -49,13 +49,17 @@ namespace redbrick.csproj
             SwProperty p = this.propertySet.GetProperty(property);
             if (this.propertySet.Contains(p))
             {
+#if DEBUG
                 System.Diagnostics.Debug.Print("Linking " + p.Name);
+#endif
                 p.Ctl = c;
                 c.Text = p.Value;
             }
             else
             {
+#if DEBUG
                 System.Diagnostics.Debug.Print("Creating " + p.Name);
+#endif
                 SwProperty x = new SwProperty(property, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
                 x.Ctl = c;
             }
@@ -129,7 +133,9 @@ namespace redbrick.csproj
             if (double.TryParse(tVal, out dVal))
             {
                 this._overL = dVal;
+#if DEBUG
                 System.Diagnostics.Debug.Print(double.Parse(tVal).ToString());
+#endif
             }
         }
 
@@ -140,7 +146,9 @@ namespace redbrick.csproj
             if (double.TryParse(tVal, out dVal))
             {
                 this._overW = dVal;
+#if DEBUG
                 System.Diagnostics.Debug.Print(tVal);
+#endif
             }
         }
     }

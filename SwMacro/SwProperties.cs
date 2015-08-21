@@ -65,7 +65,9 @@ namespace redbrick.csproj
                 p.Get(this.swApp);
                 s += p.Name + ": " + p.ResValue + "\n";
             }
+#if DEBUG
             System.Windows.Forms.MessageBox.Show(s);
+#endif
         }
 
         public void CreateDefaultPartSet2()
@@ -102,13 +104,19 @@ namespace redbrick.csproj
             this._innerArray.Add(new SwProperty("VOLUME", swCustomInfoType_e.swCustomInfoText, "\"SW-Volume@{0}\"", true));
             this._innerArray.Add(new SwProperty("COST-TOTALCOST", swCustomInfoType_e.swCustomInfoText, "\"SW-Cost-TotalCost@{0}\"", true));
 
+#if DEBUG
             string s = string.Empty;
+#endif
             foreach (SwProperty p in this._innerArray)
             {
                 p.Get(this.swApp);
-                //s += p.Name + ": " + p.ResValue + "\n";
+#if DEBUG
+                s += p.Name + ": " + p.ResValue + "\n";
+#endif
             }
-            //System.Windows.Forms.MessageBox.Show(s);
+#if DEBUG
+            System.Windows.Forms.MessageBox.Show(s);
+#endif
 
             if (this._innerArray.Contains("CUTLIST MATERIAL"))
             {
@@ -143,13 +151,19 @@ namespace redbrick.csproj
             this._innerArray.Add(new SwProperty("M5", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
             this._innerArray.Add(new SwProperty("FINISH 5", swCustomInfoType_e.swCustomInfoText, string.Empty, true));
 
+#if DEBUG
             string s = string.Empty;
+#endif
             foreach (SwProperty p in this._innerArray)
             {
                 p.Get(this.swApp);
-                //s += p.Name + ": " + p.ResValue + "\n";
+#if DEBUG
+                s += p.Name + ": " + p.ResValue + "\n";
+#endif
             }
-            //System.Windows.Forms.MessageBox.Show(s);
+#if DEBUG
+            System.Windows.Forms.MessageBox.Show(s);
+#endif
         }
 
         public void GetPropertyData()
@@ -158,14 +172,16 @@ namespace redbrick.csproj
             CustomPropertyManager g = md.Extension.get_CustomPropertyManager(string.Empty);
 
             string[] ss = (string[])g.GetNames();
-            foreach (string s in ss)
+            if (ss != null)
             {
-                SwProperty p = new SwProperty(s, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
-                p.Get(this.swApp);
-                
-                this._innerArray.Add(p);
-            }
+                foreach (string s in ss)
+                {
+                    SwProperty p = new SwProperty(s, swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                    p.Get(this.swApp);
 
+                    this._innerArray.Add(p);
+                }
+            }
 
             if ((swDocumentTypes_e)md.GetType() != swDocumentTypes_e.swDocDRAWING)
             {
@@ -203,7 +219,9 @@ namespace redbrick.csproj
 
                 p.SwApp = this.swApp;
                 this._innerArray.Add(p);
+#if DEBUG
                 System.Diagnostics.Debug.Print(s);
+#endif
             }
 
 
@@ -218,7 +236,9 @@ namespace redbrick.csproj
                     p.ResValue = resValOut;
                     p.Type = (swCustomInfoType_e)g.GetType2(s);
                     p.SwApp = this.swApp;
+#if DEBUG
                     System.Diagnostics.Debug.Print(s);
+#endif
                     this._innerArray.Add(p);
                 }
             }
@@ -302,7 +322,9 @@ namespace redbrick.csproj
             {
                 if (p.Ctl != null)
                 {
-                    //System.Diagnostics.Debug.Print("To " + p.Ctl.Name + " <- " + p.ToString());
+#if DEBUG
+                    System.Diagnostics.Debug.Print("To " + p.Ctl.Name + " <- " + p.ToString());
+#endif
                     p.Ctl.Text = p.Value;
                 }
             }

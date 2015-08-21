@@ -29,6 +29,14 @@ namespace redbrick.csproj
 
         public RedBrick(SldWorks sw)
         {
+            go(sw);
+        }
+
+        private void go(SldWorks sw)
+        {
+#if DEBUG
+            System.Diagnostics.Debug.Print("Started " + DateTime.Now.ToLongTimeString());
+#endif
             this.swApp = sw;
             this.md = (ModelDoc2)swApp.ActiveDoc;
 
@@ -72,6 +80,7 @@ namespace redbrick.csproj
             }
         }
 
+
         public void InitModel()
         {
             this.SetWindowProperties();
@@ -110,7 +119,10 @@ namespace redbrick.csproj
             this.Left = Properties.Settings.Default.Left;
             this.Width = Properties.Settings.Default.Width;
             this.Height = Properties.Settings.Default.Height;
-            this.Text = "Editing " + this.AcquiredProperties.GetProperty("PartNo").ResValue + " ...";
+            if (this.AcquiredProperties.GetProperty("PartNo") != null)
+                this.Text = "Editing " + this.AcquiredProperties.GetProperty("PartNo").ResValue + " ...";
+            else
+                this.Text = "Editing " + this.swApp.ActiveDoc.ToString() + " ...";
         }
 
         private void InitComponents()
@@ -163,8 +175,10 @@ namespace redbrick.csproj
             blankW = gp.PartWidth + mp.OverW + cs.EdgeDiffW;
             mp.GetBlankLBox().Text = blankL.ToString();
             mp.GetBlankWBox().Text = blankW.ToString();
+#if DEBUG
             System.Diagnostics.Debug.Print(string.Format("{0} + {1} + {2} = {3}", gp.PartLength, mp.OverL, cs.EdgeDiffL, blankL));
             System.Diagnostics.Debug.Print(string.Format("{0} + {1} + {2} = {3}", gp.PartWidth, mp.OverW, cs.EdgeDiffW, blankW));
+#endif
         }
 
         private void InitDrawgingComponents()
@@ -228,7 +242,9 @@ namespace redbrick.csproj
             SwProperty p = this.propertySet.GetProperty(property);
             if (this.propertySet.Contains(p))
             {
-                //System.Diagnostics.Debug.Print(p.ToString());
+#if DEBUG
+                System.Diagnostics.Debug.Print(p.ToString());
+#endif
                 p.SwApp = this.swApp;
                 p.Ctl = c;
             }

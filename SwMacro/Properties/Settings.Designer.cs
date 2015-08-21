@@ -174,5 +174,29 @@ namespace redbrick.csproj.Properties {
                 this["Height"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("material.cache")]
+        public string MatCacheFileName {
+            get {
+                return ((string)(this["MatCacheFileName"]));
+            }
+            set {
+                this["MatCacheFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("180")]
+        public int CacheExpireTime {
+            get {
+                return ((int)(this["CacheExpireTime"]));
+            }
+            set {
+                this["CacheExpireTime"] = value;
+            }
+        }
     }
 }

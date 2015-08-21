@@ -88,5 +88,11 @@
     <Setting Name="Height" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">600</Value>
     </Setting>
+    <Setting Name="MatCacheFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">material.cache</Value>
+    </Setting>
+    <Setting Name="CacheExpireTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">180</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

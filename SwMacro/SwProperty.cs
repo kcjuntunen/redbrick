@@ -50,7 +50,9 @@ namespace redbrick.csproj
                     {
                         string v = ((this.Ctl as System.Windows.Forms.ComboBox).SelectedItem as System.Data.DataRowView).Row.ItemArray[0].ToString();
                         res = gcpm.Add3(this.Name, (int)swCustomInfoType_e.swCustomInfoNumber, v, (int)ao);
+#if DEBUG
                         System.Diagnostics.Debug.Print(string.Format("Writing {0} to {1}: {2}", this.Name, v, this.Value));
+#endif
                     }
                     else
                     {
@@ -66,13 +68,17 @@ namespace redbrick.csproj
                             v = ((this.Ctl as System.Windows.Forms.ComboBox).SelectedItem as System.Data.DataRowView).Row.ItemArray[0].ToString();
 
                         res = scpm.Add3(this.Name, (int)swCustomInfoType_e.swCustomInfoNumber, v, (int)ao);
+#if DEBUG
                         System.Diagnostics.Debug.Print(this.Name + " <-- " + this.Value);
+#endif
                     }
                 }
             }
             else
             {
+#if DEBUG
                 System.Diagnostics.Debug.Print(string.Format("{0}: SwApp is undefined", this.Name));
+#endif
             }
         }
 
@@ -102,12 +108,15 @@ namespace redbrick.csproj
                     res = gcpm.Add3(this.Name, (int)this.Type, this.Value, (int)ao);
                 else
                     res = scpm.Add3(this.Name, (int)this.Type, this.Value, (int)ao);
-
+#if DEBUG
                 System.Diagnostics.Debug.Print(this.Name + " <-- " + this.Value);
+#endif
             }
             else
             {
+#if DEBUG
                 System.Diagnostics.Debug.Print("SwApp is undefined");
+#endif
             }
         }
 
@@ -149,11 +158,15 @@ namespace redbrick.csproj
                         res = scpm.Get5(this.Name, useCached, out this._value, out this._resValue, out wasResolved);
                         this.Type = (swCustomInfoType_e)gcpm.GetType2(this.Name);
                     }
+#if DEBUG
                     System.Diagnostics.Debug.Print(this.Name + " --> " + this.Value);
+#endif
                 }
                 else
                 {
+#if DEBUG
                     System.Diagnostics.Debug.Print("SwApp is undefined");
+#endif
                 }
         }
 
@@ -195,11 +208,15 @@ namespace redbrick.csproj
                     res = scpm.Get5(this.Name, useCached, out this._value, out this._resValue, out wasResolved);
                     this.Type = (swCustomInfoType_e)gcpm.GetType2(this.Name);
                 }
+#if DEBUG
                 System.Diagnostics.Debug.Print(this.Name + " --> " + this.Value);
+#endif
             }
             else
             {
+#if DEBUG
                 System.Diagnostics.Debug.Print("SwApp is undefined");
+#endif
             }
         }
 
@@ -230,7 +247,9 @@ namespace redbrick.csproj
             }
             else
             {
+#if DEBUG
                 System.Diagnostics.Debug.Print("SwApp is undefined");
+#endif
             }
         }
 
@@ -262,7 +281,9 @@ namespace redbrick.csproj
             }
             else
             {
+#if DEBUG
                 System.Diagnostics.Debug.Print("SwApp is undefined");
+#endif
             }
         }
 
