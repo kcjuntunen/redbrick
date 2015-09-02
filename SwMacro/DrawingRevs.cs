@@ -385,7 +385,14 @@ namespace redbrick.csproj
             get { return _lb; }
             set { _lb = value; }
         }
-	
+
+        private System.Windows.Forms.TreeView _tv;
+
+        public System.Windows.Forms.TreeView treeView
+        {
+            get { return _tv; }
+            set { _tv = value; }
+        }
 
         private SldWorks _swApp;
 

@@ -1,3 +1,4 @@
+#undef DEEBUG
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,13 +53,12 @@ namespace redbrick.csproj
             ComboBox cb = (c as ComboBox);
             if (this.propertySet.Contains(p))
             {
-#if DEBUG
-                System.Diagnostics.Debug.Print("Linking " + p.Name);
-#endif
                 p.Type = swCustomInfoType_e.swCustomInfoText;
                 p.Ctl = c;
                 int idx = this.GetIndex((cb.DataSource as DataTable), p.Value.Trim());
-                
+#if DEBUG
+                System.Diagnostics.Debug.Print(string.Format("Linking {0}\nGot index {1} for value {2}.", p.Name, idx, p.Value));
+#endif
                 if (idx > cb.Items.Count - 1) idx = -1;
 
                 (c as ComboBox).SelectedIndex = idx;

@@ -33,6 +33,11 @@ namespace redbrick.csproj
 
         }
 
+        
+            //tvRevs t = new tvRevs(this.swApp);
+            //this.tbMainTable.Controls.Add(t);
+            //t.Dock = DockStyle.Fill;
+
         private void SetLocation()
         {
             this.Top = Properties.Settings.Default.Top;
@@ -143,7 +148,7 @@ namespace redbrick.csproj
             }
 
             this.PropertySet.UpdateFields();
-            this.RevSet.UpdateListBox();
+            //this.RevSet.UpdateListBox();
             this.tbItemNoRes.Text = this.PropertySet.GetProperty("PartNo").ResValue;
         }
 
@@ -213,7 +218,7 @@ namespace redbrick.csproj
             this.PropertySet.ReadControls();
             this.PropertySet.Write(this.SwApp);
 
-            this.RevSet.ReadControls();
+            //this.RevSet.ReadControls();
             this.RevSet.Write(this.SwApp);
             (this.SwApp.ActiveDoc as ModelDoc2).ForceRebuild3(true);
             //this.Close();

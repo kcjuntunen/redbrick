@@ -203,6 +203,66 @@ namespace redbrick.csproj
                 return 0;
         }
 
+        public eco GetECOData(string ecoNumber)
+        {
+#if DEBUG
+            DateTime start;
+            DateTime end;
+            start = DateTime.Now;
+            System.Diagnostics.Debug.Print(ecoNumber + " should never be 'NA'.");
+#endif
+            eco e = new eco();
+            string SQL = string.Format("SELECT GEN_USERS.FIRST, GEN_USERS.LAST, ECR_MAIN.CHANGES, " +
+                "ECR_STATUS.STATUS, ECR_MAIN.ERR_DESC, ECR_MAIN.REVISION FROM " +
+                "(ECR_MAIN LEFT JOIN GEN_USERS ON ECR_MAIN.REQ_BY = GEN_USERS.UID) " + 
+                "LEFT JOIN ECR_STATUS ON ECR_MAIN.STATUS = ECR_STATUS.STAT_ID WHERE " +
+                "(((ECR_MAIN.[ECR_NUM])={0}));", ecoNumber);
+            //conn.Open(); 
+            OdbcCommand comm = new OdbcCommand(SQL, conn);
+            OdbcDataReader dr = comm.ExecuteReader();
+            e.EcrNumber = int.Parse(ecoNumber);
+            if (dr.HasRows)
+            {
+                e.Changes = ReturnString(dr, 1);
+                e.ErrDescription = ReturnString(dr, 3);
+                e.Revision = ReturnString(dr, 4);
+                string status = ReturnString(dr, 2);
+
+                SQL = string.Format("SELECT FIRST, LAST FROM GEN_USERS WHERE UID = {0};", dr.GetValue(0).ToString());
+                comm = new OdbcCommand(SQL, conn);
+                dr = comm.ExecuteReader();
+
+                e.RequestedBy = string.Format("{0} {1}", ReturnString(dr, 0), ReturnString(dr, 1));
+
+                SQL = string.Format("SELECT STATUS FROM ECR_STATUS WHERE STAT_ID = {0};", status);
+                comm = new OdbcCommand(SQL, conn);
+                dr = comm.ExecuteReader();
+
+                e.Status = ReturnString(dr, 0);
+            }
+#if DEBUG
+            end = DateTime.Now;
+            System.Diagnostics.Debug.Print("*** EDG ***<<< " + (end - start).ToString() + " >>>");
+#endif
+            return e;
+        }
+
+        private string ReturnString(OdbcDataReader dr, int i)
+        {
+            if (dr.HasRows)
+            {
+                if (dr.IsDBNull(i))
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return dr.GetValue(i).ToString();
+                }
+            }
+            return string.Empty;
+        }
+
         private DataSet _materials;
 
         public DataSet Materials

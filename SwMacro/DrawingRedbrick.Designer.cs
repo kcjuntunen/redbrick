@@ -445,7 +445,6 @@ namespace redbrick.csproj
             // 
             this.lbRevs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tableLayoutPanel1.SetColumnSpan(this.lbRevs, 2);
-            this.lbRevs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbRevs.Location = new System.Drawing.Point(3, 273);
             this.lbRevs.Name = "lbRevs";
             this.lbRevs.Size = new System.Drawing.Size(639, 174);

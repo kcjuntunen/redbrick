@@ -52,7 +52,6 @@ namespace redbrick.csproj
                     this.AcquiredProperties.CreateDefaultPartSet();
                     break;
                 case (int)swDocumentTypes_e.swDocDRAWING:
-                    //this.AcquiredProperties.CreateDefaultDrawingSet();
                     this.AcquiredProperties.GetPropertyData();
                     DrawingRedbrick drb = new DrawingRedbrick(this.swApp);
                     InitializeComponent();
@@ -61,6 +60,7 @@ namespace redbrick.csproj
                     this.InitDrawing();
                     this.tbMainTable.Controls.Add(drb);
                     drb.Dock = DockStyle.Fill;
+                    t();
                     break;
                 case (int)swDocumentTypes_e.swDocPART:
                     //this.AcquiredProperties.CreateDefaultPartSet();
@@ -78,6 +78,13 @@ namespace redbrick.csproj
                 default:
                     break;
             }
+        }
+
+        public void t()
+        {
+            tvRevs t = new tvRevs(this.swApp);
+            this.tbMainTable.Controls.Add(t);
+            t.Dock = DockStyle.Fill;
         }
 
 
@@ -156,10 +163,37 @@ namespace redbrick.csproj
             bOK.Text = "OK";
             bOK.Click += new EventHandler(bOK_Click);
 
+            Button bCancel = new Button();
+            bCancel.Text = "Cancel";
+            bCancel.Click += new EventHandler(bCancel_Click);
+
             this.tbMainTable.Controls.Add(bOK, 0, 3);
-            this.tbMainTable.Controls.Add(new Button(), 1, 3);
+            this.tbMainTable.Controls.Add(bCancel, 1, 3);
             //this.getPartData();
 
+        }
+
+        private void InitDrawgingComponents()
+        {
+            Button bOK = new Button();
+            bOK.Text = "OK";
+            bOK.Click += new EventHandler(bOK_Click);
+
+
+            this.tbMainTable.Controls.Add(bOK, 0, 1);
+            //this.tbMainTable.Controls.Add(new Button(), 1, 1);
+        }
+
+        void bOK_Click(object sender, EventArgs e)
+        {
+            this.propertySet.ReadControls();
+            this.propertySet.Write();
+            this.Close();
+        }
+
+        void bCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         void RedBrick_SelectedIndexChanged(object sender, EventArgs e)
@@ -179,24 +213,6 @@ namespace redbrick.csproj
             System.Diagnostics.Debug.Print(string.Format("{0} + {1} + {2} = {3}", gp.PartLength, mp.OverL, cs.EdgeDiffL, blankL));
             System.Diagnostics.Debug.Print(string.Format("{0} + {1} + {2} = {3}", gp.PartWidth, mp.OverW, cs.EdgeDiffW, blankW));
 #endif
-        }
-
-        private void InitDrawgingComponents()
-        {
-            Button bOK = new Button();
-            bOK.Text = "OK";
-            bOK.Click += new EventHandler(bOK_Click);
-
-
-            this.tbMainTable.Controls.Add(bOK, 0, 1);
-            //this.tbMainTable.Controls.Add(new Button(), 1, 1);
-        }
-
-        void bOK_Click(object sender, EventArgs e)
-        {
-            this.propertySet.ReadControls();
-            this.propertySet.Write();
-            this.Close();
         }
 
         private void LinkControls()

@@ -123,6 +123,7 @@
     <Compile Include="CutlistData.cs" />
     <Compile Include="DrawingRev.cs" />
     <Compile Include="DrawingRevs.cs" />
+    <Compile Include="eco.cs" />
     <Compile Include="GeneralProperties.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -177,6 +178,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>DrawingRedbrick.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="tvRevs.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>tvRevs.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -223,6 +228,12 @@
     </Compile>
     <Compile Include="SwProperties.cs" />
     <Compile Include="SwProperty.cs" />
+    <Compile Include="tvRevs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="tvRevs.Designer.cs">
+      <DependentUpon>tvRevs.cs</DependentUpon>
+    </Compile>
     <None Include="SolidWorksMacro.designer.xml">
       <DependentUpon>SolidWorksMacro.cs</DependentUpon>
     </None>
