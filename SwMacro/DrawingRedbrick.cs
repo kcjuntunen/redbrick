@@ -25,18 +25,23 @@ namespace redbrick.csproj
 
             this.PropertySet = new DrawingProperties(this._swApp);
             this.RevSet = new DrawingRevs(this._swApp);
-
             //this.dataGridTest();
 
             this.GetData();
             this.FillBoxes();
+            t();
+
 
         }
 
-        
-            //tvRevs t = new tvRevs(this.swApp);
-            //this.tbMainTable.Controls.Add(t);
-            //t.Dock = DockStyle.Fill;
+        public void t()
+        {
+            tvRevs t = new tvRevs(ref this._propSet, ref this._revSet);
+            this.tableLayoutPanel1.Controls.Add(t, 0, 2);
+            t.Dock = DockStyle.Fill;
+            //this.tableLayoutPanel1.SetColumnSpan(t, 2);
+            //this.tableLayoutPanel1.SetRowSpan(t, 2);
+        }
 
         private void SetLocation()
         {
@@ -48,7 +53,7 @@ namespace redbrick.csproj
         {
             this.PropertySet.Read();
             this.RevSet.Read();
-            this.RevSet.listBox = this.lbRevs;
+            //this.RevSet.listBox = this.lbRevs;
 
             //System.Windows.Forms.MessageBox.Show(this.RevSet.ToString());
         }
@@ -238,28 +243,44 @@ namespace redbrick.csproj
             //DataGridViewColumn col = new DataGridViewColumn();
 
             System.Windows.Forms.MessageBox.Show("DataGridViewColumn col = new DataGridViewColumn();");
-            this.lbRevs.Columns.Add(col);
+            //this.lbRevs.Columns.Add(col);
             System.Windows.Forms.MessageBox.Show("this.lbRevs.Columns.Add(col);");
-            this.lbRevs.RowCount = 5;
+            //this.lbRevs.RowCount = 5;
             
             //System.Windows.Forms.MessageBox.Show(this.lbRevs.RowCount.ToString());
 
-            foreach (DataGridViewRow r in this.lbRevs.Rows)
-            {
-                try
-                {
-                    r.Cells[0].Value = DateTime.Now;
-                }
-                catch (Exception)
-                {
-                    System.Diagnostics.Debug.Print("Whoops");
-                }
-            }
+            //foreach (DataGridViewRow r in this.lbRevs.Rows)
+            //{
+            //    try
+            //    {
+            //        r.Cells[0].Value = DateTime.Now;
+            //    }
+            //    catch (Exception)
+            //    {
+            //        System.Diagnostics.Debug.Print("Whoops");
+            //    }
+            //}
         }
 
         private void lbRevs_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
 
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            //this.Close();
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+#if DEBUG
+            string x = this.PropertySet.ToString() + "\n" + this.RevSet.ToString();
+            System.Windows.Forms.MessageBox.Show(x);
+#endif
+            this.PropertySet.Write(this.SwApp);
+            this.RevSet.Write(this.SwApp);
+            //this.Close();
         }
     }
 }

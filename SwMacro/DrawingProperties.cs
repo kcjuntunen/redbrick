@@ -11,11 +11,10 @@ namespace redbrick.csproj
     public class DrawingProperties : ICollection<SwProperty>
     {
         protected ArrayList _innerArray;
-        protected SldWorks swApp;
 
         public DrawingProperties(SldWorks sw)
         {
-            this.swApp = sw;
+            this._swApp = sw;
             this._innerArray = new ArrayList();
         }
 
@@ -69,7 +68,7 @@ namespace redbrick.csproj
 
         public void Read()
         {
-            ModelDoc2 md = (ModelDoc2)swApp.ActiveDoc;
+            ModelDoc2 md = (ModelDoc2)this._swApp.ActiveDoc;
             CustomPropertyManager pm = md.Extension.get_CustomPropertyManager(string.Empty);
             int success = (int)swCustomInfoGetResult_e.swCustomInfoGetResult_ResolvedValue;
             int res;
@@ -83,7 +82,7 @@ namespace redbrick.csproj
             if (res == success)
             {
                 SwProperty x = new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
                 this.GetProperty("PartNo").ResValue = resValOut;
             }
@@ -92,7 +91,7 @@ namespace redbrick.csproj
             if (res == success)
             {
                 SwProperty x = new SwProperty("CUSTOMER", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
 
@@ -100,7 +99,7 @@ namespace redbrick.csproj
             if (res == success)
             {
                 SwProperty x = new SwProperty("REVISION LEVEL", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
 
@@ -108,7 +107,7 @@ namespace redbrick.csproj
             if (res == success)
             {
                 SwProperty x = new SwProperty("DrawnBy", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
 
@@ -116,7 +115,7 @@ namespace redbrick.csproj
             if (res == success)
             {
                 SwProperty x = new SwProperty("DATE", swCustomInfoType_e.swCustomInfoDate, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
 
@@ -124,14 +123,14 @@ namespace redbrick.csproj
             if (res == success)
             {
                 SwProperty x = new SwProperty("M1", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
             res = pm.Get5("FINISH 1", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
                 SwProperty x = new SwProperty("FINISH 1", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
 
@@ -139,14 +138,14 @@ namespace redbrick.csproj
             if (res == success)
             {
                 SwProperty x = new SwProperty("M2", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
             res = pm.Get5("FINISH 2", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
                 SwProperty x = new SwProperty("FINISH 2", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
 
@@ -154,14 +153,14 @@ namespace redbrick.csproj
             if (res == success)
             {
                 SwProperty x = new SwProperty("M3", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
             res = pm.Get5("FINISH 3", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
                 SwProperty x = new SwProperty("FINISH 3", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
 
@@ -169,14 +168,14 @@ namespace redbrick.csproj
             if (res == success)
             {
                 SwProperty x = new SwProperty("M4", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
             res = pm.Get5("FINISH 4", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
                 SwProperty x = new SwProperty("FINISH 4", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);  
             }
 
@@ -184,21 +183,21 @@ namespace redbrick.csproj
             if (res == success)
             {
                 SwProperty x = new SwProperty("M5", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
             res = pm.Get5("FINISH 5", useCached, out valOut, out resValOut, out wasResolved);
             if (res == success)
             {
                 SwProperty x = new SwProperty("FINISH 5", swCustomInfoType_e.swCustomInfoText, valOut, true);
-                x.SwApp = this.swApp;
+                x.SwApp = this._swApp;
                 this._innerArray.Add(x);
             }
         }
 
         public void ClearProps()
         {
-            ModelDoc2 md = (ModelDoc2)this.swApp.ActiveDoc;
+            ModelDoc2 md = (ModelDoc2)this._swApp.ActiveDoc;
             CustomPropertyManager glP = md.Extension.get_CustomPropertyManager(string.Empty);
             int res;
 
@@ -221,7 +220,7 @@ namespace redbrick.csproj
 
         public void Write()
         {
-            ModelDoc2 md = (ModelDoc2)swApp.ActiveDoc;
+            ModelDoc2 md = (ModelDoc2)this._swApp.ActiveDoc;
             CustomPropertyManager glP = md.Extension.get_CustomPropertyManager(string.Empty);
 
             this.ClearProps();
@@ -233,6 +232,7 @@ namespace redbrick.csproj
 
         public void Write(SldWorks sw)
         {
+            this._swApp = sw;
             ModelDoc2 md = (ModelDoc2)sw.ActiveDoc;
             CustomPropertyManager glP = md.Extension.get_CustomPropertyManager(string.Empty);
 
@@ -267,6 +267,15 @@ namespace redbrick.csproj
                 }
             }
         }
+
+        private SldWorks _swApp;
+
+        public SldWorks SwApp
+        {
+            get { return _swApp; }
+            set { _swApp = value; }
+        }
+	
 
         public override string ToString()
         {

@@ -124,6 +124,12 @@
     <Compile Include="DrawingRev.cs" />
     <Compile Include="DrawingRevs.cs" />
     <Compile Include="eco.cs" />
+    <Compile Include="EditRev.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditRev.Designer.cs">
+      <DependentUpon>EditRev.cs</DependentUpon>
+    </Compile>
     <Compile Include="GeneralProperties.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -148,6 +154,10 @@
     <EmbeddedResource Include="ConfigurationSpecific.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ConfigurationSpecific.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditRev.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditRev.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GeneralProperties.resx">
       <SubType>Designer</SubType>

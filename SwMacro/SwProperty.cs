@@ -1,4 +1,3 @@
-#undef DEBUG
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -40,7 +39,11 @@ namespace redbrick.csproj
                 Configuration cf = md.ConfigurationManager.ActiveConfiguration;
 
                 CustomPropertyManager gcpm = md.Extension.get_CustomPropertyManager(string.Empty);
-                CustomPropertyManager scpm = md.Extension.get_CustomPropertyManager(cf.Name);
+                CustomPropertyManager scpm = md.Extension.get_CustomPropertyManager(string.Empty);
+                
+                if (cf != null)
+                    scpm = md.Extension.get_CustomPropertyManager(cf.Name);
+                
                 
                 swCustomPropertyAddOption_e ao = swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd;
                 

@@ -205,12 +205,6 @@ namespace redbrick.csproj
 
         public eco GetECOData(string ecoNumber)
         {
-#if DEBUG
-            DateTime start;
-            DateTime end;
-            start = DateTime.Now;
-            System.Diagnostics.Debug.Print(ecoNumber + " should never be 'NA'.");
-#endif
             eco e = new eco();
             string SQL = string.Format("SELECT GEN_USERS.FIRST, GEN_USERS.LAST, ECR_MAIN.CHANGES, " +
                 "ECR_STATUS.STATUS, ECR_MAIN.ERR_DESC, ECR_MAIN.REVISION FROM " +
@@ -223,28 +217,42 @@ namespace redbrick.csproj
             e.EcrNumber = int.Parse(ecoNumber);
             if (dr.HasRows)
             {
-                e.Changes = ReturnString(dr, 1);
-                e.ErrDescription = ReturnString(dr, 3);
-                e.Revision = ReturnString(dr, 4);
-                string status = ReturnString(dr, 2);
-
-                SQL = string.Format("SELECT FIRST, LAST FROM GEN_USERS WHERE UID = {0};", dr.GetValue(0).ToString());
-                comm = new OdbcCommand(SQL, conn);
-                dr = comm.ExecuteReader();
-
-                e.RequestedBy = string.Format("{0} {1}", ReturnString(dr, 0), ReturnString(dr, 1));
-
-                SQL = string.Format("SELECT STATUS FROM ECR_STATUS WHERE STAT_ID = {0};", status);
-                comm = new OdbcCommand(SQL, conn);
-                dr = comm.ExecuteReader();
-
-                e.Status = ReturnString(dr, 0);
+                e.Changes = ReturnString(dr, 2);
+                e.ErrDescription = ReturnString(dr, 4);
+                e.Revision = ReturnString(dr, 5);
+                e.Status = ReturnString(dr, 3);
+                e.RequestedBy = ReturnString(dr, 0) + " " + ReturnString(dr, 1);
             }
-#if DEBUG
-            end = DateTime.Now;
-            System.Diagnostics.Debug.Print("*** EDG ***<<< " + (end - start).ToString() + " >>>");
-#endif
             return e;
+        }
+
+        public DataSet GetAuthors()
+        {
+#if DEBUG
+                DateTime start;
+                DateTime end;
+                start = DateTime.Now;
+#endif
+                string SQL = "SELECT GEN_USERS.* FROM GEN_USERS WHERE (((GEN_USERS.DEPT)=6));";
+                //conn.Open();
+                OdbcCommand comm = new OdbcCommand(SQL, conn);
+                OdbcDataAdapter da = new OdbcDataAdapter(comm);
+                DataSet ds = new DataSet();
+                //conn.Close();
+                da.Fill(ds);
+                
+                //DataRow dar = ds.Tables[0].NewRow();
+                //dar[0] = 0;
+                //dar[1] = string.Empty;
+                //dar[2] = "None";
+                //dar[3] = 0.0;
+
+                //ds.Tables[0].Rows.Add(dar); ;
+#if DEBUG
+                end = DateTime.Now;
+                System.Diagnostics.Debug.Print("*** AUTH ***<<< " + (end - start).ToString() + " >>>");
+#endif
+                return ds;
         }
 
         private string ReturnString(OdbcDataReader dr, int i)

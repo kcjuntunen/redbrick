@@ -47,7 +47,7 @@ namespace redbrick.csproj
             this.tbMainTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tbMainTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tbMainTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tbMainTable.Size = new System.Drawing.Size(996, 528);
+            this.tbMainTable.Size = new System.Drawing.Size(300, 597);
             this.tbMainTable.TabIndex = 2;
             this.tbMainTable.Tag = "";
             // 
@@ -55,12 +55,10 @@ namespace redbrick.csproj
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(996, 528);
+            this.ClientSize = new System.Drawing.Size(300, 597);
             this.Controls.Add(this.tbMainTable);
             this.Name = "RedBrick";
             this.Text = "redbrick";
-            //this.Shown += new System.EventHandler(this.RedBrick_Shown);
-            //this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RedBrick_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 

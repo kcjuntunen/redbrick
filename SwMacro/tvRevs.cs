@@ -12,12 +12,15 @@ namespace redbrick.csproj
 {
     public partial class tvRevs : UserControl
     {
-        private DrawingRevs dr;
+        private CutlistData cd;
+        public DrawingRevs revSet;
+        private DrawingProperties propertySet;
 
-        public tvRevs(SldWorks sw)
+        public tvRevs(ref DrawingProperties prop, ref DrawingRevs dr)
         {
-            dr = new DrawingRevs(sw);
-            dr.Read();
+            propertySet = prop;
+            cd = new CutlistData();
+            revSet = dr;
 
             InitializeComponent();
             Init();
@@ -25,17 +28,34 @@ namespace redbrick.csproj
 
         private void Init()
         {
-            foreach (DrawingRev r in dr)
+            this.tvRevisions.Nodes.Clear();
+            foreach (DrawingRev r in revSet)
             {
                 TreeNode tnList = new TreeNode(r.List.Value);
                 TreeNode tnDate = new TreeNode(r.Date.Value);
                 TreeNode tnECO;
-                int test;
-                if (!r.Eco.Value.Contains("NA") && !(r.Eco.Value == string.Empty))
+                TreeNode tnC;
+                int test = 0;
+                if (int.TryParse(r.Eco.Value, out test))
                 {
                     CutlistData cd = new CutlistData();
                     eco e = cd.GetECOData(r.Eco.Value);
-                    TreeNode tnC = new TreeNode("Changes: " + e.Changes, 0, 0);
+                    if ((e.Changes != null) && e.Changes.Contains("\n"))
+                    {
+                        List<TreeNode> nodes = new List<TreeNode>();
+                        string[] changeNodes = e.Changes.Split('\n');
+                        foreach (string s in changeNodes)
+                        {
+                            nodes.Add(new TreeNode(s));
+                        }
+                        tnC = new TreeNode("Changes ", nodes.ToArray());
+                    }
+                    else
+                    {
+                        tnC = new TreeNode("Changes: " + e.Changes);
+                    }
+                    
+
                     TreeNode tnD = new TreeNode("Error Description: " + e.ErrDescription, 0, 0);
                     TreeNode tnRB = new TreeNode("Requested by: " + e.RequestedBy, 0, 0);
                     TreeNode tnR = new TreeNode("Revision Description:" + e.Revision, 0, 0);
@@ -55,9 +75,55 @@ namespace redbrick.csproj
 
                 TreeNode tn = new TreeNode(r.Revision.Value, tt);
                 this.tvRevisions.Nodes.Add(tn);
-                this.tvRevisions.LabelEdit = true;
             }
             
+        }
+
+        private void btnNewRev_Click(object sender, EventArgs e)
+        {
+            EditRev er = new EditRev(ref this.revSet, this.tvRevisions.Nodes.Count);
+            er.ShowDialog();
+            this.Init();
+        }
+
+        private void btnEditRev_Click(object sender, EventArgs e)
+        {
+            TreeNode node = this.tvRevisions.SelectedNode;
+            if (node != null)
+            {
+                while (node.Parent != null)
+                {
+                    node = node.Parent;
+                }
+                EditRev er = new EditRev(ref this.revSet, node.Index);
+                er.ShowDialog();
+                this.Init();
+            }
+            else
+            {
+                EditRev er = new EditRev(ref this.revSet, 0);
+                er.ShowDialog();
+                this.Init();
+            }
+        }
+
+        private void btnDelRev_Click(object sender, EventArgs e)
+        {
+            TreeNode node = this.tvRevisions.SelectedNode;
+            while (node.Parent != null)
+            {
+                node = node.Parent;
+            }
+
+            while (this.tvRevisions.Nodes.Count > node.Index)
+            {
+                DialogResult dr = System.Windows.Forms.MessageBox.Show("Are you sure?", "Really?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                if (dr == DialogResult.Yes)
+                {
+                    this.propertySet.Remove(this.tvRevisions.Nodes[this.tvRevisions.Nodes.Count - 1].Text);
+                    this.tvRevisions.Nodes.Remove(this.tvRevisions.Nodes[this.tvRevisions.Nodes.Count - 1]);   
+                }
+            }
         }
     }
 }

@@ -56,7 +56,7 @@ namespace redbrick.csproj
         public void Write(SldWorks sw)
         {
             this.SwApp = sw;
-            //System.Diagnostics.Debug.Print("Writing " + this.Revision.Value);
+            System.Diagnostics.Debug.Print("Writing " + this.Revision.Value);
             this.Revision.Write(sw);
             this.Eco.Write(sw);
             this.Description.Write(sw);

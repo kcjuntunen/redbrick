@@ -55,12 +55,14 @@ namespace redbrick.csproj
                     this.AcquiredProperties.GetPropertyData();
                     DrawingRedbrick drb = new DrawingRedbrick(this.swApp);
                     InitializeComponent();
-                    this.tbMainTable.ColumnCount = 1;
-                    this.tbMainTable.RowCount = 3;
+                    //this.tbMainTable.ColumnCount = 1;
+                    //this.tbMainTable.RowCount = 3;
                     this.InitDrawing();
-                    this.tbMainTable.Controls.Add(drb);
+                    this.Controls.Remove(tbMainTable);
+                    this.Controls.Add(drb);
+                    //this.tbMainTable.Controls.Add(drb);
                     drb.Dock = DockStyle.Fill;
-                    t();
+                    //t();
                     break;
                 case (int)swDocumentTypes_e.swDocPART:
                     //this.AcquiredProperties.CreateDefaultPartSet();
@@ -82,9 +84,9 @@ namespace redbrick.csproj
 
         public void t()
         {
-            tvRevs t = new tvRevs(this.swApp);
-            this.tbMainTable.Controls.Add(t);
-            t.Dock = DockStyle.Fill;
+            //tvRevs t = new tvRevs(ref this.propertySet);
+            //this.tbMainTable.Controls.Add(t, 1, 0);
+            //t.Dock = DockStyle.Fill;
         }
 
 
