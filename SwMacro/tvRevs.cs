@@ -110,19 +110,28 @@ namespace redbrick.csproj
         private void btnDelRev_Click(object sender, EventArgs e)
         {
             TreeNode node = this.tvRevisions.SelectedNode;
-            while (node.Parent != null)
+            if (node != null)
             {
-                node = node.Parent;
-            }
+                while (node.Parent != null)
+                {
+                    node = node.Parent;
+                }
 
-            while (this.tvRevisions.Nodes.Count > node.Index)
-            {
                 DialogResult dr = System.Windows.Forms.MessageBox.Show("Are you sure?", "Really?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
                 if (dr == DialogResult.Yes)
                 {
-                    this.propertySet.Remove(this.tvRevisions.Nodes[this.tvRevisions.Nodes.Count - 1].Text);
-                    this.tvRevisions.Nodes.Remove(this.tvRevisions.Nodes[this.tvRevisions.Nodes.Count - 1]);   
+                    string revToDel = string.Empty;
+                    while (this.tvRevisions.Nodes.Count > node.Index)
+                    {
+                        revToDel = "REVISION " + this.tvRevisions.Nodes[this.tvRevisions.Nodes.Count - 1].Text.Substring(1, 1);
+                        this.revSet.Remove(revToDel);
+                        this.tvRevisions.Nodes.Remove(this.tvRevisions.Nodes[this.tvRevisions.Nodes.Count - 1]);
+                    }
                 }
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("You must make a selection.");
             }
         }
     }

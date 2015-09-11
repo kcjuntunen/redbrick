@@ -28,6 +28,7 @@ namespace redbrick.csproj
                     (int)swMessageBoxIcon_e.swMbStop,
                     (int)swMessageBoxBtn_e.swMbOk);
             }
+            
         }
 
         /// <summary>

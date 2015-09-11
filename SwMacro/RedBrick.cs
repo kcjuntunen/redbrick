@@ -58,6 +58,7 @@ namespace redbrick.csproj
                     //this.tbMainTable.ColumnCount = 1;
                     //this.tbMainTable.RowCount = 3;
                     this.InitDrawing();
+                    this.SetupDrawingEvents(drb);
                     this.Controls.Remove(tbMainTable);
                     this.Controls.Add(drb);
                     //this.tbMainTable.Controls.Add(drb);
@@ -120,6 +121,16 @@ namespace redbrick.csproj
             op.RefreshOps(ds.OpType);
             cs.ToggleFields(ds.OpType);
             gp.ToggleFields(ds.OpType);
+        }
+
+        private void SetupDrawingEvents(DrawingRedbrick d)
+        {
+            d.Closing += new EventHandler(d_Closing);
+        }
+
+        void d_Closing(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void SetWindowProperties()

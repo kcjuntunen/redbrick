@@ -60,7 +60,7 @@ namespace redbrick.csproj
                     }
                     else
                     {
-                        res = gcpm.Add3(this.Name, (int)this.Type, this.Value, (int)ao);
+                        res = gcpm.Add3(this.Name, (int)this.Type, this.Value.ToUpper(), (int)ao);
                     }
                 }
                 else

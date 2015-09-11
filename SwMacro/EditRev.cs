@@ -96,7 +96,7 @@ namespace redbrick.csproj
             SwProperty eco = new SwProperty("ECO " + (nodeCount + 1).ToString(), tType, this.tbECO.Text, true);
             SwProperty desc = new SwProperty("DESCRIPTION " + (nodeCount + 1).ToString(), tType, this.tbDesc.Text, true);
             this.cbBy.ValueMember = "INITIAL";
-            SwProperty list = new SwProperty("LIST " + (nodeCount + 1).ToString(), tType, this.cbBy.Text, true);
+            SwProperty list = new SwProperty("LIST " + (nodeCount + 1).ToString(), tType, this.cbBy.Text.Substring(0, 2), true);
             this.cbBy.ValueMember = "LAST";
             SwProperty date = new SwProperty("DATE " + (nodeCount + 1).ToString(), tType, this.dtpDate.Value.ToShortDateString(), true);
 

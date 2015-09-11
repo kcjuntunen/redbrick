@@ -346,13 +346,15 @@ namespace redbrick.csproj
             int count = 0;
             foreach (DrawingRev p in this._innerArray)
             {
-                System.Diagnostics.Debug.Print(p.Revision.Name);
                 if (name == p.Revision.Name)
                 {
                     System.Diagnostics.Debug.Print("=>" + p.Revision.Name);
                     this._innerArray.RemoveAt(count);
                     return true;
                 }
+                else
+                    System.Diagnostics.Debug.Print(name + ": " + p.Revision.Name);
+
                 count++;
             }
             return false;

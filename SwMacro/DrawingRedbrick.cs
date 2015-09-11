@@ -28,7 +28,6 @@ namespace redbrick.csproj
             //this.dataGridTest();
 
             this.GetData();
-            this.FillBoxes();
             t();
 
 
@@ -56,6 +55,13 @@ namespace redbrick.csproj
             //this.RevSet.listBox = this.lbRevs;
 
             //System.Windows.Forms.MessageBox.Show(this.RevSet.ToString());
+
+            this.FillBoxes();
+        }
+
+        private void linkControls()
+        {
+            this.PropertySet.GetProperty("").Ctl = this.tbFinish1;
         }
 
         private void FillBoxes()
@@ -71,7 +77,7 @@ namespace redbrick.csproj
             }
             else
             {
-                partNo = new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoText, string.Empty, true);
+                partNo = new SwProperty("PartNo", swCustomInfoType_e.swCustomInfoText, "$PRP:\"SW-FILE NAME\"", true);
                 partNo.SwApp = this.SwApp;
                 partNo.Ctl = this.tbItemNo;
                 this.PropertySet.Add(partNo);
@@ -269,18 +275,33 @@ namespace redbrick.csproj
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            //this.Close();
+            EventHandler eh = Closing;
+            if (eh != null)
+                eh(this, e);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            this.PropertySet.ReadControls();
 #if DEBUG
             string x = this.PropertySet.ToString() + "\n" + this.RevSet.ToString();
             System.Windows.Forms.MessageBox.Show(x);
 #endif
             this.PropertySet.Write(this.SwApp);
             this.RevSet.Write(this.SwApp);
-            //this.Close();
+
+            EventHandler eh = Closing;
+            if (eh != null)
+                eh(this, e);
         }
+
+        protected virtual void OnCheckedChanged(EventArgs e)
+        {
+            EventHandler eh = Closing;
+            if (eh != null)
+                eh(this, e);
+        }
+
+        public event EventHandler Closing;
     }
 }
